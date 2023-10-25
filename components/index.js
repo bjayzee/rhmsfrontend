@@ -6,6 +6,9 @@ import PNav from './PNav'
 import RHMSNEWS from './RHMSNEWS'
 import HeroCard from './HeroCard'
 import DealODayCard from './DealODayCard'
+import Link from 'next/link';
+import Repair from './Repair'
+
 
 export {
     Hero,
@@ -15,5 +18,6 @@ export {
     PNav,
     RHMSNEWS,
     HeroCard,
-    DealODayCard
+    DealODayCard,
+    Repair
 }

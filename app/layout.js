@@ -1,4 +1,4 @@
-import { Hero, PNav, NavBar, DealOfTheDay, RHMSNEWS, Footer } from '@/components'
+import { Hero, PNav, NavBar, DealOfTheDay, RHMSNEWS, Footer, Repair} from '@/components'
 import './globals.css'
 
 
@@ -13,10 +13,11 @@ export default function RootLayout({ children }) {
       <body className="relative">
         <PNav />
         <NavBar />
-        <Hero />
-        <DealOfTheDay />
-        <RHMSNEWS />
+        {/* <Hero /> */}
+        {/* <DealOfTheDay /> */}
+        {/* <RHMSNEWS /> */}
         {children}
+        {/* <Repair /> */}
         <Footer />
         
       </body>
