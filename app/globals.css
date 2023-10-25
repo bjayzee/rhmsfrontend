@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
-
+@import url(http://fonts.googleapis.com/css?family=EB+Garamond);
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -216,4 +216,10 @@
 .search-manufacturer__option {
   @apply cursor-default select-none py-2 pl-10 pr-4;
 }
+
+.my-custom-font {
+  font-family: "MyCustomFont", EB Garamond;
+}
+
+
 /* END: search manufacturer styles */

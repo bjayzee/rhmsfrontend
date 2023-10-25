@@ -4,6 +4,9 @@ import DealOfTheDay from './DealOfTheDay'
 import NavBar from './NavBar'
 import PNav from './PNav'
 import RHMSNEWS from './RHMSNEWS'
+import Link from 'next/link';
+import Repair from './Repair'
+
 
 export {
     Hero,
@@ -12,4 +15,5 @@ export {
     NavBar,
     PNav,
     RHMSNEWS,
+    Repair
 }
