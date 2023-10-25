@@ -4,6 +4,8 @@ import DealOfTheDay from './DealOfTheDay'
 import NavBar from './NavBar'
 import PNav from './PNav'
 import RHMSNEWS from './RHMSNEWS'
+import HeroCard from './HeroCard'
+import DealODayCard from './DealODayCard'
 
 export {
     Hero,
@@ -12,4 +14,6 @@ export {
     NavBar,
     PNav,
     RHMSNEWS,
+    HeroCard,
+    DealODayCard
 }
