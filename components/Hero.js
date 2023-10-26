@@ -3,8 +3,15 @@
 import Image from 'next/image';
 import HeroCard from './HeroCard';
 import Link from 'next/link';
+import { useRouter } from "next/navigation"
 
 const Hero = () => {
+  const router = useRouter()
+  const handleClick = name => {
+    router.push(`/${name}`)
+  }
+
+
   return (
     <div>
       <div>
@@ -96,7 +103,7 @@ const Hero = () => {
             </div>
           </div>
         </section>
-        <section className='flex justify-between gap-3 py-4 px-2 cursor-pointer' onClick={() => console.log("clicked")}>
+        <section className='flex justify-between gap-3 py-4 px-2'>
           <div className=''>
             <div className='flex justify-evenly align-middle w-30 h-10 bg-white shadow-md rounded py-1'>
               <Image
@@ -117,17 +124,17 @@ const Hero = () => {
             </div>
           </div>
           <div>
-            <div className='flex justify-evenly align-middle w-30 h-10 bg-white shadow-md rounded py-1'>
+            <div className='flex justify-evenly align-middle w-30 h-10 bg-[white] shadow-md rounded py-1'>
               <Image
                 src='/basket.png'
                 height={20}
                 width={30} />
             </div>
             <div>
-              <h2 className='text-rh-blue text-sm font-semibold font-["EB Garamond"]'>Buy and Pay Later</h2>
+              <h2 className='text-rh-blue text-sm font-semibold'>Buy and Pay Later</h2>
             </div>
           </div>
-          <div>
+          <div className='cursor-pointer' onClick={() => handleClick("repair")}>
             <div className='flex justify-evenly align-center w-30 h-10 bg-white shadow-md rounded py-1'>
               <Image
                 src='/repairicon.png'
@@ -141,10 +148,10 @@ const Hero = () => {
         </section>
 
       </div>
-      <div>
+      {/* <div>
         <h3>My Hero</h3><Link href="/Repair"><h3>Go to Repair</h3></Link>
-      </div>
-    </div>      
+      </div> */}
+    </div>
   )
 }
 
