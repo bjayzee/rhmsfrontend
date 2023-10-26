@@ -1,4 +1,5 @@
 "use client"; 
+
 import React, { useState } from 'react';
 import Link from 'next/link';
 export default function Repair() {
@@ -13,18 +14,22 @@ export default function Repair() {
   const [selectedRepairOption, setSelectedRepairOption] = useState('');
 
   const repairOptions = ['Screen replacement', 'Back glass replacement', 'Battery replacement'];
+  // const repairOptions = ['Battery replacement'] ;
+ 
 
-  const repairs = {
-    'Screen replacement': {
-      cost: 1500,
-    },
-    'Back glass replacement': {
-      cost: 1000,
-    },
-    'Battery replacement': {
-      cost: 2000,
-    },
-  };
+  const repairs = 
+    {
+      'Screen replacement': {
+        cost: 1500,
+      },
+      'Back glass replacement': {
+        cost: 1000,
+      },
+      'Battery replacement': {
+        cost: 2000,
+      },
+    };
+  
 
   const handleSelectChange = (event) => {
     const selectedValue = event.target.value;
@@ -38,94 +43,18 @@ export default function Repair() {
     setShowBox(true);
   };
 
-  // const handleTextClick = (model,repairType) => {
-  //   setSelectedModel(model);
-  //   setSelectedRepairType(repairType);
-  //   setShowBox(false);
-  //   setShowButtons(true)
-  //   setShowButton(false)
-  // };
+  
 
   const handleTextClick = (model, repairOption) => {
     setSelectedModel(model);
     setShowBox(false);
     setShowButtons(true);
-    // setShowButton(false)
+    setShowButton(false)
     setSelectedRepairOption(repairOption);
   };
 
-  // function displayRepairInfo() {
-  //   const repairInfo = {
-  //     'Screen replacement': {
-  //       cost: 2000,
-  //       repairCenter: {
-  //         address: '29, Herbert Macaulay Way',
-  //         email: 'repair@gmail.com',
-  //         phone: '0908765432',
-  //       },
-  //     },
-  //     // Add information for other repair types
-  //   };
 
-  //   const info = repairInfo[selectedRepairType];
-
-
-  //   return (
-  //     <div className="mt-2 border p-4 divide-y divide-gray-300 shadow-lg rounded-lg">
-  //       <p>
-  //         You have chosen {selectedRepairType} for your {selectedModel}. Visit any of the addresses
-  //         below to complete your repairs.
-  //       </p>
-  //       <p>
-  //         {/* Cost for the {selectedRepairType}: {info.cost} */}
-  //         Cost for the {selectedRepairType}: {info.cost}
-  //       </p>
-  //       <div className="mt-2">
-  //         <div>
-  //           <p>Available repair center:</p>
-  //           <p>Address: {info.repairCenter.address}</p>
-  //           <p>Email: {info.repairCenter.email}</p>
-  //           <p>Phone: {info.repairCenter.phone}</p>
-  //         </div>
-  //         <div>
-  //           <p>Client address:</p>
-  //           <p>Address: {info.repairCenter.address}</p>
-  //           <p>Email: {info.repairCenter.email}</p>
-  //           <p>Phone: {info.repairCenter.phone}</p>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
-  // const handleRepairOption = (repairOption) => {
-  //   if (selectedOption && selectedModel && repairs[repairOption]) {
-  //     const economyCost = repairs[repairOption].cost;
-  //     const premiumCost = economyCost * 1.1; // 10% more expensive
-  
-  //     setSelectedRepair({
-  //       repairOption,
-  //       economyCost,
-  //       premiumCost,
-  //     });
-  //   }
-  // };
-
-
-  // const handleRepairOption = () => {
-  //   if (selectedOption !== 'option1' && selectedModel) {
-  //     const economyCost = repairs[selectedOption].cost;
-  //     const premiumCost = economyCost * 1.1; // 10% more expensive
-  
-  //     setSelectedRepair({
-  //       economyCost,
-  //       premiumCost,
-  //     });
-  //   }
-  // };
-
-
-//  const handleRepairOption = (repairType) => {
+// const handleRepairOption = (repairType) => {
 //   if (selectedModel && repairs[repairType]) {
 //     const economyCost = repairs[repairType].cost;
 //     const premiumCost = economyCost * 1.1; // 10% more expensive
@@ -139,30 +68,55 @@ export default function Repair() {
 // };
 
 
-const handleRepairOption = (repairType) => {
-  if (selectedModel && repairs[repairType]) {
-    const economyCost = repairs[repairType].cost;
-    const premiumCost = economyCost * 1.1; // 10% more expensive
+// const handleRepairOption = (repairTypes) => {
+//   if (selectedModel && repairTypes.length > 0) {
+//     const repairInfo = {};
 
-    setSelectedRepair({
-      repairType,
-      economyCost,
-      premiumCost,
+//     repairTypes.forEach((type) => {
+//       if (repairs[type]) {
+//         const economyCost = repairs[type].cost;
+//         const premiumCost = economyCost * 1.1; // 10% more expensive
+
+//         repairInfo[type] = {
+//           economyCost,
+//           premiumCost,
+//         };
+//       }
+//     });
+
+//     setSelectedRepair(repairInfo);
+//   }
+// };
+
+
+
+const handleRepairOption = (selectedRepairTypes) => {
+  if (selectedModel && selectedRepairTypes.length > 0) {
+    const repairInfo = {};
+
+    selectedRepairTypes.forEach((type) => {
+      if (repairs[type]) {
+        const economyCost = repairs[type].cost;
+        const premiumCost = economyCost * 1.1; // 10% more expensive
+
+        repairInfo[type] = {
+          economyCost,
+          premiumCost,
+          // Add other information you want to display, e.g., repair centers, addresses, etc.
+        };
+      }
     });
+
+    setSelectedRepair(repairInfo);
+    
   }
 };
 
 
 
-
-
-
-
-
-    
   return (
     <div className=" p-3 " >
-
+<Link href="/Hero"> Back to Hero </Link>
 <div className="absolute top-3 left-3 cursor-pointer" style={{ color: 'black' }}>
     ← {/* Text-based back arrow icon */}
   </div>
@@ -204,7 +158,6 @@ const handleRepairOption = (repairType) => {
     </div>
 
 
-    
 </div> 
  {showButton && (
         <button className=" w-full mt-2  border text-black px-4 py-2 shadow-lg rounded-lg" onClick={handleButtonClick}>
@@ -225,7 +178,7 @@ const handleRepairOption = (repairType) => {
             <div className="w-full font-bold">
 
               <p  onClick={() => handleTextClick('iPhone 8')} className="text-sm  my-custom-font  font-bold">iPhone 8</p>
-              <p onClick={handleTextClick} className="text-sm  my-custom-font">iPhone 8 plus</p>
+              <p onClick={() => handleTextClick('iPhone 8 plus')} className="text-sm  my-custom-font">iPhone 8 plus</p>
               <p className="text-sm  my-custom-font">iPhone x</p>
               <p className="text-sm  my-custom-font">iPhone XR</p>
               <p className="text-sm  my-custom-font">iPhone XS</p>
@@ -257,31 +210,33 @@ const handleRepairOption = (repairType) => {
       )} 
 
 
-{/* {showButtons && (
+{showButtons && (
         <div className="mt-2 flex justify-between">
           {selectedOption !== 'option1' && (
             <button
               className="w-full mt-2 border text-black px-4 py-2 shadow-lg rounded-lg my-custom-font text-bold"
-              // onClick={() => handleRepairOption(selectedOption)}
-              onClick={() => handleRepairOption('Screen replacement')}
+              onClick={() => handleRepairOption(repairOptions)}
+              // onClick={() => handleRepairOption('Screen replacement')}
             >
+               
               Premium
+            
             </button>
           )}
           {selectedOption !== 'option1' && (
             <button
               className="w-full mt-2 border text-black px-4 py-2 shadow-lg rounded-lg my-custom-font text-bold"
-              // onClick={() => handleRepairOption(selectedOption)}
-              onClick={() => handleRepairOption('Screen replacement')}
+              onClick={() => handleRepairOption(repairOptions)}
+              // onClick={() => handleRepairOption('Screen replacement')}
             >
               Economy
             </button>
           )}
         </div>
-      )} */}
+      )}
 
 
-{showButtons && (
+{/* {showButtons && (
   <div className="mt-2 flex justify-between">
     {selectedOption !== 'option1' &&
       repairOptions.map((option) => (
@@ -293,15 +248,12 @@ const handleRepairOption = (repairType) => {
           Premium {option}
         </button>
       ))}
+
+      {console.log(repairOptions)}
   </div>
-)}
+)} */}
 
-
-
-
-
-
-  {selectedRepair && (
+  {/* {selectedRepair && (
   <div className="mt-4 p-4 border divide-y divide-gray-300 shadow-lg rounded-lg">
     <p className="my-custom-font">
       You have chosen {selectedRepair.repairType} for your {selectedModel}. Visit any of the addresses below to complete your repairs.
@@ -320,37 +272,53 @@ const handleRepairOption = (repairType) => {
           <p className="my-custom-font ">09087654321</p>
           </div>
   </div>
-)} 
+)}  */}
+
+
+{selectedRepair && (
+  <div className="mt-4 p-4 border divide-y divide-gray-300 shadow-lg rounded-lg">
+    {Object.keys(selectedRepair).map((repairType) => {
+      const repairInfo = selectedRepair[repairType];
+      return (
+        <div key={repairType}>
+          <p className="my-custom-font">
+            You have chosen {repairType} for your {selectedModel}. Visit any of the addresses below to complete your repairs.
+          </p>
+          <p className="my-custom-font font-bold">Cost for the Economy option: {repairInfo.economyCost}</p>
+          <p className="my-custom-font font-bold">Cost for the Premium option: {repairInfo.premiumCost}</p>
+          <p className="my-custom-font font-bold">Available repair center:</p>
+          <p className="my-custom-font font-bold">Contact address: {repairInfo.address}</p>
+          <p className="my-custom-font ">267 Herbert Macaulay way, Sabo, Yaba</p>
+          <div className="flex justify-between">
+            <p className="my-custom-font font-bold">Email: {repairInfo.email}</p>
+            <p className="my-custom-font font-bold">Phone Numbers: {repairInfo.phone}</p>
+          </div>
+          <div className="flex justify-between">
+            <p className="my-custom-font">repair@gmail.com</p>
+            <p className="my-custom-font">09087654321</p>
+          </div>
+          
+        </div>
+          
+      );
+  
+    }) }
+
+{/* {(console.log(setSelectedRepair))} */}
+
+
+  </div>
+)}
+
+
+
+
  
 
-{/* {selectedModel && selectedRepairOption && (
-  <div className="mt-2 flex justify-between">
-    <button
-      className="w-full mt-2 border text-black px-4 py-2 shadow-lg rounded-lg my-custom-font text-bold"
-      onClick={() => handleRepairOption(selectedRepairOption)}
-    >
-      Premium
-    </button>
-    <button
-      className="w-full mt-2 border text-black px-4 py-2 shadow-lg rounded-lg my-custom-font text-bold"
-      onClick={() => handleRepairOption(selectedRepairOption)}
-    >
-      Economy
-    </button>
-  </div>
-)} */}
-
-
-
-
-
-
-
-
-      
 
   
 </div>
 
   )
 }
+

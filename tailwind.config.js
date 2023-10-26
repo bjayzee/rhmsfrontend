@@ -7,6 +7,10 @@ module.exports = {
   ],
   mode: "jit",
   theme: {
+    colors:{
+      "rh-blue": "#187EB4",
+
+    },
     extend: {
       fontFamily: {
         inter: ["Inter", "sans-serif"],

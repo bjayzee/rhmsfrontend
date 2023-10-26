@@ -4,8 +4,14 @@ import DealOfTheDay from './DealOfTheDay'
 import NavBar from './NavBar'
 import PNav from './PNav'
 import RHMSNEWS from './RHMSNEWS'
+import HeroCard from './HeroCard'
+import DealODayCard from './DealODayCard'
 import Link from 'next/link';
-import Repair from './Repair'
+import Repair from '../app/Repair/Repair'
+import blog from '@/app/blog/blog'
+
+
+
 
 
 export {
@@ -15,5 +21,9 @@ export {
     NavBar,
     PNav,
     RHMSNEWS,
-    Repair
+    HeroCard,
+    DealODayCard,
+    Repair,
+    blog
+    
 }
