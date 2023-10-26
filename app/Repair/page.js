@@ -116,7 +116,7 @@ const handleRepairOption = (selectedRepairTypes) => {
 
   return (
     <div className=" p-3 " >
-
+<Link href="/Hero"> Back to Hero </Link>
 <div className="absolute top-3 left-3 cursor-pointer" style={{ color: 'black' }}>
     ← {/* Text-based back arrow icon */}
   </div>

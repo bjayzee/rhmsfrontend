@@ -128,12 +128,14 @@ const Hero = () => {
             </div>
           </div>
           <div>
+          <Link href="/Repair"> 
             <div className='flex justify-evenly align-center w-30 h-10 bg-white shadow-md rounded py-1'>
               <Image
                 src='/repairicon.png'
                 height={30}
                 width={30} />
             </div>
+            </Link>
             <div>
               <h2 className='text-rh-blue text-sm font-semibold'>Repairs</h2>
             </div>
@@ -141,9 +143,7 @@ const Hero = () => {
         </section>
 
       </div>
-      <div>
-        <h3>My Hero</h3><Link href="/Repair"><h3>Go to Repair</h3></Link>
-      </div>
+     
     </div>      
   )
 }
