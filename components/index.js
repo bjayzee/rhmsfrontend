@@ -7,8 +7,9 @@ import RHMSNEWS from './RHMSNEWS'
 import HeroCard from './HeroCard'
 import DealODayCard from './DealODayCard'
 import Link from 'next/link';
-import Repair from '../app/Repair/Repair'
-import blog from '@/app/blog/blog'
+import Repair from '@/app/Repair/page'
+
+
 
 
 
@@ -23,7 +24,7 @@ export {
     RHMSNEWS,
     HeroCard,
     DealODayCard,
-    Repair,
-    blog
+    Repair
+    
     
 }

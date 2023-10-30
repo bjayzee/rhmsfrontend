@@ -148,4 +148,4 @@ const Hero = () => {
   )
 }
 
-export default Hero br
+export default Hero
