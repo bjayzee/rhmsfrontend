@@ -4,7 +4,6 @@ import Image from 'next/image';
 import HeroCard from './HeroCard';
 import Link from 'next/link';
 import { useRouter } from "next/navigation"
-import { useRouter } from "next/navigation"
 
 const Hero = () => {
       const router = useRouter()
@@ -53,7 +52,7 @@ const Hero = () => {
                   <h2 className='text-rh-blue text-sm font-semibold'>Swap iWatches</h2>
                 </div>
               </div>
-              <div className='cursor-pointer' onClick={() => handleClick("Buy")}>
+              <div className='cursor-pointer' onClick={() => handleClick("buy")}>
                 <div className='flex justify-evenly align-center w-30 h-10 bg-white shadow-md rounded py-1'>
                   <Image
                     src='/iphoneicon.png'
