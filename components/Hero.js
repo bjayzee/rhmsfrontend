@@ -4,8 +4,15 @@ import Image from 'next/image';
 import HeroCard from './HeroCard';
 import Link from 'next/link';
 import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 
 const Hero = () => {
+  const router = useRouter()
+  const handleClick = name => {
+    router.push(`/${name}`)
+  }
+
+
   const router = useRouter()
   const handleClick = name => {
     router.push(`/${name}`)
@@ -54,7 +61,7 @@ const Hero = () => {
               <h2 className='text-rh-blue text-sm font-semibold'>Swap iWatches</h2>
             </div>
           </div>
-          <div>
+          <div className='cursor-pointer' onClick={() => handleClick("Buy")}>
             <div className='flex justify-evenly align-center w-30 h-10 bg-white shadow-md rounded py-1'>
               <Image
                 src='/iphoneicon.png'
@@ -104,6 +111,7 @@ const Hero = () => {
           </div>
         </section>
         <section className='flex justify-between gap-3 py-4 px-2'>
+        <section className='flex justify-between gap-3 py-4 px-2'>
           <div className=''>
             <div className='flex justify-evenly align-middle w-30 h-10 bg-white shadow-md rounded py-1'>
               <Image
@@ -134,13 +142,14 @@ const Hero = () => {
               <h2 className='text-rh-blue text-sm font-semibold'>Buy and Pay Later</h2>
             </div>
           </div>
-          <div className='cursor-pointer' onClick={() => handleClick("repair")}>
+          <div className='cursor-pointer' onClick={() => handleClick("Repair")}>
             <div className='flex justify-evenly align-center w-30 h-10 bg-white shadow-md rounded py-1'>
               <Image
                 src='/repairicon.png'
                 height={30}
                 width={30} />
             </div>
+            {/* </Link> */}
             <div>
               <h2 className='text-rh-blue text-sm font-semibold'>Repairs</h2>
             </div>
