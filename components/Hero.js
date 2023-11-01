@@ -54,7 +54,7 @@ const Hero = () => {
               <h2 className='text-rh-blue text-sm font-semibold'>Swap iWatches</h2>
             </div>
           </div>
-          <div className='cursor-pointer' onClick={() => handleClick("Buy")}>
+          <div className='cursor-pointer' onClick={() => handleClick("buy")}>
             <div className='flex justify-evenly align-center w-30 h-10 bg-white shadow-md rounded py-1'>
               <Image
                 src='/iphoneicon.png'
@@ -134,7 +134,7 @@ const Hero = () => {
               <h2 className='text-rh-blue text-sm font-semibold'>Buy and Pay Later</h2>
             </div>
           </div>
-          <div className='cursor-pointer' onClick={() => handleClick("Repair")}>
+          <div className='cursor-pointer' onClick={() => handleClick("repair")}>
             <div className='flex justify-evenly align-center w-30 h-10 bg-white shadow-md rounded py-1'>
               <Image
                 src='/repairicon.png'

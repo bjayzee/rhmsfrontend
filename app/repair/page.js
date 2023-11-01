@@ -1,4 +1,3 @@
-
 import Repair from "@/components/Repair"
 
 const RepairPage = () => {
