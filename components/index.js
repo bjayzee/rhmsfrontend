@@ -8,10 +8,10 @@ import HeroCard from './HeroCard'
 import DealODayCard from './DealODayCard'
 import Link from 'next/link';
 import Repair from '@/app/repair/page'
-
-
-
-
+import Buy from  '@/app/buy/page'
+import CheckoutPage from '@/app/checkoutPage/page'
+import HowToCheckOut from '@/app/howToCheckOut/page'
+import GuestOrderSuccessfulPage from '@/app/guestOrderSuccessfulPage/page'
 
 
 
@@ -24,7 +24,14 @@ export {
     RHMSNEWS,
     HeroCard,
     DealODayCard,
-    Repair
+    Repair,
+    Buy,
+    CheckoutPage,
+    HowToCheckOut,
+    GuestOrderSuccessfulPage
+    
+  
+
     
     
 }
