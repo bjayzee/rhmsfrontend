@@ -10,7 +10,7 @@ const iPhoneModel = ({ name, pictures, price }) => {
       <div className="flex justify-between">
         <div className="w-full font-bold">
           <p
-            className="text-sm my-custom-font font-bold cursor-pointer"
+            className="text-sm font-bold cursor-pointer"
             onClick={() => setShowDetails(!showDetails)}
           >
             {name}

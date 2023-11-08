@@ -5,19 +5,17 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
+html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'EB Garamond', serif;
 }
 
-.my-custom-font {
-  font-family: "MyCustomFont", EB Garamond;
-}
+ 
 
 
-input[type="radio"][value="red"] + label::before {
+/* input[type="radio"][value="red"] + label::before {
   background-color: red;
 }
 
@@ -35,4 +33,4 @@ input[type="radio"][value="green"] + label::before {
 
 input[type="radio"][value="pink"] + label::before {
   background-color: pink;
-}
+} */
