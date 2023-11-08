@@ -15,11 +15,14 @@ const Hero = () => {
       <div>
         <section className='flex justify-between gap-3 py-4 px-2'>
           <div className=''>
-            <div className='flex justify-evenly align-middle w-30 h-10 bg-white shadow-md rounded py-1'>
+          <Link href='/swap-iphone-page'>
+           <div className='flex justify-evenly align-middle w-30 h-10 bg-white shadow-md rounded py-1'>
+          
               <Image
                 src='/phoneicon.png'
                 height={20}
                 width={30} />
+                 
               <Image
                 src='/swapicon.png'
                 height={10}
@@ -28,7 +31,10 @@ const Hero = () => {
                 src='/iphoneicon.png'
                 height={20}
                 width={30} />
+               
             </div>
+            </Link>
+            
             <div>
               <h2 className='text-rh-blue text-sm font-semibold'>Swap iPhones</h2>
             </div>

@@ -38,6 +38,7 @@ export default function CheckoutPage() {
            margin:'10px'
            }}>
     I'w like it delivered
+    <Link href="/deliveryInfoPage"> I'w pick it up</Link>
     </button>
 
     <button  

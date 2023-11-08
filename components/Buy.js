@@ -1038,8 +1038,8 @@ export default function Buy() {
                     {removeItem !== false &&(
                        <div><div className="font-bold">
                             <p>Pick your preference</p>
-                          </div><label>
-                              Brand New
+                          </div><label  className='m-3'>
+                              
                               <input
                                 type="radio"
                                 name={`condition-${model.name}`}
@@ -1052,8 +1052,9 @@ export default function Buy() {
                                   setShowAddToCart(false); // Hide "Add to Cart" when conditions change
                                   setShowStorageOptions(false);
                                 } } />
+                                Brand New
                             </label><label>
-                              Used
+                              
                               <input
                                 type="radio"
                                 name={`condition-${model.name}`}
@@ -1066,6 +1067,7 @@ export default function Buy() {
                                   setShowAddToCart(false); // Hide "Add to Cart" when conditions change
                                   setShowStorageOptions(false); // Hide storage options
                                 } } />
+                                Used
                             </label></div>
                      )} 
                   
@@ -1079,8 +1081,8 @@ export default function Buy() {
                       <div className="font-bold">
                         <p>Phone Status</p>
                       </div>
-                      <label>
-                        Locked
+                      <label className='m-3' >
+                       
                         <input
                           type="radio"
                           name={`status-${model.name}`}
@@ -1092,9 +1094,10 @@ export default function Buy() {
                             setShowAddToCart(false); // Hide "Add to Cart" when status changes
                           }}
                         />
+                         Locked
                       </label>
                       <label>
-                        Unlocked
+                       
                         <input
                           type="radio"
                           name={`status-${model.name}`}
@@ -1107,6 +1110,7 @@ export default function Buy() {
                             setShowStorageOptions(false); // Hide storage options
                           }}
                         />
+                         Unlocked
                       </label>
                       </div>
                         )} 
@@ -1121,8 +1125,15 @@ export default function Buy() {
                             Red
                             <input
                               type="radio"
+                              // class="p-2 bg-yellow-300 checked:bg-blue-500 rounded-full"
+                              style={{ 
+                                backgroundColor:'red'
+                                
+                                }}
                               name={`color-${model.name}`}
+                             
                               value="red"
+                              
                               onChange={() => {
                                 setSelectedColor('red');
                                 setSelectedStorage(null);
@@ -1131,7 +1142,8 @@ export default function Buy() {
                               }}
                             />
                           </label>
-                          <label>
+                         
+                          <label className='m-3'>
                             Blue
                             <input
                               type="radio"
@@ -1159,7 +1171,7 @@ export default function Buy() {
                               }}
                             />
                           </label>
-                          <label>
+                          <label className='m-3'>
                             Green
                             <input
                               type="radio"
@@ -1198,8 +1210,8 @@ export default function Buy() {
                                   <div className="font-bold">
                                 <p>Select Storage Capacity</p>
                               </div>
-                              <label>
-                                128GB
+                              <label className='m-3 '>
+                                
                                 <input
                                   type="radio"
                                   name={`storage-${model.name}`}
@@ -1208,9 +1220,10 @@ export default function Buy() {
                                   onChange={() => {handleStorageSelection('128GB') }}
                                   
                                 />
+                                128GB
                               </label>
                               <label>
-                                256GB
+                                
                                 <input
                                   type="radio"
                                   name={`storage-${model.name}`}
@@ -1218,9 +1231,10 @@ export default function Buy() {
                                   onChange={() => handleStorageSelection('256GB')}
                                   
                                 />
+                                256GB
                               </label>
                               <label>
-                                512GB
+                                
                                 <input
                                   type="radio"
                                   name={`storage-${model.name}`}
@@ -1228,6 +1242,7 @@ export default function Buy() {
                                   onChange={() => handleStorageSelection('512GB')}
                             
                                 />
+                                512GB
                               </label>
                                 </div>
                                )}

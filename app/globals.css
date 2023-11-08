@@ -15,7 +15,7 @@ html {
  
 
 
-input[type="radio"][value="red"] + label::before {
+/* input[type="radio"][value="red"] + label::before {
   background-color: red;
 }
 
@@ -33,4 +33,4 @@ input[type="radio"][value="green"] + label::before {
 
 input[type="radio"][value="pink"] + label::before {
   background-color: pink;
-}
+} */

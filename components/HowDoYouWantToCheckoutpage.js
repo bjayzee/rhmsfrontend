@@ -15,7 +15,7 @@ const HowDoYouWantToCheckoutPage = () => {
            color: '#187EB4', 
            margin:'10px'
            }}>
-             Sign in
+           <Link href='signin-page'>Sign in</Link>  
           </button>
 
           <button  
