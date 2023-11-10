@@ -913,6 +913,7 @@ import React, { useState } from 'react';
 
 
 export default function Buy() {
+
   const models = [
     {
       name: 'iPhone 8',
@@ -953,8 +954,8 @@ export default function Buy() {
   const [lockState, setLockState] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedStorage, setSelectedStorage] = useState(null);
-  const [showAddToCart, setShowAddToCart] = useState(false); // State for showing "Add to Cart" button
-  const [showStorageOptions, setShowStorageOptions] = useState(false); // State for showing storage options
+  const [showAddToCart, setShowAddToCart] = useState(false); 
+  const [showStorageOptions, setShowStorageOptions] = useState(false); 
   const [addToCartButton, setAddToCartButton] = useState(false);
   const [removeItem, setRemoveItem] = useState(true);
   const [checkoutButton, setCheckoutButton] = useState(false);
@@ -1021,7 +1022,7 @@ export default function Buy() {
                   </div>
                 </div>
 
-                <div >
+                <div>
                  
                     <div>
                     {removeItem !== false &&(
@@ -1036,9 +1037,11 @@ export default function Buy() {
                   
                      
                     {removeItem !== false &&(
-                       <div><div className="font-bold">
+                       <div>
+                         <div className="font-bold">
                             <p>Pick your preference</p>
-                          </div><label  className='m-3'>
+                          </div>
+                          <label  className='m-3'>
                               
                               <input
                                 type="radio"
@@ -1053,7 +1056,8 @@ export default function Buy() {
                                   setShowStorageOptions(false);
                                 } } />
                                 Brand New
-                            </label><label>
+                            </label>
+                            <label>
                               
                               <input
                                 type="radio"
