@@ -155,31 +155,57 @@ const SwapiPhone = () => {
   };
 
   return (
-    <div className="m-5 font-bold">
-      <div>
+    <div >
+      <div className='mb-20'>
+      <div  >
       {createSpace !== false && (
         <div>
 
-<h1>Give and get:</h1>
+      <div className="m-5 text-lg font-bold">
+      <h1>Give and get:</h1>
       <h1>The swap-way is the best way</h1>
-      <p>Browse through the phones below and make your selection</p>
+        </div>
+      <div className='mx-5'>
+      <p>Browse through the phones below and make your </p>
+      <p>selection.</p>
+      </div>
+      <div className="flex text-sm   ">
+        <div className=' w-full mt-7 pl-5 font-bold'>
+          <p>Let's value your iPhone</p>
+        </div>
 
-      <div className="flex justify-between m-5 font-bold">
-        <div>Let's value your phone</div>
-
-        <div className=" w-full p-4">
+        <div className=" w-full pr-5 py-4  ">
           <button
-            className="w-full border p-3 rounded-lg shadow-lg"
+            className="w-full border-solid mr-20 px-3 py-4 rounded-lg shadow-lg  "
             onClick={handleSelectClick}
           
           >
-            {selectedOption ? selectedOption.label : 'Select your phone'}
+           <div className='flex space-between '>
+            <div className=''>
+              {selectedOption ? selectedOption.label : 'Select your phone'}
+            </div>
+             
+            <span>
+              <div>
+              <img
+          src="/phoneicon.png" // Replace with the actual image source
+          alt="Phone Image"
+          className="mr-2" // Adjust margin as needed
+          style={{ width: '20px', height: '20px' }} // Adjust size as needed
+        />
+              </div>
+            </span>
+           </div>
           </button>
-          <p>Learn how it works</p>
+          <p 
+          style={{
+            color:'#187EB4',
+            marginLeft:'20px'
+            }}>Learn how it works</p>
 
           {showDropdown && (
-            <div className="absolute left-0 m-15 w-full border  rounded-lg bg-white shadow-lg">
-              <div className="grid grid-cols-2 gap-1 ">
+            <div className="absolute left-0 right-10 p-2 mx-5  my-2  border-solid  rounded-lg bg-white shadow-lg">
+              <div className="grid grid-cols-2 gap-1  ">
                {dropdownOptions.map((option) => (
                 
                   <div key={option.value}>
@@ -196,53 +222,75 @@ const SwapiPhone = () => {
       )}
 
       </div>
-      <div className="m-5">
+      <div>
         {selectedOption && (
           <div>
             {createSpace !== false && (
           <div>
-            <h2>Selected Option: {selectedOption.label}</h2>
+           
+            <div className='font-bold m-5'>
             <h2>What is the condition of the phone?</h2>
+            </div>
            {/* {removeItem !== false && ( */}
-             <div className="border p-4 mt-4">
+             <div className="border  p-4 mt-4 rounded-lg  m-5">
              <div className="grid grid-cols-1 ">
-               <div onClick={handleShowAdditionalOptions}>
-                 <input type="radio" name="radio1" />
-                
-                 <span className='p-2'>Brand New</span>
+               <div className="flex" onClick={handleShowAdditionalOptions}>
+               <div>
+               <input type="radio" name="radio1" class=' w-4 h-8 mt-1' />
+               </div>
+                <div>
+                <p className='p-2 '>Brand New</p>
+                </div>
                </div>
                <div className='p-4'>
                 
                  <p>Some text on the right</p>
                </div>
                <hr/>
-               <div onClick={handleShowAdditionalOptions}>
-                 <input type="radio" name="radio1" />
-                 <span className='p-2'>Flawless </span>
+               <div className='flex' onClick={handleShowAdditionalOptions} >
+                 <div>
+                 <input type="radio" name="radio1" class=' w-4 h-8 mt-1 ' />
+                 </div>
+              
+                 <div>
+                 <p className='p-2'>Flawless </p>
+                 </div>
                </div>
                <div className='p-4'>
                  <p>Some more text on the right</p>
                </div>
                <hr/>
-               <div onClick={handleShowAdditionalOptions}>
-                 <input type="radio" name="radio1" />
-                 <span className='p-2'>Good </span>
+               <div className=" flex" onClick={handleShowAdditionalOptions}>
+               <div>
+                <input type="radio" name="radio1" class=' w-4 h-8 mt-1' />
+                </div>
+                 <div>
+                 <p className='p-2 '>Good </p>
+                 </div>
                </div>
                <div className='p-4'>
                  <p>Some more text on the right</p>
                </div>
                <hr/>
-               <div onClick={handleShowAdditionalOptions}>
-                 <input type="radio" name="radio1" />
-                 <span className='p-2'>Fair </span>
+               <div className='flex' onClick={handleShowAdditionalOptions}>
+               <div>
+               <input type="radio" name="radio1" class=' w-4 h-8 mt-1' />
+               </div>
+                <div>
+                <p className='p-2'>Fair </p>
+                </div>
                </div>
                <div className='p-4'>
                  <p>Some more text on the right</p>
                </div>
                <hr/>
-               <div onClick={handleShowAdditionalOptions}>
-                 <input type="radio" name="radio1" />
-                 <span className='p-2'>Broken </span>
+               <div className='flex' onClick={handleShowAdditionalOptions}>
+               <div>
+                <input type="radio" name="radio1" class=' w-4 h-8 mt-1' />
+                </div>
+                 <div>
+                 <p className='p-2'>Broken </p>
+                 </div>
                </div>
                <div className='p-4'>
                  <p>Some more text on the right</p>
@@ -256,6 +304,7 @@ const SwapiPhone = () => {
           
         )}
       </div>
+      </div>
 
       <div className="m-5">
         {showAdditionalOptions && (
@@ -264,55 +313,71 @@ const SwapiPhone = () => {
 
             { createSpace !== false &&( 
             <div className="my-5">
-           <div>
+           <div className='font-bold'>
            <h2>Please select as applied:</h2>
-            <h2>Please select if the phone is locked or unlocked</h2>
+            <h2 className='text-sm'>Please select if the phone is locked or unlocked</h2>
            </div>
            
            
            
-              <div className="my-5 ">
+              <div className=" ">
+                <div className='flex'>
                 <input
                   type="radio"
                   name="condition"
                   checked={selectedCondition === 'locked'}
                   onChange={() => handleConditionSelect('locked')}
-                  style={{paddingRight:'5px'}}
+                  style={{paddingRight:'5px', marginTop:'3px' }}
+                  class=' w-4 h-8 '
                 />
-                <span className='pl-2 mx-1'>Locked</span>
+                
+                <p className='pl-2 mx-3 mt-2'>Locked</p>
+
+
                 <input
                   type="radio"
                   name="condition"
                   checked={selectedCondition === 'unlocked'}
                   onChange={() => handleConditionSelect('unlocked')}
+                  style={{paddingRight:'5px', marginTop:'3px' }}
+                  class=' w-4 h-8 '
                 />
-                <span className='pl-2'>Unlocked</span>
+                <p className='pl-2 mx-1 mt-2'>Unlocked</p>
+                </div>
+                
               </div>
            
                 <div className='my-5'>
+                <div className='flex'>
                 <input
                   type="radio"
                   name="storage"
                   checked={selectedStorage === '64GB'}
                   onChange={() => handleStorageSelect('64GB')}
+                  class=' w-4 h-8 '
+                  style={{ marginTop:'3px' }}
                 />
-                <span className='pl-2 mx-1'>64GB</span>
+                <p className='pl-2 mx-1 mt-2 mr-7'>64GB</p>
                 <input
                   type="radio"
                   name="storage"
                   checked={selectedStorage === '256GB'}
                   onChange={() => handleStorageSelect('256GB')}
+                  class=' w-4 h-8 '
+                  style={{ marginTop:'3px' }}
                 />
-                <span className='pl-2  mx-1' >256GB</span>
+                <p className='pl-2  mx-1 mt-2 mr-7' >256GB</p>
                 <input
                   type="radio"
                   name="storage"
                   checked={selectedStorage === '512GB'}
                   onChange={() => handleStorageSelect('512GB')}
-               
+                  class=' w-4 h-8 '
+                  style={{ marginTop:'3px' }}
                   
                 />
-                <span className='pl-2'>512GB</span>
+                <p className='pl-2 mx-1 mt-2'>512GB</p>
+                </div>
               </div>
               
              
