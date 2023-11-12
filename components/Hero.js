@@ -10,8 +10,6 @@ const Hero = () => {
   const handleClick = name => {
     router.push(`/${name}`)
   }
-
-
   return (
     <div>
       <div>
@@ -156,8 +154,8 @@ const Hero = () => {
 
       </div>
       {/* <div>
-        <h3>My Hero</h3><Link href="/Repair"><h3>Go to Repair</h3></Link>
-      </div> */}
+            <h3>My Hero</h3><Link href="/Repair"><h3>Go to Repair</h3></Link>
+          </div> */}
     </div>
   )
 }
