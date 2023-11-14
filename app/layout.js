@@ -18,7 +18,6 @@ export default function RootLayout({ children }) {
         <RHMSNEWS />
         {children}
         <Footer />
-        
       </body>
     </html>
   )
