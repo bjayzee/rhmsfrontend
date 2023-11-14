@@ -12,25 +12,4 @@ html {
   font-family: 'EB Garamond', serif;
 }
 
- 
 
-
-/* input[type="radio"][value="red"] + label::before {
-  background-color: red;
-}
-
-input[type="radio"][value="blue"] + label::before {
-  background-color: blue;
-}
-
-input[type="radio"][value="black"] + label::before {
-  background-color: black;
-}
-
-input[type="radio"][value="green"] + label::before {
-  background-color: green;
-}
-
-input[type="radio"][value="pink"] + label::before {
-  background-color: pink;
-} */
