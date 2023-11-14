@@ -1,6 +1,10 @@
-import { Hero, PNav, NavBar, DealOfTheDay, RHMSNEWS, Footer } from '@/components'
+import { PNav, NavBar, Footer } from '@/components'
 import './globals.css'
 
+import { EB_Garamond } from "next/font/google";
+
+
+const garamond = EB_Garamond({subsets: ["latin"]})
 
 export const metadata = {
   title: 'RHMS',
@@ -10,12 +14,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="relative">
+      <body className={garamond.className}>
         <PNav />
         <NavBar />
-        <Hero />
-        <DealOfTheDay />
-        <RHMSNEWS />
         {children}
         <Footer />
       </body>
