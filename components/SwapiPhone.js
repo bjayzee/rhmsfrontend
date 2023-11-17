@@ -171,15 +171,15 @@ const SwapiPhone = () => {
       {createSpace !== false && (
         <div>
 
-      <div className="m-5 text-lg font-bold">
+      <div className="m-8 text-lg font-bold">
       <h1>Give and get:</h1>
       <h1>The swap-way is the best way</h1>
         </div>
-      <div className='mx-5'>
+      <div className='mx-8 font-bold text-sm'>
       <p>Browse through the phones below and make your </p>
       <p>selection.</p>
       </div>
-      <div className="flex text-sm   ">
+      <div className="flex text-md ">
         <div className=' w-full mt-7 pl-5 font-bold'>
           <p>Let's value your iPhone</p>
         </div>
@@ -242,7 +242,7 @@ const SwapiPhone = () => {
             <h2>What is the condition of the phone?</h2>
             </div>
            {/* {removeItem !== false && ( */}
-             <div style={{borderColor:'#187EB4'}} className="border  px-8 m-5 rounded-lg  ">
+             <div style={{borderColor:'#187EB4'}} className="border  px-8 m-8 rounded-lg  ">
              <div className="grid grid-cols-1 ">
                <div className="flex  mt-4 " onClick={handleShowAdditionalOptions}>
                <div>
@@ -333,7 +333,7 @@ const SwapiPhone = () => {
           <div>
             
             { createSpace !== false &&( 
-            <div className="my-5">
+            <div className="my-5 m-8">
            <div className='font-bold'>
            <h2>Please select as applied:</h2>
             <h2 className='text-sm'>Please select if the phone is locked or unlocked</h2>
@@ -407,8 +407,8 @@ const SwapiPhone = () => {
             {phoneSelection && (
                 <div >
                  {createSpace !== false && (
-                  <div>
-                  <div className='my-5'>
+                  <div className='m-8'>
+                  <div className='my-5 '>
                      <div className='flex '>
                      <p className='font-bold' style={{color:'#187EB4'}}>Swap item:</p>
                      <p className='pl-2' style={{color:'#187EB4'}}>{selectedOption.label}</p>
@@ -425,7 +425,7 @@ const SwapiPhone = () => {
                   )} 
                   
                 
-                <div className="flex justify-between  font-bold">
+                <div className="flex justify-between  font-bold m-8">
           <div className=" w-full mt-9 ">
           
             <p>

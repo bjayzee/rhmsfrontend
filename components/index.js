@@ -18,6 +18,7 @@ import CardInfoPage from '@/app/card-info-page/page'
 import DeliveryOrderSuccessPage from '@/app/delivery-order-successfully-completed/page'
 import SignInPage from '@/app/signin-page/page'
 import SwapiPhone from '@/app/swap-iphone-page/page'
+import SwapAppleWatch from '@/app/swap-apple-watch/page'
 
 
 
@@ -39,10 +40,7 @@ export {
     CardInfoPage,
     DeliveryOrderSuccessPage,
     SignInPage,
-    SwapiPhone
-    
-  
-
-    
+    SwapiPhone,
+    SwapAppleWatch
     
 }

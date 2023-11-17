@@ -39,7 +39,7 @@ const Hero = () => {
               <h2 className='text-rh-blue text-sm font-semibold'>Swap iPhones</h2>
             </div>
           </div>
-          <div>
+          <div onClick={() => handleClick("swap-apple-watch")}>
             <div className='flex justify-evenly align-middle w-30 h-10 bg-white shadow-md rounded py-1'>
               <Image
                 src='/watch.png'
