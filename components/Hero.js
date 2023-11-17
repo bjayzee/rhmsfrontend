@@ -11,8 +11,8 @@ const Hero = () => {
     router.push(`/${name}`)
   }
   return (
-     
-      <div className='px-5'>
+    
+      <div className="px-5 overflow-x-hidden mt-40">
         <section className='flex justify-between gap-3 py-4 px-2'>
           <div className=''>
           <Link href='/swap-iphone-page'>
@@ -153,7 +153,7 @@ const Hero = () => {
         </section>
 
       </div>
-      
+ 
   )
 }
 

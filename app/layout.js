@@ -17,10 +17,9 @@ export default function RootLayout({ children }) {
       <body className={`${garamond.className}`}>
         <PNav />
         <NavBar />
-        {children}
-        <Footer />
-        
+        <>{children}</>
       </body>
+      <Footer />
     </html>
-  )
+  );
 }
