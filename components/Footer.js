@@ -2,14 +2,14 @@ import Image from "next/image"
 
 const Footer = () => {
   return (
-    <div className='w-full text-[white] h-[312px] bg-rh-blue py-4 px-2'>
+    <div className='w-full text-[white] h-[312px] bg-rh-blue py-4 px-2 bottom-0'>
       <Image 
           src='/rhmstechlogo2.png'
           alt="logo"
           width={41} 
           height={40} 
       />
-      <div className="flex flex-row justify-between pt-3 ">
+      <div className="flex flex-row justify-between pt-3">
         <div>
           <h2>Contact</h2>
           <div>+2349067339338</div>
