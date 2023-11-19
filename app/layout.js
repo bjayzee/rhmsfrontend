@@ -18,8 +18,9 @@ export default function RootLayout({ children }) {
         <PNav />
         <NavBar />
         <>{children}</>
+          <Footer />
       </body>
-      <Footer />
+    
     </html>
   );
 }

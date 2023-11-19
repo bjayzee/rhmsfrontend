@@ -86,42 +86,42 @@ const SwapiPhone = () => {
   const models = [
     {
       name: "iPhone 8",
-      pictures: ["iphoneS.png", "basket.png"],
+      pictures: ["Rectangle 49.svg", "basket.png"],
       price: "$599",
     },
     {
       name: "iPhone X ",
-      pictures: ["iphoneS.png"],
+      pictures: ["Rectangle 49.svg"],
       price: "$859",
     },
     {
       name: "iPhone 8",
-      pictures: ["iphoneS.png"],
+      pictures: ["Rectangle 49.svg"],
       price: "$1599",
     },
     {
       name: "iPhone X",
-      pictures: ["iphoneS.png"],
+      pictures: ["Rectangle 49.svg"],
       price: "$900",
     },
     {
       name: "iPhone 8",
-      pictures: ["iphoneS.png"],
+      pictures: ["Rectangle 49.svg"],
       price: "$750",
     },
     {
       name: "iPhone X",
-      pictures: ["basket.png", "iphoneS.png"],
+      pictures: ["basket.png", "Rectangle 49.svg"],
       price: "$770",
     },
     {
       name: "iPhone 8",
-      pictures: ["iphoneS.png"],
+      pictures: ["Rectangle 49.svg"],
       price: "$750",
     },
     {
       name: "iPhone X",
-      pictures: ["basket.png", "iphoneS.png"],
+      pictures: ["basket.png", "Rectangle 49.svg"],
       price: "$770",
     },
     // Add more iPhone models here
@@ -162,27 +162,30 @@ const SwapiPhone = () => {
 
   return (
     <div className="overflow-x-hidden py-5 px-8 mt-36">
-      <div className="">
+      <div className="text-xl">
         <IoIosArrowRoundBack className="text-[50px] text-[#187EB4] mb-4 ml-[-11px]" />
-        {createSpace && (
-          <>
-            <div className="text-lg font-bold text-[20px]">
+        <div className="font-bold text-[20px]">
+          {createSpace && (
+            <>
               <p>Give and get:</p>
               <p>The swap-way is the best way.</p>
-            </div>
+            </>
+          )}
+        </div>
 
-            <p className="py-2">
-              Browse through the phones below and make your selection.{" "}
-            </p>
-
+        <p className="py-2 font-bold">
+          Browse through the phones below and make your selection.{" "}
+        </p>
+        {createSpace && (
+          <>
             <div className="">
-              <div className="flex items-center py-5 justify-between">
+              <div className="flex items-center py-5 justify-between text-[16px]">
                 <span className="font-bold">Let's value your iPhone</span>
                 <button
                   className="px-3 py-4 rounded-xl shadow-lg flex items-center border-[#D9D9D9] border-r-8 border-b-8"
                   onClick={handleSelectClick}
                 >
-                  {selectedOption ? selectedOption.label : "Select your phone"}{" "}
+                  {selectedOption ? selectedOption.label : "Select your phone"}
                   <FaPlay className="text-[30px] text-[#187EB4] ml-1" />
                 </button>
               </div>
@@ -191,7 +194,7 @@ const SwapiPhone = () => {
               </div>
 
               {showDropdown && (
-                <div className="my-2 border-solid rounded-lg bg-white shadow right-4 left-4 border-[#D9D9D9] border-r-8 border-b-8 mt-10">
+                <div className="my-2 p-5 border-solid rounded-[20px] bg-white shadow right-4 left-4 border-[#D9D9D9] border-r-8 border-b-8 mt-10">
                   <div className="grid grid-cols-2">
                     {dropdownOptions.map((option) => (
                       <div key={option.value}>{renderOption(option)}</div>
@@ -204,7 +207,7 @@ const SwapiPhone = () => {
         )}
 
         {selectedOption && createSpace && (
-          <div className="mt-10">
+          <div className="mt-10 text-xl">
             <span className="font-bold my-2">
               What is the condition of the phone?
             </span>
@@ -314,12 +317,12 @@ const SwapiPhone = () => {
         {showAdditionalOptions && (
           <div>
             {createSpace !== false && (
-              <div className="my-5">
-                <div className="font-bold">
-                  <h2>Please select as applied:</h2>
-                  <h2 className="text-sm">
+              <div className="my-5 text-xl">
+                <div className="font-semibold flex flex-col space-y-5">
+                  <p>Please select as applied:</p>
+                  <p className="">
                     Please select if the phone is locked or unlocked
-                  </h2>
+                  </p>
                 </div>
 
                 <div className=" ">
@@ -380,48 +383,40 @@ const SwapiPhone = () => {
               <div>
                 {createSpace !== false && (
                   <div>
-                    <div className="my-5">
+                    <div className="my-5 text-[#187EB4] text-xl">
                       <div className="flex">
-                        <p className="font-bold" style={{ color: "#187EB4" }}>
-                          Swap item:
-                        </p>
-                        <p className="pl-2" style={{ color: "#187EB4" }}>
-                          {selectedOption.label}
-                        </p>
+                        <p className="font-bold">Swap item:</p>
+                        <p className="pl-2 ">{selectedOption.label}</p>
                       </div>
-                      <div className="flex ">
-                        <p className="font-bold" style={{ color: "#187EB4" }}>
-                          Swap value:
-                        </p>
-                        <p className="pl-2" style={{ color: "#187EB4" }}>
-                          #33000
-                        </p>
+                      <div className="flex">
+                        <p className="font-bold">Swap value:</p>
+                        <p className="pl-2">#33000</p>
                       </div>
                     </div>
-                    <div className="font-bold">
-                      <p>Now let's select your new phone</p>
-                    </div>
+                    <p className="font-semibold py-5 text-xl">
+                      Now let's select your new phone
+                    </p>
                   </div>
                 )}
 
-                <div className="flex items-center justify-between font-bold right-4 left-4">
-                  <div className="w-full">
-                    <p>I want this iPhone</p>
-                  </div>
+                <div className="flex items-center justify-between font-bold right-4 left-4 text-[16px]">
+                  <p className="font-semibold py-5 w-full">
+                    I want this iPhone
+                  </p>
 
                   <div className="w-full flex items-end justify-end">
                     <button
                       className="px-3 py-4 rounded-xl shadow-lg flex items-center border-[#D9D9D9] border-r-8 border-b-8"
                       onClick={handleNewPhoneSelectClick}
                     >
-                      {selectedModel ? selectedModel.label : "Select a phone"}
+                      {selectedOption ? selectedOption.label : "Select a phone"}
                       <FaPlay className="text-[30px] text-[#187EB4] ml-1" />
                     </button>
                   </div>
                 </div>
 
                 {showDropdown && (
-                  <div className="mt-10">
+                  <div className="mt-10 text-xl">
                     {models.map((model, index) => (
                       <div className="flex justify-start">
                         <div
@@ -443,15 +438,7 @@ const SwapiPhone = () => {
                           {selectedModel === index && (
                             <div>
                               <div className="">
-                                {/*<div className="max-w-full mx-auto p-10 bg-white rounded-[20px] flex items-center justify-center overflow-hidden shadow-lg border-[#D9D9D9] border-r-8 border-b-8">
-                                  <img
-                                    src={model.pictures[currentPictureIndex]}
-                                    className="object-cover"
-                                    alt="Perfect Image"
-                                  />
-                                </div>*/}
-
-                                <div className="w-full bg-white rounded shadow-lg right-0 left-0">
+                                <div className="w-full bg-white rounded-[20px] shadow-xl px-16 py-10 border-[#D9D9D9] border-r-8 border-b-8">
                                   <img
                                     src={model.pictures[currentPictureIndex]}
                                     className="w-full h-64 object-cover"
@@ -460,19 +447,22 @@ const SwapiPhone = () => {
                                 </div>
 
                                 {removeItem !== false && (
-                                
-                                    <div className="flex justify-between p-1 font-bold">
-                                      <p>{model.name}</p>
-                                      <p> {model.price}</p>
-                                    </div>
-                                 
+                                  <div className="flex justify-between px-0 py-5 font-bold">
+                                    <span className="font-bold">
+                                      {model.name}
+                                    </span>
+                                    <span className="font-semibold">
+                                      {model.price}
+                                    </span>
+                                  </div>
                                 )}
 
                                 {removeItem !== false && (
                                   <div>
-                                    <div className="font-bold">
-                                      <p>Pick your preference</p>
-                                    </div>
+                                    <p className="font-semibold py-5">
+                                      Pick your preference
+                                    </p>
+
                                     <div className="flex">
                                       <label>
                                         <div className="flex">
@@ -576,11 +566,10 @@ const SwapiPhone = () => {
                                       <div>
                                         {removeItem !== false && (
                                           <div>
-                                            <div className="font-bold mt-4">
-                                              <p>
-                                                Select from available Colors
-                                              </p>
-                                            </div>
+                                            <p className="font-semibold py-5">
+                                              Select from available Colors
+                                            </p>
+
                                             <div className="flex">
                                               <label>
                                                 <div className="flex">
@@ -647,8 +636,6 @@ const SwapiPhone = () => {
                                                   />
                                                 </div>
                                               </label>
-                                            </div>
-                                            <div className="flex">
                                               <label className="">
                                                 <div className="flex">
                                                   <p className=" mt-1">Green</p>
@@ -762,72 +749,34 @@ const SwapiPhone = () => {
 
                                             {showAddToCart &&
                                               selectedModel !== null && (
-                                                <div className="selected-model-details">
-                                                  <div className="flex mt-2 font-bold text-lg">
-                                                    <p className="">
-                                                      1 {selectedCondition}
-                                                    </p>
-                                                    <p className="">
-                                                      {" "}
-                                                      {
-                                                        models[selectedModel]
-                                                          .name
-                                                      }
-                                                    </p>
-                                                    <p className="">
-                                                      {" "}
-                                                      {selectedStorage}
-                                                    </p>
-                                                  </div>
-                                                  <div className="flex font-bold text-md my-4">
-                                                    <p className="">
-                                                      {" "}
-                                                      {selectedColor}
-                                                    </p>
+                                                <div className="selected-model-details flex flex-col space-y-5 mt-10">
 
-                                                    <p className="">
-                                                      {" "}
-                                                      {lockState}
-                                                    </p>
+                                                  <div className="flex space-x-3 mt-2 font-bold text-xl">
+                                                    <span>1 {selectedCondition}</span>
+                                                    <span>{models[selectedModel].name}</span>
+                                                    <span>{selectedStorage}</span>
                                                   </div>
 
-                                                  <div className="flex font-bold">
-                                                    <p>Your swap:</p>
-                                                    <p className="">
-                                                      {" "}
-                                                      {
-                                                        models[selectedModel]
-                                                          .name
-                                                      }
-                                                    </p>
-                                                    <p>
-                                                      {" "}
-                                                      {
-                                                        models[selectedModel]
-                                                          .price
-                                                      }
-                                                    </p>
+                                                  <div className="flex space-x-3 font-bold text-xl capitalize">
+                                                    <span>{selectedColor}</span>
+                                                    <span>{lockState}</span>
                                                   </div>
 
-                                                  <div className="justify-between font-bold">
+                                                  <div className="flex space-x-3 font-bold text-xl">
+                                                    <span>Your swap:</span>
+                                                    <span>{models[selectedModel].name}</span>
+                                                    <span>{models[selectedModel].price}</span>
+                                                  </div>
+
+                                                  <div className="flex justify-between font-bold text-xl">
                                                     <p>Price after swap:</p>
-                                                    <p>
-                                                      {" "}
-                                                      {
-                                                        models[selectedModel]
-                                                          .price
-                                                      }
-                                                    </p>
+                                                    <p>{models[selectedModel].price}</p>
                                                   </div>
-                                                  <div className="font-bold">
-                                                    <button
-                                                      className="pl-[210px] mt-[30px] text-[#187EB4]"
-                                                      onClick={() =>
+
+                                                  <div className="flex justify-end">
+                                                     <span onClick={() =>
                                                         setShowAddToCart(false)
-                                                      }
-                                                    >
-                                                      Remove
-                                                    </button>
+                                                      } className="py-10 text-[#187EB4] font-bold text-[20px]">Remove</span>
                                                   </div>
                                                 </div>
                                               )}
@@ -836,13 +785,7 @@ const SwapiPhone = () => {
                                               <div className="flex justify-center items-center">
                                                 <button
                                                   onClick={showCartDetails}
-                                                  style={{
-                                                    backgroundColor: "#187EB4",
-                                                    padding: "10px 35px",
-                                                    borderRadius: "20px",
-                                                    marginTop: "30px",
-                                                    color: "white",
-                                                  }}
+                                                  className="my-10 bg-[#187EB4] text-[#FFFFFF] rounded-full px-16 py-5"
                                                 >
                                                   ADD TO CART
                                                 </button>
@@ -850,21 +793,17 @@ const SwapiPhone = () => {
                                             )}
 
                                             {checkoutButton && (
-                                              <div>
+                                              <>
                                                 <div className="flex justify-center items-center">
-                                                  <button className="bg-[#187EB4] px-4 rounded-xl text-[#FFFFFF] mt-[30px]">
-                                                    <Link href="/howToCheckOut">
-                                                      Checkout
+                                                    <Link className="bg-[#187EB4] text-[#FFFFFF] rounded-full px-16 py-5" href="/howToCheckOut">
+                                                      CHECKOUT
                                                     </Link>
-                                                  </button>
+                                                 
                                                 </div>
-
-                                                <div className=" flex justify-center items-center mt-3">
-                                                  <p className="text-[#187EB4]">
+                                                  <p className="text-[#187EB4] text-center font-semibold">
                                                     Add more items
                                                   </p>
-                                                </div>
-                                              </div>
+                                              </>
                                             )}
                                           </div>
                                         )}
