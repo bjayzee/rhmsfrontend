@@ -223,7 +223,7 @@ const SwapiPhone = () => {
                   <span className="p-2 ml-2 font-semibold">Brand New</span>
                 </div>
                 <div className="pl-4 ml-4">
-                  <p className="pb-3 w-full">
+                  <p className="pb-3 text-[16px]">
                     Phone still in factory original packaging, Must come with
                     box and all accessories sealed/untounched
                   </p>
@@ -239,11 +239,11 @@ const SwapiPhone = () => {
                   </div>
 
                   <div>
-                    <p className="p-2  ml-2 font-semibold">Flawless </p>
+                    <p className="p-2  ml-2 font-semibold">Flawless</p>
                   </div>
                 </div>
                 <div className="pl-4 ml-4">
-                  <p className="pb-3">
+                  <p className="pb-3 text-[16px]">
                     Has absolutely no scratches, scuffs or other marks looks
                     brand new
                   </p>
@@ -263,7 +263,7 @@ const SwapiPhone = () => {
                   </div>
                 </div>
                 <div className="pl-4 ml-4">
-                  <p className="pb-3">
+                  <p className="pb-3 text-[16px]">
                     Shows light to moderate sign of wear. Contatains few light
                     scratches and/or dents.
                   </p>
@@ -282,7 +282,7 @@ const SwapiPhone = () => {
                   </div>
                 </div>
                 <div className="pl-4 ml-4">
-                  <p className="pb-3">
+                  <p className="pb-3 text-[16px]">
                     Shows moderate to excessive signs of wear. Contains
                     excessive scratching, major dents, and/or mild housing
                     damage such as a slightly bent frame.
@@ -302,7 +302,7 @@ const SwapiPhone = () => {
                   </div>
                 </div>
                 <div className="pl-4 ml-4">
-                  <p className="pb-3">
+                  <p className="pb-3 text-[16px]">
                     Cracks (regardless of size) or broken parts on either screen
                     or body the item.
                   </p>
@@ -570,7 +570,7 @@ const SwapiPhone = () => {
                                               Select from available Colors
                                             </p>
 
-                                            <div className="flex">
+                                            <div className="flex text-[16px]">
                                               <label>
                                                 <div className="flex">
                                                   <p className=" mt-1">Red</p>
@@ -800,7 +800,7 @@ const SwapiPhone = () => {
                                                     </Link>
                                                  
                                                 </div>
-                                                  <p className="text-[#187EB4] text-center font-semibold">
+                                                  <p className="text-[#187EB4] text-center font-semibold py-2">
                                                     Add more items
                                                   </p>
                                               </>
