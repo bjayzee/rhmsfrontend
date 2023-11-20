@@ -19,7 +19,9 @@ import DeliveryOrderSuccessPage from '@/app/delivery-order-successfully-complete
 import SignInPage from '@/app/signin-page/page'
 import SwapiPhone from '@/app/swap-iphone-page/page'
 import SwapAppleWatch from '@/app/swap-apple-watch/page'
-
+import BuyAppleWatch from '@/app/buy-apple-watch/page'
+import BuyMac from '@/app/buy-mac/page'
+import BuyAirPods from '@/app/buy-airpods/page'
 
 
 export {
@@ -41,6 +43,8 @@ export {
     DeliveryOrderSuccessPage,
     SignInPage,
     SwapiPhone,
-    SwapAppleWatch
-    
+    SwapAppleWatch,
+    BuyAppleWatch,
+    BuyMac,
+    BuyAirPods
 }

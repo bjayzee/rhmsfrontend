@@ -71,7 +71,7 @@ const Hero = () => {
           </div>
         </section>
         <section className='flex justify-between gap-3 py-4 px-2'>
-          <div className=''>
+          <div className='' onClick={() => handleClick("buy-apple-watch")} >
             <div className='flex justify-evenly align-middle w-30 h-10 bg-white shadow-md rounded py-1'>
               <Image
                 src='/iwatchy.png'
@@ -83,7 +83,7 @@ const Hero = () => {
               <h2 className='text-rh-blue text-sm font-semibold'>Buy iWatches</h2>
             </div>
           </div>
-          <div>
+          <div   onClick={() => handleClick("buy-mac")} >
             <div className='flex justify-evenly align-middle w-30 h-10 bg-white shadow-md rounded py-1'>
 
               <Image
@@ -95,7 +95,7 @@ const Hero = () => {
               <h2 className='text-rh-blue text-sm font-semibold'>Buy a MacBook</h2>
             </div>
           </div>
-          <div>
+          <div  onClick={() => handleClick("buy-airpods")}>
             <div className='flex justify-evenly align-center w-30 h-10 bg-white shadow-md rounded py-1'>
               <Image
                 src='/pod.png'
