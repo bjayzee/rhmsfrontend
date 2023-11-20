@@ -970,7 +970,6 @@ export default function Buy() {
     setSelectedStorage(storage);
     setShowAddToCart(false); // Show the "Add to Cart" button when storage is selected
     setAddToCartButton(true)
-   
   };
 
   
@@ -980,8 +979,6 @@ export default function Buy() {
     setRemoveItem(false);
     setCheckoutButton(true);
     setAddToCartButton(false)
-    
-    
   }
   
 

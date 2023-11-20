@@ -15,7 +15,7 @@ const Hero = () => {
       <div className="px-5 overflow-x-hidden mt-40">
         <section className='flex justify-between gap-3 p-2'>
           <Link href='/swap-iphone-page' className="cursor-pointer flex flex-col items-center justify-center">
-            <div className='flex items-center justify-center w-28 h-28 bg-white shadow-xl rounded-xl p-3'>
+            <div className='flex items-center justify-center w-24 h-20 bg-white shadow-2xl rounded-2xl p-3 border-[#D9D9D9] border-r-8 border-b-8'>
               <Image
                 src='/phoneicon.png'
                 height={20}
@@ -37,7 +37,7 @@ const Hero = () => {
 
 
           <div className="cursor-pointer flex flex-col items-center justify-center">
-            <div className='flex items-center justify-center w-28 h-28 bg-white shadow-xl rounded-xl p-3'>
+            <div className='flex items-center justify-center w-24 h-20 bg-white shadow-2xl p-3 rounded-2xl p-3 border-[#D9D9D9] border-r-8 border-b-8'>
               <Image
                 src='/watch.png'
                 height={100}
@@ -60,7 +60,7 @@ const Hero = () => {
           </div>
 
           <div className='cursor-pointer flex flex-col items-center justify-center' onClick={() => handleClick("buy")}>
-            <div className='flex items-center justify-center w-28 h-28 bg-white shadow-xl rounded-xl p-3'>
+            <div className='flex items-center justify-center w-24 h-20 bg-white shadow-2xl p-3 rounded-2xl p-3 border-[#D9D9D9] border-r-8 border-b-8'>
               <Image
                 src='/iphoneicon.png'
                 height={30}
@@ -77,7 +77,7 @@ const Hero = () => {
 
         <section className='flex justify-between gap-3 p-2'>
           <div className='cursor-pointer flex flex-col items-center justify-center'>
-             <div className='flex items-center justify-center w-28 h-28 bg-white shadow-xl rounded-xl p-3'>
+             <div className='flex items-center justify-center w-24 h-20 bg-white shadow-2xl rounded-2xl p-3 p-3 border-[#D9D9D9] border-r-8 border-b-8'>
                <Image
                 src='/iwatchy.png'
                 height={20}
@@ -88,7 +88,7 @@ const Hero = () => {
 
 
          <div className='cursor-pointer flex flex-col items-center justify-center'>
-             <div className='flex items-center justify-center w-28 h-28 bg-white shadow-xl rounded-xl p-3'>
+             <div className='flex items-center justify-center w-24 h-20 bg-white shadow-2xl rounded-2xl p-3 p-3 border-[#D9D9D9] border-r-8 border-b-8'>
                <Image
                src='/mac.png'
                 height={40}
@@ -99,7 +99,7 @@ const Hero = () => {
 
           
          <div className='cursor-pointer flex flex-col items-center justify-center'>
-             <div className='flex items-center justify-center w-28 h-28 bg-white shadow-xl rounded-xl p-3'>
+             <div className='flex items-center justify-center w-24 h-20 bg-white shadow-2xl p-3 rounded-2xl p-3 border-[#D9D9D9] border-r-8 border-b-8'>
                <Image
                 src='/pod.png'
                 height={20}
@@ -109,10 +109,10 @@ const Hero = () => {
           </div>
         </section>
 
-        <section className='flex justify-between gap-3 py-2'>
+        <section className='flex justify-between gap-3 p-2'>
 
         <div className='cursor-pointer flex flex-col items-center justify-center'>
-             <div className='flex items-center justify-center w-28 h-28 bg-white shadow-xl rounded-xl p-3'>
+             <div className='flex items-center justify-center w-24 h-20 bg-white shadow-2xl p-3 rounded-2xl p-3 border-[#D9D9D9] border-r-8 border-b-8'>
                <Image
                 src='/phoneicon.png'
                 height={20}
@@ -130,7 +130,7 @@ const Hero = () => {
           </div>
 
            <div className='cursor-pointer flex flex-col items-center justify-center'>
-             <div className='flex items-center justify-center w-28 h-28 bg-white shadow-xl rounded-xl p-3'>
+             <div className='flex items-center justify-center w-24 h-20 bg-white shadow-2xl rounded-2xl p-3 p-3 border-[#D9D9D9] border-r-8 border-b-8'>
                <Image
                 src='/basket.png'
                 height={20}
@@ -140,7 +140,7 @@ const Hero = () => {
           </div>
 
            <div className='cursor-pointer flex flex-col items-center justify-center' onClick={() => handleClick("repair")}>
-             <div className='flex items-center justify-center w-28 h-28 bg-white shadow-xl rounded-xl p-3'>
+             <div className='flex items-center justify-center w-24 h-20 bg-white shadow-2xl p-3 rounded-2xl p-3 border-[#D9D9D9] border-r-8 border-b-8'>
                <Image
                 src='/repairicon.png'
                 height={30}

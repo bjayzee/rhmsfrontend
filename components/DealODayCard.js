@@ -2,12 +2,12 @@ import Image from "next/image"
 
 const DealODayCard = () => {
   return (
-    <section className="w-[165px] h-[275px] bg-white rounded-xl shadow-2xl border-[#D9D9D9] border-r-8 border-b-8 grid justify-items-center py-5">
+    <div className="w-[165px] h-[300px] bg-white rounded-xl shadow-2xl border-[#D9D9D9] border-r-8 border-b-8 flex flex-col justify-center items-center space-y-1 py-10">
       <Image src='/iphoneS.png' width={118} height={156} className="shadow rounded-2xl" />
-      <div className="w-[87.45px] h-[25.85px] text-black text-xl font-bold">iPhone 15</div>
-      <div className="w-11 h-3.5 text-black text-xl font-normal pb-5">$699</div>
-      <button className="w-[120px] h-[26px] bg-rh-blue rounded-[10px] shadow text-white-100 mt-2">BUY/SWAP</button>
-    </section>
+      <div className="text-black text-xl font-bold">iPhone 15</div>
+      <div className="text-black text-xl font-normal">$699</div>
+      <button className="px-5 py-2 bg-rh-blue rounded-2xl shadow-xl text-[#FFFFFF]">BUY/SWAP</button>
+    </div>
   )
 }
 

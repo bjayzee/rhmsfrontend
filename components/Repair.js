@@ -116,22 +116,16 @@ const handleRepairOption = (selectedRepairTypes) => {
 
 
   return (
-    <div className=" p-3 " >
-<Link href="/Hero"> Back to Hero </Link>
-<div className="absolute top-3 left-3 cursor-pointer" style={{ color: 'black' }}>
-    ← {/* Text-based back arrow icon */}
-  </div>
+    <div className="px-5 py-10 mt-28" >
         
   <div className="text-2xl font-bold mt-10 my-custom-font">We fix it right, the Apple way.</div>
   <div className="text-x font-bold mb-2 my-custom-font">Make your iPhone new again.</div>
-  <div className="flex flex-wrap">
-    <div className="w-2/3 sm:w-2/3  p-2 bg-white "   >
-      <p className="text-sm  my-custom-font">
+  <div className="flex justify-between">
+      <p className="w-[65%] text-[14px]">
         Apple-certified repairs are performed by trusted experts who use genuine Apple parts.
         We are certified repairers, and you'll get your product back working exactly the way it should.
       </p>
-    </div>
-    <div className="w-1/3 sm:w-1/3  ">
+    <div className="w-[30%]">
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcM--txB8ScFUfGtFXBQ6ojoKSp16F1Ciatw&usqp=CAU" alt="Image" />
     </div>
 
