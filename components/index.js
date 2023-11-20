@@ -22,6 +22,7 @@ import SwapAppleWatch from '@/app/swap-apple-watch/page'
 import BuyAppleWatch from '@/app/buy-apple-watch/page'
 import BuyMac from '@/app/buy-mac/page'
 import BuyAirPods from '@/app/buy-airpods/page'
+import BuyAccessories from '@/app/buy-accessories/page'
 
 
 export {
@@ -46,5 +47,6 @@ export {
     SwapAppleWatch,
     BuyAppleWatch,
     BuyMac,
-    BuyAirPods
+    BuyAirPods, 
+    BuyAccessories
 }

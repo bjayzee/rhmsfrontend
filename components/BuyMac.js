@@ -150,8 +150,7 @@ const BuyMac = () => {
                                 value="used"
                                 onChange={() => {
                                   setSelectedCondition('used');
-                                //   setShowAddToCart(true); 
-                                //   setCheckoutButton(true)
+                                
                                 } } />
                                 Used
                             </label></div>
@@ -181,9 +180,7 @@ const BuyMac = () => {
 
                                     </div>
                                     <div className='flex '>
-                                    {/* <p className=' mr-2'> {watchSize}</p>
-                                    <p className='mr-2'> {gpsState}</p>
-                                    <p className=' mr-2'> {materialState}</p> */}
+                                    
                                     </div>
 
                                     <div className='flex justify-between'>
