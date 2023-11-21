@@ -1291,8 +1291,8 @@ export default function Buy() {
                                      borderRadius:'20px',
                                      color: 'white', 
                                      marginTop:'30px' }}>
-                                      <Link href = "/howToCheckOut">Checkout</Link>
-                                      
+                                      <Link href ="/howToCheckOut">Checkout</Link>
+                     
                                       </button>
 
                                       

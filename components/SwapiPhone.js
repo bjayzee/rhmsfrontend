@@ -326,25 +326,29 @@ const SwapiPhone = () => {
                 </div>
 
                 <div className=" ">
-                  <div className="flex">
-                    <input
-                      type="radio"
-                      name="condition"
-                      checked={selectedCondition === "locked"}
-                      onChange={() => handleConditionSelect("locked")}
-                      className="w-4 h-8 pr-[5px] mt-[3px]"
-                    />
+                  <div className="flex items-center space-x-5">
+                    <div className="flex items-center justify-center space-x-2">
+                      <input
+                        type="radio"
+                        name="condition"
+                        checked={selectedCondition === "locked"}
+                        onChange={() => handleConditionSelect("locked")}
+                        className="w-4 h-8 mt-[3px]"
+                      />
 
-                    <p className="pl-2 mx-3 mt-2">Locked</p>
+                      <p className="mx-1 mt-2">Locked</p>
+                    </div>
 
-                    <input
-                      type="radio"
-                      name="condition"
-                      checked={selectedCondition === "unlocked"}
-                      onChange={() => handleConditionSelect("unlocked")}
-                      className="w-4 h-8 pr-[5px] mt-[3px]"
-                    />
-                    <p className="pl-2 mx-1 mt-2">Unlocked</p>
+                    <div className="flex items-center justify-center space-x-2">
+                      <input
+                        type="radio"
+                        name="condition"
+                        checked={selectedCondition === "unlocked"}
+                        onChange={() => handleConditionSelect("unlocked")}
+                        className="w-4 h-8 mt-[3px]"
+                      />
+                      <p className="mx-1 mt-2">Unlocked</p>
+                    </div>
                   </div>
                 </div>
 
@@ -355,7 +359,7 @@ const SwapiPhone = () => {
                       name="storage"
                       checked={selectedStorage === "64GB"}
                       onChange={() => handleStorageSelect("64GB")}
-                      className="w-4 h-8 pr-[5px] mt-[3px]"
+                      className="w-4 h-8 mt-[3px]"
                     />
                     <p className="pl-2 mx-1 mt-2 mr-7">64GB</p>
                     <input
@@ -363,7 +367,7 @@ const SwapiPhone = () => {
                       name="storage"
                       checked={selectedStorage === "256GB"}
                       onChange={() => handleStorageSelect("256GB")}
-                      className="w-4 h-8 pr-[5px] mt-[3px]"
+                      className="w-4 h-8 mt-[3px]"
                     />
                     <p className="pl-2  mx-1 mt-2 mr-7">256GB</p>
                     <input
@@ -371,7 +375,7 @@ const SwapiPhone = () => {
                       name="storage"
                       checked={selectedStorage === "512GB"}
                       onChange={() => handleStorageSelect("512GB")}
-                      className="w-4 h-8 pr-[5px] mt-[3px]"
+                      className="w-4 h-8 mt-[3px]"
                     />
                     <p className="pl-2 mx-1 mt-2">512GB</p>
                   </div>
@@ -416,7 +420,12 @@ const SwapiPhone = () => {
                 </div>
 
                 {showDropdown && (
-                  <div className="mt-10 text-xl">
+                  <div
+                    className={`mt-10 ${
+                      !phoneSelection &&
+                      "p-5 grid grid-cols-2 text-xl border-solid rounded-[20px] bg-white shadow right-4 left-4 border-[#D9D9D9] border-r-8 border-b-8"
+                    }`}
+                  >
                     {models.map((model, index) => (
                       <div className="flex justify-start">
                         <div
@@ -431,10 +440,7 @@ const SwapiPhone = () => {
                             setCurrentPictureIndex(0);
                           }}
                         >
-                          <div className="grid grid-cols-1 p-5 space-y-4 flex-wrap">
-                            <p className="text-sm font-bold">{model.name}</p>
-                          </div>
-
+                          <p className="font-bold py-3">{model.name}</p>
                           {selectedModel === index && (
                             <div>
                               <div className="">
@@ -573,7 +579,6 @@ const SwapiPhone = () => {
                                             <div className="flex text-[16px]">
                                               <label>
                                                 <div className="flex">
-                                                  <p className=" mt-1">Red</p>
                                                   <input
                                                     type="radio"
                                                     class=" w-5 h-8  mx-2"
@@ -591,14 +596,12 @@ const SwapiPhone = () => {
                                                       ); // Show storage options
                                                     }}
                                                   />
+                                                  <p className=" mt-1">Red</p>
                                                 </div>
                                               </label>
 
                                               <label className="">
                                                 <div className="flex">
-                                                  <p className="pl-2 mt-1">
-                                                    Blue
-                                                  </p>
                                                   <input
                                                     type="radio"
                                                     class=" w-5 h-8  mx-2"
@@ -613,13 +616,13 @@ const SwapiPhone = () => {
                                                       ); // Show storage options
                                                     }}
                                                   />
+                                                  <p className="pl-2 mt-1">
+                                                    Blue
+                                                  </p>
                                                 </div>
                                               </label>
                                               <label>
                                                 <div className="flex">
-                                                  <p className="pl-2 mt-1">
-                                                    Black
-                                                  </p>
                                                   <input
                                                     type="radio"
                                                     class=" w-5 h-8  mx-2"
@@ -634,11 +637,13 @@ const SwapiPhone = () => {
                                                       ); // Show storage options
                                                     }}
                                                   />
+                                                  <p className="pl-2 mt-1">
+                                                    Black
+                                                  </p>
                                                 </div>
                                               </label>
                                               <label className="">
                                                 <div className="flex">
-                                                  <p className=" mt-1">Green</p>
                                                   <input
                                                     type="radio"
                                                     class=" w-5 h-8  mx-2"
@@ -653,13 +658,11 @@ const SwapiPhone = () => {
                                                       ); // Show storage options
                                                     }}
                                                   />
+                                                  <p className=" mt-1">Green</p>
                                                 </div>
                                               </label>
                                               <label>
                                                 <div className="flex">
-                                                  <p className="pl-2 mt-1">
-                                                    Pink
-                                                  </p>
                                                   <input
                                                     type="radio"
                                                     class=" w-5 h-8  mx-2"
@@ -674,6 +677,9 @@ const SwapiPhone = () => {
                                                       );
                                                     }}
                                                   />
+                                                  <p className="pl-2 mt-1">
+                                                    Pink
+                                                  </p>
                                                 </div>
                                               </label>
                                             </div>
@@ -750,9 +756,8 @@ const SwapiPhone = () => {
                                             {showAddToCart &&
                                               selectedModel !== null && (
                                                 <div className="selected-model-details flex flex-col space-y-5 mt-10">
-
                                                   <div className="flex space-x-3 mt-2 font-bold text-xl">
-                                                    <span>1 {selectedCondition}</span>
+                                                    <span> 1 {selectedCondition}</span>
                                                     <span>{models[selectedModel].name}</span>
                                                     <span>{selectedStorage}</span>
                                                   </div>
@@ -769,14 +774,19 @@ const SwapiPhone = () => {
                                                   </div>
 
                                                   <div className="flex justify-between font-bold text-xl">
-                                                    <p>Price after swap:</p>
-                                                    <p>{models[selectedModel].price}</p>
+                                                    <span>Price after swap:</span>
+                                                    <span>{models[selectedModel].price}</span>
                                                   </div>
 
                                                   <div className="flex justify-end">
-                                                     <span onClick={() =>
+                                                    <span
+                                                      onClick={() =>
                                                         setShowAddToCart(false)
-                                                      } className="py-10 text-[#187EB4] font-bold text-[20px]">Remove</span>
+                                                      }
+                                                      className="py-10 text-[#187EB4] font-bold text-[20px]"
+                                                    >
+                                                      Remove
+                                                    </span>
                                                   </div>
                                                 </div>
                                               )}
@@ -795,14 +805,16 @@ const SwapiPhone = () => {
                                             {checkoutButton && (
                                               <>
                                                 <div className="flex justify-center items-center">
-                                                    <Link className="bg-[#187EB4] text-[#FFFFFF] rounded-full px-16 py-5" href="/howToCheckOut">
-                                                      CHECKOUT
-                                                    </Link>
-                                                 
+                                                  <Link
+                                                    className="bg-[#187EB4] text-[#FFFFFF] rounded-full px-16 py-5"
+                                                    href="/howToCheckOut"
+                                                  >
+                                                    CHECKOUT
+                                                  </Link>
                                                 </div>
-                                                  <p className="text-[#187EB4] text-center font-semibold py-2">
-                                                    Add more items
-                                                  </p>
+                                                <p className="text-[#187EB4] text-center font-semibold py-2">
+                                                  Add more items
+                                                </p>
                                               </>
                                             )}
                                           </div>
