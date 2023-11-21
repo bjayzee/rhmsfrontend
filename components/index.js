@@ -23,6 +23,7 @@ import BuyAppleWatch from '@/app/buy-apple-watch/page'
 import BuyMac from '@/app/buy-mac/page'
 import BuyAirPods from '@/app/buy-airpods/page'
 import BuyAccessories from '@/app/buy-accessories/page'
+import BuyNowPayLater from '@/app/buy-now-pay-later/page'
 
 
 export {
@@ -48,5 +49,6 @@ export {
     BuyAppleWatch,
     BuyMac,
     BuyAirPods, 
-    BuyAccessories
+    BuyAccessories,
+    BuyNowPayLater
 }
