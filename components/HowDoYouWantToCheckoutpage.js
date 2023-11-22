@@ -1,15 +1,14 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 
-
-
 const HowDoYouWantToCheckoutPage = () => {
   return (
-    <div>
+    <>
       <div className="font-bold pl-20 m-5">
         <h2>How do you want to checkout?</h2>
       </div>
-      <div className=" flex m-5   pl-10 font-bold">
+      <div className="flex m-5 pl-10 font-bold">
         <button
           style={{
             border: "2px solid #187EB4",
@@ -34,7 +33,7 @@ const HowDoYouWantToCheckoutPage = () => {
           <Link href="/checkoutPage">As a guest</Link>
         </button>
       </div>
-    </div>
+    </>
   );
 };
 
