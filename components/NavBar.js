@@ -52,7 +52,7 @@ const NavBar = () => {
             onClick={() => setShowMenu(false)}
             className="text-[40px] ml-[-5px] mb-5 mt-1 font-bold"
           />
-          <div className="flex flex-col space-y-8 font-bold text-xl">
+          <div onClick={() => setShowMenu(false)} className="flex flex-col space-y-8 font-bold text-xl">
             <Link href="">Swap iPhone</Link>
             <Link href="">iWatch</Link>
             <Link href="/buy">Buy iPhone</Link>
