@@ -111,7 +111,7 @@ const Hero = () => {
 
         <section className='flex justify-between gap-3 p-2'>
 
-        <div className='cursor-pointer flex flex-col items-center justify-center'>
+        <div className='cursor-pointer flex flex-col items-center justify-center' onClick={() => handleClick("buy-accessories")}>
              <div className='flex items-center justify-center w-24 h-16 bg-white shadow-2xl rounded-2xl p-3 border-[#D9D9D9] border-r-8 border-b-8'>
                <Image
                 src='/phoneicon.png'
@@ -129,7 +129,7 @@ const Hero = () => {
             <span className='text-rh-blue text-sm font-semibold text-center py-2'>Buy Accessories</span>
           </div>
 
-           <div className='cursor-pointer flex flex-col items-center justify-center'>
+           <div onClick={() => handleClick("buy-now-pay-later")} className='cursor-pointer flex flex-col items-center justify-center'>
              <div className='flex items-center justify-center w-24 h-16 bg-white shadow-2xl rounded-2xl p-3 border-[#D9D9D9] border-r-8 border-b-8'>
                <Image
                 src='/basket.png'

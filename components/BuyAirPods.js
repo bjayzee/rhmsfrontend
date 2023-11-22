@@ -25,9 +25,11 @@ const BuyAirPods = () => {
         setRemoveItem(false);
         setCheckoutButton(true);
         setAddToCartButton(false)
-        
+       
         
     }
+
+    
 
     const models = [
         {
@@ -119,7 +121,7 @@ const BuyAirPods = () => {
                                         marginTop:'30px',
                                         color: 'white' }}>
 
-                                            {/* onChange={setCheckoutButton(true)} */}
+                                           
                                         Add to Cart 
                     </button>
                      </div>                
@@ -190,9 +192,7 @@ const BuyAirPods = () => {
 
                                     </div>
                                     <div className='flex '>
-                                    {/* <p className=' mr-2'> {watchSize}</p>
-                                    <p className='mr-2'> {gpsState}</p>
-                                    <p className=' mr-2'> {materialState}</p> */}
+                                   
                                     </div>
 
                                     <div className='flex justify-between'>
@@ -253,6 +253,48 @@ const BuyAirPods = () => {
                       
                     </div>
                   )}
+
+                                {checkoutButton &&(
+                                    <div>
+                                        <div className="selected-model-details">
+                                    <div className='flex m-2 font-bold'>
+                                    <p className=' pr-1'>1 {selectedCondition}</p>
+                                    <p > {models[selectedModel].name}</p>
+
+                                    </div>
+                                    <div className='flex '>
+                                   
+                                    </div>
+
+                                    <div className='flex justify-between'>
+                                    <p>Price:</p>
+                                    <p> {models[selectedModel].price}</p>
+                                    </div>
+                                    <button style={{  paddingLeft: '110px ',  marginTop:'30px',color: '#187EB4' }}onClick={() => setShowAddToCart(false)}>Remove</button>
+
+                                    </div>
+                                    
+                                    <div  className=" flex justify-center items-center">
+                                    <button  
+                                    style={{ 
+                                        backgroundColor: '#187EB4',
+                                        padding: '10px 35px',
+                                        borderRadius:'20px',
+                                        color: 'white', 
+                                        marginTop:'30px' }}>
+                                        <Link href = "/howToCheckOut">Checkout</Link>
+                                        
+                                        </button>
+
+                                        
+                                    </div>
+                                    
+                                    <div  className=" flex justify-center items-center">
+                                    
+                                    <p style={{ color: '#187EB4' }}>Add more items</p>
+                                    </div>
+                                    </div>
+                                    )}
 
                   {/* Ends here */}
                 </div>
