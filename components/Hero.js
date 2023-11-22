@@ -13,8 +13,8 @@ const Hero = () => {
   return (
     <div className="px-5 overflow-x-hidden mt-40 bg-[#FFFFFF]">
       <section className="flex justify-between gap-3 p-2">
-        <Link
-          href="/swap-iphone-page"
+        <div
+          onClick={() => handleClick("swap-iphone-page")}
           className="cursor-pointer flex flex-col items-center justify-center"
         >
           <div className="flex items-center justify-center w-24 h-16 bg-white shadow-2xl rounded-2xl p-3 border-[#D9D9D9] border-r-8 border-b-8">
@@ -27,7 +27,7 @@ const Hero = () => {
           <span className="text-rh-blue text-sm font-semibold text-center py-2">
             Swap iPhones
           </span>
-        </Link>
+        </div>
 
         <div
           className="cursor-pointer flex flex-col items-center justify-center"
