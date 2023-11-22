@@ -1,4 +1,4 @@
-import Repair from "@/components/Repair"
+import { Repair } from "@/components"
 
 const RepairPage = () => {
   return (

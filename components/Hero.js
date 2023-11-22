@@ -14,29 +14,26 @@ const Hero = () => {
     
       <div className="px-5 overflow-x-hidden mt-40 bg-[#FFFFFF]">
         <section className='flex justify-between gap-3 p-2'>
-          <Link href='/swap-iphone-page' className="cursor-pointer flex flex-col items-center justify-center">
-            <div className='flex items-center justify-center w-24 h-16 bg-white shadow-2xl rounded-2xl p-3 border-[#D9D9D9] border-r-8 border-b-8'>
-              <Image
-                src='/phoneicon.png'
-                height={20}
-                width={30} />
-                 
-              <Image
-                src='/swapicon.png'
-                height={10}
-                width={30} />
-              <Image
-                src='/iphoneicon.png'
-                height={20}
-                width={30} />
-            </div>
-          
-              <span className='text-rh-blue text-sm font-semibold text-center py-2'>Swap iPhones</span>
-           
-          </Link>
-
-
-          <div className="cursor-pointer flex flex-col items-center justify-center">
+          <div className="cursor-pointer flex flex-col items-center justify-center" onClick={() => handleClick("swap-iphone")}>
+              <div className='flex items-center justify-center w-24 h-16 bg-white shadow-2xl rounded-2xl p-3 border-[#D9D9D9] border-r-8 border-b-8'>
+                <Image
+                  src='/phoneicon.png'
+                  height={20}
+                  width={30} />
+                  
+                <Image
+                  src='/swapicon.png'
+                  height={10}
+                  width={30} />
+                <Image
+                  src='/iphoneicon.png'
+                  height={20}
+                  width={30} />
+              </div>
+            
+                <span className='text-rh-blue text-sm font-semibold text-center py-2'>Swap iPhones</span>
+          </div>
+        <div className="cursor-pointer flex flex-col items-center justify-center" onClick={() => handleClick("swap-apple-watch")}>
             <div className='flex items-center justify-center w-24 h-16 bg-white shadow-2xl p-3 rounded-2xl p-3 border-[#D9D9D9] border-r-8 border-b-8'>
               <Image
                 src='/watch.png'
@@ -76,7 +73,7 @@ const Hero = () => {
 
 
         <section className='flex justify-between gap-3 p-2'>
-          <div className='cursor-pointer flex flex-col items-center justify-center'>
+        <div className='cursor-pointer flex flex-col items-center justify-center' onClick={() => handleClick("buy-apple-watch")}>
              <div className='flex items-center justify-center w-24 h-16 bg-white shadow-2xl rounded-2xl p-3 p-3 border-[#D9D9D9] border-r-8 border-b-8'>
                <Image
                 src='/iwatchy.png'
@@ -87,7 +84,7 @@ const Hero = () => {
           </div>
 
 
-         <div className='cursor-pointer flex flex-col items-center justify-center'>
+        <div className='cursor-pointer flex flex-col items-center justify-center' onClick={() => handleClick("buy-mac")}>
              <div className='flex items-center justify-center w-24 h-16 bg-white shadow-2xl rounded-2xl p-3 border-[#D9D9D9] border-r-8 border-b-8'>
                <Image
                src='/mac.png'
@@ -98,7 +95,7 @@ const Hero = () => {
           </div>
 
           
-         <div className='cursor-pointer flex flex-col items-center justify-center'>
+        <div className='cursor-pointer flex flex-col items-center justify-center' onClick={() => handleClick("buy-airpods")}>
              <div className='flex items-center justify-center w-24 h-16 bg-white shadow-2xl rounded-2xl p-3 border-[#D9D9D9] border-r-8 border-b-8'>
                <Image
                 src='/pod.png'

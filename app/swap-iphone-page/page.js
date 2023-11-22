@@ -1,5 +1,4 @@
-import SwapiPhone from '@/components/SwapiPhone'
-import React from 'react'
+import { SwapiPhone } from "@/components"
 
 const MySwapiPhonePage = () => {
   return (
