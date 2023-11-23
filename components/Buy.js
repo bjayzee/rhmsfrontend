@@ -432,9 +432,17 @@ export default function Buy() {
   const [checkoutButton, setCheckoutButton] = useState(false);
  
 
+  
+
   const showNextPicture = () => {
     setCurrentPictureIndex((prevIndex) => (prevIndex + 1) % models[selectedModel].pictures.length);
   };
+
+
+  
+
+  
+  
 
   // Function to handle storage selection
   const handleStorageSelection = (storage) => {
@@ -471,6 +479,7 @@ export default function Buy() {
             onClick={() => {
               setSelectedModel(index);
               setCurrentPictureIndex(0);
+             
             }}
           >
             <div className="flex justify-between">

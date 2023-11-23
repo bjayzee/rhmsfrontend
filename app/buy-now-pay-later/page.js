@@ -1,5 +1,4 @@
-import BuyNowPayLater from '@/components/BuyNowPayLater'
-import React from 'react'
+import { BuyNowPayLater } from "@/components"
 
 const MyBuyNowPayLater = () => {
   return (

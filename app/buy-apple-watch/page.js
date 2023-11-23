@@ -1,4 +1,4 @@
-import BuyAppleWatch from '@/components/BuyAppleWatch'
+import { BuyAppleWatch } from '@/components'
 import React from 'react'
 
 const MyBuyAppleWatch = () => {

@@ -8,22 +8,24 @@ import HeroCard from './HeroCard'
 import DealODayCard from './DealODayCard'
 import Link from 'next/link';
 
-import Repair from '@/app/repair/page'
-import Buy from  '@/app/buy/page'
-import CheckoutPage from '@/app/checkoutPage/page'
-import HowToCheckOut from '@/app/howToCheckOut/page'
-import GuestOrderSuccessfulPage from '@/app/guestOrderSuccessfulPage/page'
-import OrderReviewPage from '@/app/order-review-page/page'
-import CardInfoPage from '@/app/card-info-page/page'
-import DeliveryOrderSuccessPage from '@/app/delivery-order-successfully-completed/page'
-import SignInPage from '@/app/signin-page/page'
-import SwapiPhone from '@/app/swap-iphone-page/page'
-import SwapAppleWatch from '@/app/swap-apple-watch/page'
-import BuyAppleWatch from '@/app/buy-apple-watch/page'
-import BuyMac from '@/app/buy-mac/page'
-import BuyAirPods from '@/app/buy-airpods/page'
-import BuyAccessories from '@/app/buy-accessories/page'
-import BuyNowPayLater from '@/app/buy-now-pay-later/page'
+import Repair from './Repair'
+import Buy from './Buy'
+import CheckoutPage from './CheckoutPage'
+import HowDoYouWantToCheckoutPage from './HowDoYouWantToCheckoutpage'
+import GuestOrderSuccessfulPage from './GuestOrderSuccessfulPage'
+import OrderReviewPage from './OrderReviewPage'
+import CardInfoPage from './CardInfoPage'
+import DeliveryGuestOrderSuccessfulPage from './DeliveryGuestOrderSuccessfulPage'
+import DeliveryInfoPage from './DeliveryInfoPage'
+import SignInPage from './SignInPage'
+import SwapiPhone from './SwapiPhone'
+import SwapAppleWatch from './SwapAppleWatch'
+import BuyAppleWatch from './BuyAppleWatch'
+import BuyMac from './BuyMac'
+import BuyAirPods from './BuyAirPods'
+import BuyAccessories from './BuyAccessories'
+import BuyNowPayLater from './BuyNowPayLater'
+import PickUpStorePage from './PickUpStorePage'
 
 
 export {
@@ -38,17 +40,19 @@ export {
     Repair,
     Buy,
     CheckoutPage,
-    HowToCheckOut,
+    HowDoYouWantToCheckoutPage,
     GuestOrderSuccessfulPage,
     OrderReviewPage,
     CardInfoPage,
-    DeliveryOrderSuccessPage,
+    DeliveryGuestOrderSuccessfulPage,
+    DeliveryInfoPage,
     SignInPage,
     SwapiPhone,
     SwapAppleWatch,
     BuyAppleWatch,
     BuyMac,
     BuyAirPods, 
+    BuyNowPayLater,
     BuyAccessories,
-    BuyNowPayLater
+    PickUpStorePage
 }

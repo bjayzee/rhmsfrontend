@@ -1,5 +1,5 @@
-import CardInfoPage from '@/components/CardInfoPage'
-import React from 'react'
+import { CardInfoPage } from "@/components"
+
 
 const MyCardInfoPage = () => {
   return (

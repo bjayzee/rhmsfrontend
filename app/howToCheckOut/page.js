@@ -1,7 +1,4 @@
-
-
-import HowDoYouWantToCheckoutPage from '@/components/HowDoYouWantToCheckoutpage'
-import React from 'react'
+import {HowDoYouWantToCheckoutPage} from '@/components'
 
 const HowToCheckOut = () => {
   return (

@@ -1,4 +1,4 @@
-import OrderReviewPage from '@/components/OrderReviewPage'
+import { OrderReviewPage } from '@/components'
 import React from 'react'
 
 const MyOrderReviewPage = () => {

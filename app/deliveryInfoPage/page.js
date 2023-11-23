@@ -1,8 +1,11 @@
-import DeliveryInfoPage from '@/components/DeliveryInfoPage'
-import React from 'react'
+// import DeliveryInfoPage from '@/components/DeliveryInfoPage'
+
+import {DeliveryInfoPage} from '@/components'
+
 
 const MyDeliveryInfoPage = () => {
   return (
+    
     <DeliveryInfoPage/>
   )
 }

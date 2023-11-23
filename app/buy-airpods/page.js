@@ -1,5 +1,5 @@
-import React from 'react'
-import BuyAirPods from '@/components/BuyAirPods'
+
+import { BuyAirPods } from '@/components'
 const MyBuyAirPods = () => {
   return (
     <BuyAirPods/>

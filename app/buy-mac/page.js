@@ -1,5 +1,5 @@
-import BuyMac from '@/components/BuyMac'
-import React from 'react'
+import { BuyMac } from "@/components"
+
 
 const MyBuyMac = () => {
   return (

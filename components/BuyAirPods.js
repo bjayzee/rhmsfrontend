@@ -133,40 +133,7 @@ const BuyAirPods = () => {
                   <div>
                   
                      
-                    {/* {removeItem !== false &&(
-                       <div>
-                         <div className="font-bold">
-                            <p>Pick your preference</p>
-                          </div>
-                          <label  className='m-3'>
-                              
-                              <input
-                                type="radio"
-                                name={`condition-${model.name}`}
-                                value="brand-new"
-                                onChange={() => {
-                                  setSelectedCondition('brand-new');
-                                  
-                                  setShowAddToCart(true); 
-                                  setAddToCartButton(true)
-                                
-                                } } />
-                                Brand New
-                            </label>
-                            <label>
-                              
-                              <input
-                                type="radio"
-                                name={`condition-${model.name}`}
-                                value="used"
-                                onChange={() => {
-                                  setSelectedCondition('used');
-                                //   setShowAddToCart(true); 
-                                //   setCheckoutButton(true)
-                                } } />
-                                Used
-                            </label></div>
-                     )}  */}
+                   
                   
                     
                    
