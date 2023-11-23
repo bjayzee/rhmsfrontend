@@ -1,8 +1,7 @@
 import connectDB from "@/server/utils/db";
-import repairController from "@/server/controller/repairController"
 import { NextResponse } from "next/server";
-import RepairCenter from "@/server/models/RepairCenter";
 import httpStatus from "http-status";
+import { RepairCenter } from "@/server/models";
 
 
 export async function POST(request) {
@@ -17,7 +16,7 @@ export async function POST(request) {
             phoneNumbers: req.phoneNumbers
         });
 
-        return NextResponse.json({repairCenter});
+        return NextResponse.json({repairCenter}, {status: httpStatus.CREATED});
     } catch (error) {
         console.log(error.message)
     }
@@ -36,11 +35,13 @@ export async function GET(){
     }
 }
 
-export async function PUT(request){
+export async function DELETE(request){
     try {
-        const reqObj = await request.body.json();
-
+        const id = request.nextUrl.searchParams.get("id");
+        await connectDB();
+        await RepairCenter.findByIdAndDelete(id);
+        return NextResponse.json({status: httpStatus.DELETE}, {message: "Repair center deleted successfully"});
     } catch (error) {
-        
+        return NextResponse.json({status: httpStatus.BAD_REQUEST}, {message: error.message});        
     }
 }
