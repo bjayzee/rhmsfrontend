@@ -1,4 +1,4 @@
-import SwapAppleWatch from '@/components/SwapAppleWatch'
+import {SwapAppleWatch} from '@/components'
 import React from 'react'
 
 const MySwapAppleWatch = () => {

@@ -1,5 +1,5 @@
-import React from 'react'
-import PickUpStorePage from '@/components/PickUpStorePage'
+
+import {PickUpStorePage} from '@/components'
 
 const MyPickUpStorePage = () => {
   return (

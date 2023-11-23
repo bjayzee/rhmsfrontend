@@ -1,11 +1,13 @@
-import BuyAccesories from '@/components/BuyAccesories'
+import { BuyAccessories } from '@/components'
 import React from 'react'
 
 
-const MyBuyAccessories = () => {
+const BuyAccessoriesPage = () => {
   return (
-    <BuyAccesories/>
+  
+  <BuyAccessories/>
+   
   )
 }
 
-export default MyBuyAccessories
+export default BuyAccessoriesPage
