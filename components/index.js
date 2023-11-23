@@ -6,12 +6,10 @@ import PNav from './PNav'
 import RHMSNEWS from './RHMSNEWS'
 import HeroCard from './HeroCard'
 import DealODayCard from './DealODayCard'
-import Link from 'next/link';
 
 import Repair from './Repair'
 import Buy from './Buy'
 import CheckoutPage from './CheckoutPage'
-import HowDoYouWantToCheckoutPage from './HowDoYouWantToCheckoutpage'
 import GuestOrderSuccessfulPage from './GuestOrderSuccessfulPage'
 import OrderReviewPage from './OrderReviewPage'
 import CardInfoPage from './CardInfoPage'
@@ -26,7 +24,7 @@ import BuyAirPods from './BuyAirPods'
 import BuyAccessories from './BuyAccessories'
 import BuyNowPayLater from './BuyNowPayLater'
 import PickUpStorePage from './PickUpStorePage'
-
+import HowToCheckOut from './HowToCheckOut'
 
 export {
     Hero,
@@ -36,11 +34,11 @@ export {
     PNav,
     RHMSNEWS,
     HeroCard,
+    HowToCheckOut,
     DealODayCard,
     Repair,
     Buy,
     CheckoutPage,
-    HowDoYouWantToCheckoutPage,
     GuestOrderSuccessfulPage,
     OrderReviewPage,
     CardInfoPage,

@@ -1,4 +1,5 @@
-import { HowToCheckOut } from "@/components"
+import { HowToCheckOut } from "@/components";
+import HeroCard from "@/components/HeroCard";
 
 const page = () => {
   return (
