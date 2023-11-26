@@ -1,5 +1,4 @@
-"use client"
-
+"use client";
 import Image from 'next/image';
 import HeroCard from './HeroCard';
 import Link from 'next/link';
@@ -19,7 +18,6 @@ const Hero = () => {
         >
           <div className="flex items-center justify-center w-24 h-16 bg-white shadow-2xl rounded-2xl p-3 border-[#D9D9D9] border-r-8 border-b-8">
             <Image src="/phoneicon.png" height={20} width={30} />
-
             <Image src="/swapicon.png" height={10} width={30} />
             <Image src="/iphoneicon.png" height={20} width={30} />
           </div>

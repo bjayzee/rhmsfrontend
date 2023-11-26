@@ -773,7 +773,7 @@ const SwapiPhone = () => {
                                                     <span>{models[selectedModel].price}</span>
                                                   </div>
 
-                                                  <div className="flex justify-between font-bold text-xl">
+                                                  <div className="flex justify-between items-center font-bold text-xl">
                                                     <span>Price after swap:</span>
                                                     <span>{models[selectedModel].price}</span>
                                                   </div>
