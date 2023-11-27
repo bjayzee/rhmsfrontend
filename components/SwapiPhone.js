@@ -378,6 +378,8 @@ const SwapiPhone = () => {
                     <p className="pl-2 mx-1 mt-2">512GB</p>
                   </div>
                 </div>
+
+
               </div>
             )}
 

@@ -1,7 +1,6 @@
 "use client";
+import React from 'react';
 import HowDoYouWantToCheckoutPage from '@/components/HowDoYouWantToCheckoutpage'
-import React from 'react'
-import Link from "next/link";
 
 const page = () => {
   return (

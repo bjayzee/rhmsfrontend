@@ -15,7 +15,7 @@ const NavBar = () => {
   }, [pathname]);
 
   return (
-    <div className="fixed z-20 top-16 right-0 left-0">
+    <div className="fixed z-20 top-16 right-0 left-0 ">
       <div className="w-full bg-rh-blue flex flex-row items-center h-55 py-5 px-3 relative">
         <Image
           className={`${showMenu && "invisible"}`}
