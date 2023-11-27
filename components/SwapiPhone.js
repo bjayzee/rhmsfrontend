@@ -16,14 +16,12 @@ const SwapiPhone = () => {
   const [createSpace, setCreateSpace] = useState(true);
   const [selectedModel, setSelectedModel] = useState(null);
   const [currentPictureIndex, setCurrentPictureIndex] = useState(0);
-  const [selectedNewPhoneCondition, setSelectedNewPhoneCondition] =
-    useState(null);
+  const [selectedNewPhoneCondition, setSelectedNewPhoneCondition] = useState(null);
   const [lockState, setLockState] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedNewPhoneStorage, setSelectedNewPhoneStorage] = useState(null);
   const [showAddToCart, setShowAddToCart] = useState(false);
   const [checkoutButton, setCheckoutButton] = useState(false);
-
   const [showStorageOptions, setShowStorageOptions] = useState(false);
   const [addToCartButton, setAddToCartButton] = useState(false);
 

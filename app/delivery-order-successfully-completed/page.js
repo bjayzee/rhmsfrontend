@@ -1,10 +1,10 @@
-import DeliveryGuestOrderSuccessfulPage from '@/components/DeliveryGuestOrderSuccessfulPage'
-import React from 'react'
+import { DeliveryGuestOrderSuccessfulPage } from '@/components'
 
-const MyDeliveryOrderSuccessPage = () => {
+  const MyDeliveryGuestOrderSuccessfulPage = () =>{
+
   return (
     <DeliveryGuestOrderSuccessfulPage/>
   )
 }
 
-export default MyDeliveryOrderSuccessPage
+export default MyDeliveryGuestOrderSuccessfulPage

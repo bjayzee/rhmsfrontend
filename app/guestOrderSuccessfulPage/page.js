@@ -1,5 +1,4 @@
-import React from 'react'
-import GuestOrderSuccessfulPage from '@/components/GuestOrderSuccessfulPage'
+import { GuestOrderSuccessfulPage } from '@/components'
 
 const MyGuestOrderSuccessfulPage = () => {
   return (

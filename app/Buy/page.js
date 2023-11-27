@@ -1,4 +1,5 @@
-import Buy from "@/components/Buy"
+import { Buy } from "@/components"
+
 
 const BuyPage = () => {
   return (
