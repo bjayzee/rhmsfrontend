@@ -2,6 +2,8 @@
 "use client"; 
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { IoIosArrowRoundBack } from "react-icons/io";
+import { FaPlay } from "react-icons/fa";
 
 
 const SwapiPhone = () => {
@@ -168,10 +170,12 @@ const SwapiPhone = () => {
     <div >
       <div className='mb-20'>
       <div  >
+     
       {createSpace !== false && (
         <div>
 
       <div className="m-8 text-lg font-bold">
+      <IoIosArrowRoundBack className="text-[50px] text-[#187EB4] m-5 mb-4 ml-[-11px]" />
       <h1>Give and get:</h1>
       <h1>The swap-way is the best way</h1>
         </div>
@@ -180,33 +184,19 @@ const SwapiPhone = () => {
       <p>selection.</p>
       </div>
       <div className="flex text-md ">
-        <div className=' w-full mt-7 pl-5 font-bold'>
+        <div className=' w-full mt-7 pl-8 font-bold'>
           <p>Let's value your iPhone</p>
         </div>
 
         <div className=" w-full pr-5 py-4  ">
-          <button
-            className="w-full border-solid mr-20 px-3 py-4 rounded-lg shadow-lg  "
-            onClick={handleSelectClick}
           
-          >
-           <div className='flex space-between '>
-            <div className=''>
-              {selectedOption ? selectedOption.label : 'Select your phone'}
-            </div>
-             
-            <span>
-              <div>
-              <img
-          src="/phoneicon.png" // Replace with the actual image source
-          alt="Phone Image"
-          className="mr-2" // Adjust margin as needed
-          style={{ width: '20px', height: '20px' }} // Adjust size as needed
-        />
-              </div>
-            </span>
-           </div>
-          </button>
+                <button
+                  className="px-3 py-4 rounded-xl shadow-lg flex items-center border-[#D9D9D9] border-r-8 border-b-8"
+                  onClick={handleSelectClick}
+                >
+                  {selectedOption ? selectedOption.label : "Select your phone"}
+                  <FaPlay className="text-[30px] text-[#187EB4] ml-1" />
+                </button>
           <p 
           style={{
             color:'#187EB4',
@@ -238,11 +228,12 @@ const SwapiPhone = () => {
             {createSpace !== false && (
           <div>
            
-            <div className='font-bold m-5'>
-            <h2>What is the condition of the phone?</h2>
-            </div>
+           
+            <span className="font-bold m-5 text-xl">
+              What is the condition of the phone?
+            </span>
            {/* {removeItem !== false && ( */}
-             <div style={{borderColor:'#187EB4'}} className="border  px-8 m-8 rounded-lg  ">
+             {/* <div style={{borderColor:'#187EB4'}} className="border  px-8 m-8 rounded-lg  ">
              <div className="grid grid-cols-1 ">
                <div className="flex  mt-4 " onClick={handleShowAdditionalOptions}>
                <div>
@@ -317,7 +308,107 @@ const SwapiPhone = () => {
                   screen or body  the item.</p>
                </div>
              </div>
-           </div>
+           </div> */}
+            {/* className="overflow-x-hidden py-5 px-8 mt-36" */}
+           <div className="border border-[#187EB4]  m-5 px-8 rounded-xl">
+              <div className="grid grid-cols-1">
+                <div
+                  className="flex mt-4"
+                  onClick={handleShowAdditionalOptions}
+                >
+                  <input type="radio" name="radio1" className="w-4 h-8 mt-1" />
+
+                  <span className="p-2 ml-2 font-semibold">Brand New</span>
+                </div>
+                <div className="pl-4 ml-4">
+                  <p className="pb-3 text-[16px]">
+                    Phone still in factory original packaging, Must come with
+                    box and all accessories sealed/untounched
+                  </p>
+                </div>
+                <hr />
+                <div className="flex" onClick={handleShowAdditionalOptions}>
+                  <div>
+                    <input
+                      type="radio"
+                      name="radio1"
+                      className="w-4 h-8 mt-1"
+                    />
+                  </div>
+
+                  <div>
+                    <p className="p-2  ml-2 font-semibold">Flawless</p>
+                  </div>
+                </div>
+                <div className="pl-4 ml-4">
+                  <p className="pb-3 text-[16px]">
+                    Has absolutely no scratches, scuffs or other marks looks
+                    brand new
+                  </p>
+                </div>
+                <hr />
+
+                <div className="flex" onClick={handleShowAdditionalOptions}>
+                  <div>
+                    <input
+                      type="radio"
+                      name="radio1"
+                      className=" w-4 h-8 mt-1"
+                    />
+                  </div>
+                  <div>
+                    <p className="p-2 ml-2 font-semibold">Good</p>
+                  </div>
+                </div>
+                <div className="pl-4 ml-4">
+                  <p className="pb-3 text-[16px]">
+                    Shows light to moderate sign of wear. Contatains few light
+                    scratches and/or dents.
+                  </p>
+                </div>
+                <hr />
+                <div className="flex" onClick={handleShowAdditionalOptions}>
+                  <div>
+                    <input
+                      type="radio"
+                      name="radio1"
+                      className="w-4 h-8 mt-1"
+                    />
+                  </div>
+                  <div>
+                    <p className="p-2 ml-2 font-semibold">Fair</p>
+                  </div>
+                </div>
+                <div className="pl-4 ml-4">
+                  <p className="pb-3 text-[16px]">
+                    Shows moderate to excessive signs of wear. Contains
+                    excessive scratching, major dents, and/or mild housing
+                    damage such as a slightly bent frame.
+                  </p>
+                </div>
+                <hr />
+                <div className="flex" onClick={handleShowAdditionalOptions}>
+                  <div>
+                    <input
+                      type="radio"
+                      name="radio1"
+                      className="w-4 h-8 mt-1"
+                    />
+                  </div>
+                  <div>
+                    <p className="p-2 ml-2 font-semibold">Broken </p>
+                  </div>
+                </div>
+                <div className="pl-4 ml-4">
+                  <p className="pb-3 text-[16px]">
+                    Cracks (regardless of size) or broken parts on either screen
+                    or body the item.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+
            {/* )} */}
           </div>
           )}
