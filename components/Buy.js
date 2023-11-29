@@ -507,7 +507,7 @@ export default function Buy() {
                       <BiRightArrow className="absolute right-5 text-2xl" onClick={showNextImage} />
                        <div className="absolute bottom-3 flex space-x-2">
                           {iphoneModel?.pictures.map((_, index) => (
-                            <p
+                            <span
                               className="text-2xl text-center"
                               key={index}
                               aria-label={`View Image ${index + 1}`}
@@ -518,7 +518,7 @@ export default function Buy() {
                               ) : (
                                 <GoDot className="text-[#D9D9D9]" aria-hidden />
                               )}
-                            </p>
+                            </span>
                           ))}
                         </div>
                     </div>
