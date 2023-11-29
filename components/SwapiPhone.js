@@ -2,7 +2,9 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import { BiRightArrow, BiLeftArrow } from "react-icons/bi";
 import { FaPlay } from "react-icons/fa";
+import { GoDot, GoDotFill } from "react-icons/go";
 
 const SwapiPhone = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -16,7 +18,8 @@ const SwapiPhone = () => {
   const [createSpace, setCreateSpace] = useState(true);
   const [selectedModel, setSelectedModel] = useState(null);
   const [currentPictureIndex, setCurrentPictureIndex] = useState(0);
-  const [selectedNewPhoneCondition, setSelectedNewPhoneCondition] = useState(null);
+  const [selectedNewPhoneCondition, setSelectedNewPhoneCondition] =
+    useState(null);
   const [lockState, setLockState] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedNewPhoneStorage, setSelectedNewPhoneStorage] = useState(null);
@@ -24,6 +27,8 @@ const SwapiPhone = () => {
   const [checkoutButton, setCheckoutButton] = useState(false);
   const [showStorageOptions, setShowStorageOptions] = useState(false);
   const [addToCartButton, setAddToCartButton] = useState(false);
+  const [modelIndex, setModelIndex] = useState(0);
+  const [iphoneModel, setIphoneModel] = useState("");
 
   const handleStorageSelection = (storage) => {
     setSelectedStorage(storage);
@@ -71,6 +76,29 @@ const SwapiPhone = () => {
   const handleStorageSelect = (storage) => {
     setSelectedStorage(storage);
     setPhoneSelection(true);
+  };
+
+  const handleColorChange = (iphoneColor) => {
+    setSelectedColor(iphoneColor);
+    setSelectedStorage(null);
+    setShowAddToCart(false); // Hide "Add to Cart" when color changes
+    setShowStorageOptions(true); // Show storage options
+  };
+
+  const handleLockedOrUnlockedChange = (iphoneState) => {
+    setLockState(iphoneState);
+    setSelectedColor(null);
+    setSelectedStorage(null);
+    setShowAddToCart(false); // Hide "Add to Cart" when status changes
+  };
+
+  const handleNewOrUsedChange = (iphoneState) => {
+    setSelectedNewPhoneCondition(iphoneState);
+    setLockState(null);
+    setSelectedColor(null);
+    setSelectedNewPhoneStorage(null);
+    setShowAddToCart(false); // Hide "Add to Cart" when conditions change
+    setShowStorageOptions(false);
   };
 
   const dropdownOptions = [
@@ -125,11 +153,19 @@ const SwapiPhone = () => {
     // Add more iPhone models here
   ];
 
-  const showNextPicture = () => {
-    setCurrentPictureIndex(
-      (prevIndex) => (prevIndex + 1) % models[selectedModel].pictures.length
-    );
-  };
+  function showNextImage() {
+    setCurrentPictureIndex((index) => {
+      if (index === iphoneModel?.pictures?.length - 1) return 0;
+      return index + 1;
+    });
+  }
+
+  function showPrevImage() {
+    setCurrentPictureIndex((index) => {
+      if (index === 0) return iphoneModel?.pictures?.length - 1;
+      return index - 1;
+    });
+  }
 
   const renderOption = (option) => {
     return (
@@ -163,61 +199,62 @@ const SwapiPhone = () => {
       <div className="text-xl">
         <IoIosArrowRoundBack className="text-[50px] text-[#187EB4] mb-4 ml-[-11px]" />
         <div className="font-bold text-[20px]">
-          {createSpace && (
+          {createSpace ? (
             <>
               <p>Give and get:</p>
               <p>The swap-way is the best way.</p>
             </>
+          ) : (
+            ""
           )}
         </div>
 
         <p className="py-2 font-bold">
           Browse through the phones below and make your selection.{" "}
         </p>
-        {createSpace && (
+        {createSpace ? (
           <>
-            <div className="">
-              <div className="flex items-center py-5 justify-between text-[16px]">
-                <span className="font-bold">Let's value your iPhone</span>
-                <button
-                  className="px-3 py-4 rounded-xl shadow-lg flex items-center border-[#D9D9D9] border-r-8 border-b-8"
-                  onClick={handleSelectClick}
-                >
-                  {selectedOption ? selectedOption.label : "Select your phone"}
-                  <FaPlay className="text-[30px] text-[#187EB4] ml-1" />
-                </button>
-              </div>
-              <div className="flex justify-end mt-[-20px]">
-                <p className="text-[#187EB4]">Learn how it works</p>
-              </div>
-
-              {showDropdown && (
-                <div className="my-2 p-5 border-solid rounded-[20px] bg-white shadow right-4 left-4 border-[#D9D9D9] border-r-8 border-b-8 mt-10">
-                  <div className="grid grid-cols-2">
-                    {dropdownOptions.map((option) => (
-                      <div key={option.value}>{renderOption(option)}</div>
-                    ))}
-                  </div>
-                </div>
-              )}
+            <div className="flex items-center py-5 justify-between text-[16px]">
+              <span className="font-bold">Let's value your iPhone</span>
+              <button
+                className="px-3 py-4 rounded-xl shadow-lg flex items-center border-[#D9D9D9] border-r-8 border-b-8"
+                onClick={handleSelectClick}
+              >
+                {selectedOption ? selectedOption.label : "Select your phone"}
+                <FaPlay className="text-[30px] text-[#187EB4] ml-1" />
+              </button>
             </div>
-          </>
-        )}
+            <div className="flex justify-end mt-[-20px]">
+              <p className="text-[#187EB4]">Learn how it works</p>
+            </div>
 
-        {selectedOption && createSpace && (
+            {showDropdown ? (
+              <div className="my-2 p-5 border-solid rounded-[20px] bg-white shadow right-4 left-4 border-[#D9D9D9] border-r-8 border-b-8 mt-10">
+                <div className="grid grid-cols-2">
+                  {dropdownOptions.map((option) => (
+                    <div key={option.value}>{renderOption(option)}</div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+          </>
+        ) : null}
+
+        {selectedOption && createSpace ? (
           <div className="mt-10 text-xl">
-            <span className="font-bold my-2">
+            <p className="font-bold py-3">
               What is the condition of the phone?
-            </span>
+            </p>
 
             <div className="border border-[#187EB4] px-8 rounded-xl">
               <div className="grid grid-cols-1">
                 <div
-                  className="flex mt-4"
+                  className="flex items-center"
                   onClick={handleShowAdditionalOptions}
                 >
                   <input type="radio" name="radio1" className="w-4 h-8 mt-1" />
-
                   <span className="p-2 ml-2 font-semibold">Brand New</span>
                 </div>
                 <div className="pl-4 ml-4">
@@ -226,19 +263,15 @@ const SwapiPhone = () => {
                     box and all accessories sealed/untounched
                   </p>
                 </div>
-                <hr />
-                <div className="flex" onClick={handleShowAdditionalOptions}>
-                  <div>
-                    <input
-                      type="radio"
-                      name="radio1"
-                      className="w-4 h-8 mt-1"
-                    />
-                  </div>
 
-                  <div>
-                    <p className="p-2  ml-2 font-semibold">Flawless</p>
-                  </div>
+                <hr />
+
+                <div
+                  className="flex items-center"
+                  onClick={handleShowAdditionalOptions}
+                >
+                  <input type="radio" name="radio1" className="w-4 h-8 mt-1" />
+                  <span className="p-2  ml-2 font-semibold">Flawless</span>
                 </div>
                 <div className="pl-4 ml-4">
                   <p className="pb-3 text-[16px]">
@@ -246,19 +279,15 @@ const SwapiPhone = () => {
                     brand new
                   </p>
                 </div>
+
                 <hr />
 
-                <div className="flex" onClick={handleShowAdditionalOptions}>
-                  <div>
-                    <input
-                      type="radio"
-                      name="radio1"
-                      className=" w-4 h-8 mt-1"
-                    />
-                  </div>
-                  <div>
-                    <p className="p-2 ml-2 font-semibold">Good</p>
-                  </div>
+                <div
+                  className="flex items-center"
+                  onClick={handleShowAdditionalOptions}
+                >
+                  <input type="radio" name="radio1" className=" w-4 h-8 mt-1" />
+                  <span className="p-2 ml-2 font-semibold">Good</span>
                 </div>
                 <div className="pl-4 ml-4">
                   <p className="pb-3 text-[16px]">
@@ -266,18 +295,15 @@ const SwapiPhone = () => {
                     scratches and/or dents.
                   </p>
                 </div>
+
                 <hr />
-                <div className="flex" onClick={handleShowAdditionalOptions}>
-                  <div>
-                    <input
-                      type="radio"
-                      name="radio1"
-                      className="w-4 h-8 mt-1"
-                    />
-                  </div>
-                  <div>
-                    <p className="p-2 ml-2 font-semibold">Fair</p>
-                  </div>
+
+                <div
+                  className="flex items-center"
+                  onClick={handleShowAdditionalOptions}
+                >
+                  <input type="radio" name="radio1" className="w-4 h-8 mt-1" />
+                  <span className="p-2 ml-2 font-semibold">Fair</span>
                 </div>
                 <div className="pl-4 ml-4">
                   <p className="pb-3 text-[16px]">
@@ -286,18 +312,15 @@ const SwapiPhone = () => {
                     damage such as a slightly bent frame.
                   </p>
                 </div>
+
                 <hr />
-                <div className="flex" onClick={handleShowAdditionalOptions}>
-                  <div>
-                    <input
-                      type="radio"
-                      name="radio1"
-                      className="w-4 h-8 mt-1"
-                    />
-                  </div>
-                  <div>
-                    <p className="p-2 ml-2 font-semibold">Broken </p>
-                  </div>
+
+                <div
+                  className="flex items-center"
+                  onClick={handleShowAdditionalOptions}
+                >
+                  <input type="radio" name="radio1" className="w-4 h-8 mt-1" />
+                  <span className="p-2 ml-2 font-semibold">Broken </span>
                 </div>
                 <div className="pl-4 ml-4">
                   <p className="pb-3 text-[16px]">
@@ -308,534 +331,443 @@ const SwapiPhone = () => {
               </div>
             </div>
           </div>
+        ) : (
+          ""
         )}
       </div>
 
-      <div className="">
-        {showAdditionalOptions && (
-          <div>
-            {createSpace !== false && (
-              <div className="my-5 text-xl">
-                <div className="font-semibold flex flex-col space-y-5">
-                  <p>Please select as applied:</p>
-                  <p className="">
-                    Please select if the phone is locked or unlocked
-                  </p>
+      {showAdditionalOptions ? (
+        <>
+          {createSpace !== false ? (
+            <div className="my-5 text-xl">
+              <div className="font-semibold flex flex-col space-y-5">
+                <p>Please select as applied:</p>
+                <p>Please select if the phone is locked or unlocked</p>
+              </div>
+
+              <div className="flex items-center space-x-5">
+                <div className="flex items-center justify-center space-x-2">
+                  <input
+                    type="radio"
+                    name="condition"
+                    checked={selectedCondition === "locked"}
+                    onChange={() => handleConditionSelect("locked")}
+                    className="w-4 h-8 mt-[3px]"
+                  />
+
+                  <p className="mx-1 mt-2">Locked</p>
                 </div>
 
-                <div className=" ">
-                  <div className="flex items-center space-x-5">
-                    <div className="flex items-center justify-center space-x-2">
-                      <input
-                        type="radio"
-                        name="condition"
-                        checked={selectedCondition === "locked"}
-                        onChange={() => handleConditionSelect("locked")}
-                        className="w-4 h-8 mt-[3px]"
-                      />
-
-                      <p className="mx-1 mt-2">Locked</p>
-                    </div>
-
-                    <div className="flex items-center justify-center space-x-2">
-                      <input
-                        type="radio"
-                        name="condition"
-                        checked={selectedCondition === "unlocked"}
-                        onChange={() => handleConditionSelect("unlocked")}
-                        className="w-4 h-8 mt-[3px]"
-                      />
-                      <p className="mx-1 mt-2">Unlocked</p>
-                    </div>
-                  </div>
+                <div className="flex items-center justify-center space-x-2">
+                  <input
+                    type="radio"
+                    name="condition"
+                    checked={selectedCondition === "unlocked"}
+                    onChange={() => handleConditionSelect("unlocked")}
+                    className="w-4 h-8 mt-[3px]"
+                  />
+                  <p className="mx-1 mt-2">Unlocked</p>
                 </div>
+              </div>
 
-                <div className="my-5">
-                  <div className="flex">
+              <div className="flex flex-col space-y-3 text-lg my-5">
+                <span className="font-bold">Select Storage Capacity</span>
+
+                <div className="flex space-x-3">
+                  <label className="flex items-center space-x-1">
                     <input
                       type="radio"
                       name="storage"
-                      checked={selectedStorage === "64GB"}
-                      onChange={() => handleStorageSelect("64GB")}
-                      className="w-4 h-8 mt-[3px]"
+                      checked={selectedStorage === "128GB"}
+                      onChange={() => handleStorageSelect("128GB")}
                     />
-                    <p className="pl-2 mx-1 mt-2 mr-7">64GB</p>
+                    <span>128GB</span>
+                  </label>
+                  <label className="flex items-center space-x-1">
                     <input
                       type="radio"
                       name="storage"
                       checked={selectedStorage === "256GB"}
                       onChange={() => handleStorageSelect("256GB")}
-                      className="w-4 h-8 mt-[3px]"
                     />
-                    <p className="pl-2  mx-1 mt-2 mr-7">256GB</p>
+                    <span>256GB</span>
+                  </label>
+                  <label className="flex items-center space-x-1">
                     <input
                       type="radio"
                       name="storage"
                       checked={selectedStorage === "512GB"}
                       onChange={() => handleStorageSelect("512GB")}
-                      className="w-4 h-8 mt-[3px]"
                     />
-                    <p className="pl-2 mx-1 mt-2">512GB</p>
-                  </div>
+                    <span>512GB</span>
+                  </label>
                 </div>
-
-
               </div>
-            )}
+            </div>
+          ) : null}
 
-            {phoneSelection && (
-              <div>
-                {createSpace !== false && (
-                  <div>
-                    <div className="my-5 text-[#187EB4] text-xl">
-                      <div className="flex">
-                        <p className="font-bold">Swap item:</p>
-                        <p className="pl-2 ">{selectedOption.label}</p>
-                      </div>
-                      <div className="flex">
-                        <p className="font-bold">Swap value:</p>
-                        <p className="pl-2">#33000</p>
+          {phoneSelection ? (
+            <>
+              {createSpace !== false ? (
+                <>
+                  <div className="my-5 text-[#187EB4] text-xl">
+                    <div className="flex">
+                      <p className="font-bold">Swap item:</p>
+                      <p className="pl-2 ">{selectedOption.label}</p>
+                    </div>
+                    <div className="flex">
+                      <p className="font-bold">Swap value:</p>
+                      <p className="pl-2">#33000</p>
+                    </div>
+                  </div>
+                  <p className="font-semibold py-5 text-xl">
+                    Now let's select your new phone
+                  </p>
+                </>
+              ) : (
+                ""
+              )}
+
+              <div className="flex items-center justify-between font-bold right-4 left-4 text-[16px]">
+                <p className="font-semibold py-5 w-full">I want this iPhone</p>
+
+                <div className="w-full flex items-end justify-end">
+                  <button
+                    className="px-3 py-4 rounded-xl shadow-lg flex items-center border-[#D9D9D9] border-r-8 border-b-8"
+                    onClick={handleNewPhoneSelectClick}
+                  >
+                    {selectedOption ? selectedOption.label : "Select a phone"}
+                    <FaPlay className="text-[30px] text-[#187EB4] ml-1" />
+                  </button>
+                </div>
+              </div>
+
+              {showDropdown && selectedModel !== modelIndex ? (
+                <div
+                  className={`mt-10 p-5 grid grid-cols-2 space-y-3 items-center text-xl border-solid rounded-[20px] bg-white shadow right-4 left-4 border-[#D9D9D9] border-r-8 border-b-8`}
+                >
+                  {models.map((model, index) => (
+                    <div className="flex justify-start">
+                      <div
+                        key={index}
+                        className={`rounded-xl ${
+                          selectedModel !== null && selectedModel !== index
+                            ? "hidden"
+                            : ""
+                        }`}
+                        onClick={() => {
+                          setModelIndex(index);
+                          setIphoneModel(model);
+                          setSelectedModel(index);
+                          setCurrentPictureIndex(0);
+                        }}
+                      >
+                        <span className="font-bold">{model.name}</span>
                       </div>
                     </div>
-                    <p className="font-semibold py-5 text-xl">
-                      Now let's select your new phone
-                    </p>
-                  </div>
-                )}
-
-                <div className="flex items-center justify-between font-bold right-4 left-4 text-[16px]">
-                  <p className="font-semibold py-5 w-full">
-                    I want this iPhone
-                  </p>
-
-                  <div className="w-full flex items-end justify-end">
-                    <button
-                      className="px-3 py-4 rounded-xl shadow-lg flex items-center border-[#D9D9D9] border-r-8 border-b-8"
-                      onClick={handleNewPhoneSelectClick}
-                    >
-                      {selectedOption ? selectedOption.label : "Select a phone"}
-                      <FaPlay className="text-[30px] text-[#187EB4] ml-1" />
-                    </button>
-                  </div>
+                  ))}
                 </div>
+              ) : (
+                ""
+              )}
 
-                {showDropdown && (
-                  <div
-                    className={`mt-10 ${
-                      !phoneSelection &&
-                      "p-5 grid grid-cols-2 text-xl border-solid rounded-[20px] bg-white shadow right-4 left-4 border-[#D9D9D9] border-r-8 border-b-8"
-                    }`}
-                  >
-                    {models.map((model, index) => (
-                      <div className="flex justify-start">
-                        <div
-                          key={index}
-                          className={`rounded-xl ${
-                            selectedModel !== null && selectedModel !== index
-                              ? "hidden"
-                              : ""
-                          }`}
-                          onClick={() => {
-                            setSelectedModel(index);
-                            setCurrentPictureIndex(0);
-                          }}
-                        >
-                          <p className="font-bold py-3">{model.name}</p>
-                          {selectedModel === index && (
-                            <div>
-                              <div className="">
-                                <div className="w-full bg-white rounded-[20px] shadow-xl px-16 py-10 border-[#D9D9D9] border-r-8 border-b-8">
-                                  <img
-                                    src={model.pictures[currentPictureIndex]}
-                                    className="w-full h-64 object-cover"
-                                    alt="Perfect Image"
-                                  />
+              {selectedModel === modelIndex ? (
+                <div>
+                  <div className="">
+                    <div className="relative w-full flex items-center justify-center bg-white rounded-[30px] shadow-xl px-16 py-10 my-5 border-[#D9D9D9] border-r-8 border-b-8">
+                     
+                      <img
+                        src={iphoneModel?.pictures[currentPictureIndex]}
+                        className="w-full h-64 object-cover"
+                        alt="Perfect Image"
+                      />
+                      <BiLeftArrow className="absolute left-5 text-2xl" onClick={showPrevImage} />
+                      <BiRightArrow className="absolute right-5 text-2xl" onClick={showNextImage} />
+                       <div className="absolute bottom-3 flex space-x-2">
+                          {iphoneModel?.pictures.map((_, index) => (
+                            <p
+                              className="text-2xl text-center"
+                              key={index}
+                              aria-label={`View Image ${index + 1}`}
+                              onClick={() => setCurrentPictureIndex(index)}
+                            >
+                              {index === currentPictureIndex ? (
+                                <GoDotFill className="text-[#000000]" aria-hidden />
+                              ) : (
+                                <GoDot className="text-[#D9D9D9]" aria-hidden />
+                              )}
+                            </p>
+                          ))}
+                        </div>
+                    </div>
+
+                    {removeItem !== false ? (
+                      <div className="flex justify-between py-4">
+                        <b>{iphoneModel?.name}</b>
+                        <b>Price: {iphoneModel?.price}</b>
+                      </div>
+                    ) : null}
+
+                    {removeItem !== false ? (
+                      <div className="flex flex-col space-y-3 text-lg my-5">
+                        <span className="font-bold">Pick your preference</span>
+
+                        <div className="flex space-x-3">
+                          <label className="flex items-center space-x-1">
+                            <input
+                              type="radio"
+                              name={`condition-${iphoneModel?.name}`}
+                              value="brand-new"
+                              onChange={() =>
+                                handleNewOrUsedChange("brand-new")
+                              }
+                            />
+                            <span>Brand New</span>
+                          </label>
+
+                          <label className="flex items-center space-x-1">
+                            <input
+                              type="radio"
+                              name={`condition-${iphoneModel?.name}`}
+                              value="used"
+                              onChange={() => handleNewOrUsedChange("used")}
+                            />
+                            <span>Used</span>
+                          </label>
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+
+                  <>
+                    {selectedNewPhoneCondition === "brand-new" ? (
+                      <>
+                        {removeItem !== false ? (
+                          <div className="flex flex-col space-y-3 my-5 text-lg">
+                            <span className="font-bold">Phone Status</span>
+
+                            <div className="flex space-x-3">
+                              <label className="flex items-center space-x-1">
+                                <input
+                                  type="radio"
+                                  name={`status-${iphoneModel?.name}`}
+                                  value="locked"
+                                  onChange={() =>
+                                    handleLockedOrUnlockedChange("locked")
+                                  }
+                                />
+                                <span>Locked</span>
+                              </label>
+                              <label className="flex items-center space-x-1">
+                                <input
+                                  type="radio"
+                                  name={`status-${iphoneModel?.name}`}
+                                  value="unlocked"
+                                  onChange={() => {
+                                    handleLockedOrUnlockedChange("locked");
+                                    setShowStorageOptions(false); // Hide storage options
+                                  }}
+                                />
+                                <span>Unlocked</span>
+                              </label>
+                            </div>
+                          </div>
+                        ) : null}
+
+                        {lockState !== null ? (
+                          <>
+                            {removeItem !== false ? (
+                              <div className="flex flex-col space-y-3 text-lg my-5">
+                                <span className="font-bold">
+                                  Select from available Colors
+                                </span>
+
+                                <div className="grid grid-cols-4 gap-2">
+                                  <label className="flex items-center space-x-1">
+                                    <input
+                                      type="radio"
+                                      name={`color-${iphoneModel?.name}`}
+                                      value="red"
+                                      onChange={() => handleColorChange("red")}
+                                    />
+                                    <span>Red</span>
+                                  </label>
+
+                                  <label className="flex items-center space-x-1">
+                                    <input
+                                      type="radio"
+                                      name={`color-${iphoneModel?.name}`}
+                                      value="blue"
+                                      onChange={() => handleColorChange("blue")}
+                                    />
+                                    <span>Blue</span>
+                                  </label>
+                                  <label className="flex items-center space-x-1">
+                                    <input
+                                      type="radio"
+                                      name={`color-${iphoneModel?.name}`}
+                                      value="black"
+                                      onChange={() =>
+                                        handleColorChange("black")
+                                      }
+                                    />
+                                    <span>Black</span>
+                                  </label>
+                                  <label className="flex items-center space-x-1">
+                                    <input
+                                      type="radio"
+                                      name={`color-${iphoneModel?.name}`}
+                                      value="green"
+                                      onChange={() =>
+                                        handleColorChange("green")
+                                      }
+                                    />
+                                    <span>Green</span>
+                                  </label>
+                                  <label className="flex items-center space-x-1">
+                                    <input
+                                      type="radio"
+                                      name={`color-${iphoneModel?.name}`}
+                                      value="pink"
+                                      onChange={() => handleColorChange("pink")}
+                                    />
+                                    <span>Pink</span>
+                                  </label>
                                 </div>
+                              </div>
+                            ) : null}
 
-                                {removeItem !== false && (
-                                  <div className="flex justify-between px-0 py-5 font-bold">
+                            {showStorageOptions ? (
+                              <div>
+                                {removeItem !== false ? (
+                                  <div className="flex flex-col space-y-3 text-lg my-5">
                                     <span className="font-bold">
-                                      {model.name}
+                                      Select Storage Capacity
                                     </span>
-                                    <span className="font-semibold">
-                                      {model.price}
-                                    </span>
-                                  </div>
-                                )}
 
-                                {removeItem !== false && (
-                                  <div>
-                                    <p className="font-semibold py-5">
-                                      Pick your preference
-                                    </p>
-
-                                    <div className="flex">
-                                      <label>
-                                        <div className="flex">
-                                          <input
-                                            type="radio"
-                                            name={`condition-${model.name}`}
-                                            value="brand-new"
-                                            onChange={() => {
-                                              setSelectedNewPhoneCondition(
-                                                "brand-new"
-                                              );
-                                              setLockState(null);
-                                              setSelectedColor(null);
-                                              setSelectedNewPhoneStorage(null);
-                                              setShowAddToCart(false); // Hide "Add to Cart" when conditions change
-                                              setShowStorageOptions(false);
-                                            }}
-                                            className="w-5 h-8"
-                                          />
-                                          <p className="pl-2 mt-1">
-                                            {" "}
-                                            Brand New
-                                          </p>
-                                        </div>
+                                    <div className="flex space-x-3">
+                                      <label className="flex items-center space-x-1">
+                                        <input
+                                          type="radio"
+                                          name={`storage-${iphoneModel?.name}`}
+                                          value="128GB"
+                                          onChange={() =>
+                                            handleStorageSelection("128GB")
+                                          }
+                                        />
+                                        <span>128GB</span>
                                       </label>
-                                      <label>
-                                        <div className="flex">
-                                          <input
-                                            type="radio"
-                                            name={`condition-${model.name}`}
-                                            value="used"
-                                            class=" w-5 h-8  mx-2"
-                                            onChange={() => {
-                                              setSelectedNewPhoneCondition(
-                                                "used"
-                                              );
-                                              setLockState(null);
-                                              setSelectedColor(null);
-                                              setSelectedNewPhoneStorage(null);
-                                              setShowAddToCart(false); // Hide "Add to Cart" when conditions change
-                                              setShowStorageOptions(false); // Hide storage options
-                                            }}
-                                          />
-                                          <p className="pl-2 mt-1">Used</p>
-                                        </div>
+                                      <label className="flex items-center space-x-1">
+                                        <input
+                                          type="radio"
+                                          name={`storage-${iphoneModel?.name}`}
+                                          value="256GB"
+                                          onChange={() =>
+                                            handleStorageSelection("256GB")
+                                          }
+                                        />
+                                        <span>256GB</span>
+                                      </label>
+                                      <label className="flex items-center space-x-1">
+                                        <input
+                                          type="radio"
+                                          name={`storage-${iphoneModel?.name}`}
+                                          value="512GB"
+                                          onChange={() =>
+                                            handleStorageSelection("512GB")
+                                          }
+                                        />
+                                        <span>512GB</span>
                                       </label>
                                     </div>
                                   </div>
-                                )}
-                              </div>
-                              <div>
-                                {selectedNewPhoneCondition === "brand-new" && (
-                                  <div>
-                                    {removeItem !== false && (
-                                      <div>
-                                        <div className="font-bold my-4"></div>
-                                        <div className="flex">
-                                          <label className="">
-                                            <div className="flex">
-                                              <input
-                                                type="radio"
-                                                name={`status-${model.name}`}
-                                                value="locked"
-                                                class=" w-5 h-8  "
-                                                onChange={() => {
-                                                  setLockState("unlocked");
-                                                  setSelectedColor(null);
-                                                  setSelectedStorage(null);
-                                                  setShowAddToCart(false); // Hide "Add to Cart" when status changes
-                                                }}
-                                              />
-                                              <p className="pl-2 mt-1">
-                                                Unlocked
-                                              </p>
-                                            </div>
-                                          </label>
-                                          <label>
-                                            <div className="flex">
-                                              <input
-                                                type="radio"
-                                                name={`status-${model.name}`}
-                                                value="locked"
-                                                class=" w-5 h-8  mx-2"
-                                                onChange={() => {
-                                                  setLockState("locked");
-                                                  setSelectedColor(null);
-                                                  setSelectedStorage(null);
-                                                  setShowAddToCart(false); // Hide "Add to Cart" when status changes
-                                                  setShowStorageOptions(false); // Hide storage options
-                                                }}
-                                              />
-                                              <p className="pl-2 mt-1">
-                                                Locked
-                                              </p>
-                                            </div>
-                                          </label>
-                                        </div>
+                                ) : null}
+
+                                {showAddToCart && selectedModel !== null ? (
+                                  <div className="selected-model-details flex flex-col space-y-5 mt-10 text-lg">
+                                    <div className="flex justify-between items-center">
+                                      <div className="flex space-x-2 font-bold capitalize my-5">
+                                        <span>1 {selectedCondition}</span>
+                                        <span>
+                                          {models[selectedModel].name}
+                                        </span>
                                       </div>
-                                    )}
-                                    {lockState !== null && (
-                                      <div>
-                                        {removeItem !== false && (
-                                          <div>
-                                            <p className="font-semibold py-5">
-                                              Select from available Colors
-                                            </p>
-
-                                            <div className="flex text-[16px]">
-                                              <label>
-                                                <div className="flex">
-                                                  <input
-                                                    type="radio"
-                                                    class=" w-5 h-8  mx-2"
-                                                    style={{
-                                                      backgroundColor: "red",
-                                                    }}
-                                                    name={`color-${model.name}`}
-                                                    value="red"
-                                                    onChange={() => {
-                                                      setSelectedColor("red");
-                                                      setSelectedStorage(null);
-                                                      setShowAddToCart(false); // Hide "Add to Cart" when color changes
-                                                      setShowStorageOptions(
-                                                        true
-                                                      ); // Show storage options
-                                                    }}
-                                                  />
-                                                  <p className=" mt-1">Red</p>
-                                                </div>
-                                              </label>
-
-                                              <label className="">
-                                                <div className="flex">
-                                                  <input
-                                                    type="radio"
-                                                    class=" w-5 h-8  mx-2"
-                                                    name={`color-${model.name}`}
-                                                    value="blue"
-                                                    onChange={() => {
-                                                      setSelectedColor("blue");
-                                                      setSelectedStorage(null);
-                                                      setShowAddToCart(false); // Hide "Add to Cart" when color changes
-                                                      setShowStorageOptions(
-                                                        true
-                                                      ); // Show storage options
-                                                    }}
-                                                  />
-                                                  <p className="pl-2 mt-1">
-                                                    Blue
-                                                  </p>
-                                                </div>
-                                              </label>
-                                              <label>
-                                                <div className="flex">
-                                                  <input
-                                                    type="radio"
-                                                    class=" w-5 h-8  mx-2"
-                                                    name={`color-${model.name}`}
-                                                    value="black"
-                                                    onChange={() => {
-                                                      setSelectedColor("black");
-                                                      setSelectedStorage(null);
-                                                      setShowAddToCart(false); // Hide "Add to Cart" when color changes
-                                                      setShowStorageOptions(
-                                                        true
-                                                      ); // Show storage options
-                                                    }}
-                                                  />
-                                                  <p className="pl-2 mt-1">
-                                                    Black
-                                                  </p>
-                                                </div>
-                                              </label>
-                                              <label className="">
-                                                <div className="flex">
-                                                  <input
-                                                    type="radio"
-                                                    class=" w-5 h-8  mx-2"
-                                                    name={`color-${model.name}`}
-                                                    value="green"
-                                                    onChange={() => {
-                                                      setSelectedColor("green");
-                                                      setSelectedStorage(null);
-                                                      setShowAddToCart(false); // Hide "Add to Cart" when color changes
-                                                      setShowStorageOptions(
-                                                        true
-                                                      ); // Show storage options
-                                                    }}
-                                                  />
-                                                  <p className=" mt-1">Green</p>
-                                                </div>
-                                              </label>
-                                              <label>
-                                                <div className="flex">
-                                                  <input
-                                                    type="radio"
-                                                    class=" w-5 h-8  mx-2"
-                                                    name={`color-${model.name}`}
-                                                    value="pink"
-                                                    onChange={() => {
-                                                      setSelectedColor("pink");
-                                                      setSelectedStorage(null);
-                                                      setShowAddToCart(false);
-                                                      setShowStorageOptions(
-                                                        true
-                                                      );
-                                                    }}
-                                                  />
-                                                  <p className="pl-2 mt-1">
-                                                    Pink
-                                                  </p>
-                                                </div>
-                                              </label>
-                                            </div>
-                                          </div>
-                                        )}
-
-                                        {showStorageOptions && (
-                                          <div>
-                                            {removeItem !== false && (
-                                              <div>
-                                                <div className="font-bold mt-4">
-                                                  <p>Select Storage Capacity</p>
-                                                </div>
-                                                <div className="flex">
-                                                  <label className=" ">
-                                                    <div className="flex">
-                                                      <input
-                                                        type="radio"
-                                                        class=" w-5 h-8  "
-                                                        name={`storage-${model.name}`}
-                                                        value="128GB"
-                                                        onChange={() => {
-                                                          handleStorageSelection(
-                                                            "128GB"
-                                                          );
-                                                        }}
-                                                      />
-                                                      <p className="pl-2 mt-1">
-                                                        {" "}
-                                                        128GB
-                                                      </p>
-                                                    </div>
-                                                  </label>
-                                                  <label>
-                                                    <div className="flex">
-                                                      <input
-                                                        type="radio"
-                                                        class=" w-5 h-8  mx-2"
-                                                        name={`storage-${model.name}`}
-                                                        value="256GB"
-                                                        onChange={() =>
-                                                          handleStorageSelection(
-                                                            "256GB"
-                                                          )
-                                                        }
-                                                      />
-                                                      <p className="pl-2 mt-1">
-                                                        256GB
-                                                      </p>
-                                                    </div>
-                                                  </label>
-                                                  <label>
-                                                    <div className="flex">
-                                                      <input
-                                                        type="radio"
-                                                        class=" w-5 h-8  mx-2"
-                                                        name={`storage-${model.name}`}
-                                                        value="512GB"
-                                                        onChange={() =>
-                                                          handleStorageSelection(
-                                                            "512GB"
-                                                          )
-                                                        }
-                                                      />
-                                                      <p className="pl-2 mt-1">
-                                                        512GB
-                                                      </p>
-                                                    </div>
-                                                  </label>
-                                                </div>
-                                              </div>
-                                            )}
-
-                                            {showAddToCart &&
-                                              selectedModel !== null && (
-                                                <div className="selected-model-details flex flex-col space-y-5 mt-10">
-                                                  <div className="flex space-x-3 mt-2 font-bold text-xl">
-                                                    <span> 1 {selectedCondition}</span>
-                                                    <span>{models[selectedModel].name}</span>
-                                                    <span>{selectedStorage}</span>
-                                                  </div>
-
-                                                  <div className="flex space-x-3 font-bold text-xl capitalize">
-                                                    <span>{selectedColor}</span>
-                                                    <span>{lockState}</span>
-                                                  </div>
-
-                                                  <div className="flex space-x-3 font-bold text-xl">
-                                                    <span>Your swap:</span>
-                                                    <span>{models[selectedModel].name}</span>
-                                                    <span>{models[selectedModel].price}</span>
-                                                  </div>
-
-                                                  <div className="flex justify-between items-center font-bold text-xl">
-                                                    <span>Price after swap:</span>
-                                                    <span>{models[selectedModel].price}</span>
-                                                  </div>
-
-                                                  <div className="flex justify-end">
-                                                    <span
-                                                      onClick={() =>
-                                                        setShowAddToCart(false)
-                                                      }
-                                                      className="py-10 text-[#187EB4] font-bold text-[20px]"
-                                                    >
-                                                      Remove
-                                                    </span>
-                                                  </div>
-                                                </div>
-                                              )}
-
-                                            {addToCartButton && (
-                                              <div className="flex justify-center items-center">
-                                                <button
-                                                  onClick={showCartDetails}
-                                                  className="my-10 bg-[#187EB4] text-[#FFFFFF] rounded-full px-16 py-5"
-                                                >
-                                                  ADD TO CART
-                                                </button>
-                                              </div>
-                                            )}
-
-                                            {checkoutButton && (
-                                              <>
-                                                <div className="flex justify-center items-center">
-                                                  <Link
-                                                    className="bg-[#187EB4] text-[#FFFFFF] rounded-full px-16 py-5"
-                                                    href="/howToCheckOut"
-                                                  >
-                                                    CHECKOUT
-                                                  </Link>
-                                                </div>
-                                                <p className="text-[#187EB4] text-center font-semibold py-2">
-                                                  Add more items
-                                                </p>
-                                              </>
-                                            )}
-                                          </div>
-                                        )}
+                                      <div className="flex space-x-2 capitalize">
+                                        <span>{selectedStorage}</span>
+                                        <span>{lockState}</span>
+                                        <span>{selectedColor}</span>
                                       </div>
-                                    )}
+                                    </div>
+
+                                    <div className="flex space-x-3 font-bold">
+                                      <span>Your swap:</span>
+                                      <span>{models[selectedModel].name}</span>
+                                      <span>{models[selectedModel].price}</span>
+                                    </div>
+
+                                    <div className="flex justify-between items-center font-bold">
+                                      <span>Price after swap:</span>
+                                      <span>{models[selectedModel].price}</span>
+                                    </div>
+
+                                    <div className="flex justify-end">
+                                      <span
+                                        className="py-10 text-[#187EB4] font-bold"
+                                        onClick={() => setShowAddToCart(false)}
+                                      >
+                                        Remove
+                                      </span>
+                                    </div>
                                   </div>
+                                ) : (
+                                  ""
+                                )}
+
+                                {addToCartButton ? (
+                                  <div className="flex justify-center items-center">
+                                    <button
+                                      onClick={showCartDetails}
+                                      className="my-10 bg-[#187EB4] text-[#FFFFFF] rounded-full px-16 py-5"
+                                    >
+                                      ADD TO CART
+                                    </button>
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+
+                                {checkoutButton ? (
+                                  <>
+                                    <div className="flex justify-center items-center">
+                                      <Link
+                                        className="bg-[#187EB4] text-[#FFFFFF] rounded-full px-16 py-5"
+                                        href="/howToCheckOut"
+                                      >
+                                        CHECKOUT
+                                      </Link>
+                                    </div>
+                                    <p className="text-[#187EB4] text-center font-semibold py-2">
+                                      Add more items
+                                    </p>
+                                  </>
+                                ) : (
+                                  ""
                                 )}
                               </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        )}
-      </div>
+                            ) : null}
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </>
+                    ) : null}
+                  </>
+                </div>
+              ) : null}
+            </>
+          ) : null}
+        </>
+      ) : null}
     </div>
   );
 };

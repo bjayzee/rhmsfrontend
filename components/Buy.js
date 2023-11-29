@@ -358,6 +358,8 @@ import Link from "next/link";
 // }
 
 import React, { useState } from "react";
+import { GoDot, GoDotFill } from "react-icons/go";
+import { BiRightArrow, BiLeftArrow } from "react-icons/bi";
 
 export default function Buy() {
   const models = [
@@ -408,12 +410,6 @@ export default function Buy() {
   const [modelIndex, setModelIndex] = useState(0);
   const [iphoneModel, setIphoneModel] = useState("");
 
-  const showNextPicture = () => {
-    setCurrentPictureIndex(
-      (prevIndex) => (prevIndex + 1) % models[selectedModel].pictures.length
-    );
-  };
-
   // Function to handle storage selection
   const handleStorageSelection = (storage) => {
     setSelectedStorage(storage);
@@ -451,6 +447,20 @@ export default function Buy() {
     setShowAddToCart(false); // Hide "Add to Cart" when status changes
   };
 
+  const showNextImage = () => {
+    setCurrentPictureIndex((index) => {
+      if (index === iphoneModel?.pictures?.length - 1) return 0;
+      return index + 1;
+    });
+  }
+
+  const showPrevImage = () => {
+    setCurrentPictureIndex((index) => {
+      if (index === 0) return iphoneModel?.pictures?.length - 1;
+      return index - 1;
+    });
+  }
+
   return (
     <div className="overflow-x-hidden py-5 px-5 mt-36">
       <p className="text-2xl py-3 font-bold">
@@ -475,7 +485,7 @@ export default function Buy() {
               }}
             >
               <div className="flex justify-between">
-                <span className="text-sm font-bold">{model.name}</span>
+                <span className="text-xl font-bold">{model.name}</span>
               </div>
             </div>
           ))}
@@ -484,17 +494,34 @@ export default function Buy() {
         ""
       )}
 
-      {selectedModel === modelIndex && (
+      {selectedModel === modelIndex ? (
         <>
-          <div className="flex items-center shadow-lg border-[#D9D9D9] border-l-8 border-t-8 rounded-[20px]">
-            <img
-              src={iphoneModel?.pictures[currentPictureIndex]}
-              alt={iphoneModel?.name}
-              width={800}
-              height={500}
-            />
-            <button onClick={showNextPicture}>Next</button>
-          </div>
+            <div className="relative flex items-center justify-center bg-white rounded-[30px] shadow-xl px-16 py-10 my-5 border-[#D9D9D9] border-r-8 border-b-8">
+                     
+                      <img
+                        src={iphoneModel?.pictures[currentPictureIndex]}
+                        className="w-full h-64 object-cover"
+                        alt="Perfect Image"
+                      />
+                      <BiLeftArrow className="absolute left-5 text-2xl" onClick={showPrevImage} />
+                      <BiRightArrow className="absolute right-5 text-2xl" onClick={showNextImage} />
+                       <div className="absolute bottom-3 flex space-x-2">
+                          {iphoneModel?.pictures.map((_, index) => (
+                            <p
+                              className="text-2xl text-center"
+                              key={index}
+                              aria-label={`View Image ${index + 1}`}
+                              onClick={() => setCurrentPictureIndex(index)}
+                            >
+                              {index === currentPictureIndex ? (
+                                <GoDotFill className="text-[#000000]" aria-hidden />
+                              ) : (
+                                <GoDot className="text-[#D9D9D9]" aria-hidden />
+                              )}
+                            </p>
+                          ))}
+                        </div>
+                    </div>
 
           <div className="px-5">
             {removeItem !== false ? (
@@ -723,13 +750,10 @@ export default function Buy() {
                                 >
                                   Checkout
                                 </Link>
-
                                  <span className="text-[#187EB4] text-center">
                               Add more items
                             </span>
-                            </div>
-
-                           
+                            </div>                           
                           </div>
                         ) : null}
                       </>
@@ -740,7 +764,7 @@ export default function Buy() {
             ) : null}
           </div>
         </>
-      )}
+      ) : ""}
     </div>
   );
 }
