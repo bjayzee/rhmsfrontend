@@ -15,39 +15,10 @@ export default function CheckoutPage() {
 
       <p className="font-bold">How would you like to get your order?</p>
 
-      <div className="flex">
-        <button
-          style={{
-            border: "2px solid #187EB4",
-            padding: "5px 30px",
-            borderRadius: "10px",
-            color: "#",
-            margin: "10px",
-          }}
-        >
-          I'w like it delivered
-          <Link
-            className="border-2 rounded-lg text-[#187EB4]"
-            href="/deliveryInfoPage"
-          >
-            {" "}
-            I'w pick it up
-          </Link>
-        </button>
-
-        <button
-          style={{
-            border: "2px solid #187EB4",
-            padding: "5px 30px",
-            borderRadius: "10px",
-            color: "#187EB4",
-            margin: "10px",
-          }}
-        >
-          <Link href="/pickUpStorePage"> I'w pick it up</Link>
-        </button>
-      </div>
-
+     <div className="flex space-x-5 font-bold">
+        <Link className="border-2 w-1/2 border-[#D3D3D3] text-[#187EB4] px-10 py-5 rounded-2xl flex items-center justify-center" href="/signin-page">I'w like it delivered</Link>
+        <Link className="border-2 w-1/2 border-[#D3D3D3] text-[#187EB4] px-10 py-5 rounded-2xl flex items-center justify-center" href="/checkoutPage">I’w pick it up</Link>
+      </div> 
       <div className="flex justify-between">
         <div className="font-bold">
           <p>Please note: We charge #3000 </p>
