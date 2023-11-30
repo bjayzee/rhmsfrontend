@@ -107,7 +107,7 @@ export default function Repair() {
   };
 
   return (
-    <div className="px-5 py-10 mt-28">
+    <div className="px-5 py-10">
       <p className="text-2xl font-bold mt-10">
         We fix it right, the Apple way.
       </p>

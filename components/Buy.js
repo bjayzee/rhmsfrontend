@@ -462,7 +462,7 @@ export default function Buy() {
   }
 
   return (
-    <div className="overflow-x-hidden py-5 px-5 mt-36">
+    <div className="overflow-x-hidden py-5 px-5">
       <p className="text-2xl py-3 font-bold">
         The iPhone connection - connecting you to the world
       </p>

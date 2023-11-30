@@ -4,59 +4,30 @@ import React from 'react'
 
 const SignInPage = () => {
   return (
-    <div>
+    <>
         <div className='m-5 font-bold'>
             <h1>Sign in</h1>
         </div>
         <div className='pl-5'>
-            <input
-             style={{ 
-                border: '2px solid #187EB4',
-                padding: '8px 80px',
-                borderRadius:'10px',
-                color: '#187EB4', 
-                margin:'10px'
-                }}
+            <input className="focus:ring-0 outline-none border-2 border-[#187EB4] text-[#187EB4] rounded-xl"
+                  placeholder='Email or Phone Number'/>
 
-                placeholder='Email or Phone Number'
-            />
-
-            <input
-             style={{ 
-                border: '2px solid #187EB4',
-                padding: '8px 80px',
-                borderRadius:'10px',
-                color: '#187EB4', 
-                margin:'10px'
-                }}
-
-                placeholder='Password'
-            />
+            <input className="focus:ring-0 outline-none border-2 border-[#187EB4] text-[#187EB4] rounded-xl"
+                  placeholder='Password'/>
             <div className='font-bold '>
-            <p  style={{ 
-                color: '#187EB4', 
-                marginRight:'10px'
-                }}>Forgot Password?</p>
+            <span className="text-[#187EB4]">Forgot Password?</span>
             </div>
 
 
         </div>
 
-        <div  className=" flex m-5   pl-10 font-bold">
-          <button  
-           style={{ 
-           border: '2px solid #187EB4',
-           padding: '5px 35px',
-           borderRadius:'20px',
-           color: 'white', 
-           backgroundColor: '#187EB4', 
-           margin:'10px'
-           }}>
-            <Link href="/checkoutPage">Sign In</Link> 
-          </button>
+        <div  className=" flex m-5 pl-10 font-bold">
+           
+            <Link className="border-2 border-[#187EB4] px-8 py-3 rounded-xl bg-[#187EB4] text-[#FFFFFF]" href="/checkoutPage">Sign In</Link> 
+        
           </div>
       
-    </div>
+    </>
   )
 }
 

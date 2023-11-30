@@ -195,7 +195,7 @@ const SwapiPhone = () => {
   };
 
   return (
-    <div className="overflow-x-hidden py-5 px-8 mt-36">
+    <div className="overflow-x-hidden py-5 px-8">
       <div className="text-xl">
         <IoIosArrowRoundBack className="text-[50px] text-[#187EB4] mb-4 ml-[-11px]" />
         <div className="font-bold text-[20px]">

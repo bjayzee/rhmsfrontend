@@ -10,7 +10,7 @@ const Hero = () => {
     router.push(`/${name}`)
   }
   return (
-    <div className="px-5 overflow-x-hidden mt-40 bg-[#FFFFFF]">
+    <div className="px-5 overflow-x-hidden bg-[#FFFFFF]">
       <section className="flex justify-between gap-3 p-2">
         <div
           onClick={() => handleClick("swap-iphone-page")}

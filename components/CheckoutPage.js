@@ -1,95 +1,65 @@
-import Link from 'next/link';
-import React from 'react';
+import Link from "next/link";
+import React from "react";
 
 export default function CheckoutPage() {
   return (
-    <div>
+    <div className="m-5">
+      <h2 className="font-bold">Checkout:</h2>
 
-     <div className='font-bold m-5'>
-      <h2>Checkout:</h2>
-    </div>
+      <p className="font-bold">1 used iPhone 11 Pro Max 512GB unlocked pink</p>
 
-    <div className='font-bold m-5'>
-      <h2>1 used iPhone 11 Pro Max 512GB unlocked pink</h2>
-    </div>
+      <div className="flex justify-between">
+        <span>Price</span>
+        <span>#2000</span>
+      </div>
 
-    <div className='flex justify-between m-5'>
-      <p>Price</p>
-      <p>#2000</p>
+      <p className="font-bold">How would you like to get your order?</p>
 
-      
-        
-     
-    </div>
+      <div className="flex">
+        <button
+          style={{
+            border: "2px solid #187EB4",
+            padding: "5px 30px",
+            borderRadius: "10px",
+            color: "#",
+            margin: "10px",
+          }}
+        >
+          I'w like it delivered
+          <Link
+            className="border-2 rounded-lg text-[#187EB4]"
+            href="/deliveryInfoPage"
+          >
+            {" "}
+            I'w pick it up
+          </Link>
+        </button>
 
-    <div className='font-bold m-5'>
-      <h1>How would you like to get your order?</h1>
-      
-        
-     
-    </div>
-    <div  className=" flex ">
-      <button  
-        style={{ 
-           border: '2px solid #187EB4',
-           padding: '5px 30px',
-           borderRadius:'10px',
-           color: '#187EB4', 
-           margin:'10px'
-           }}>
-    I'w like it delivered
-    <Link href="/deliveryInfoPage"> I'w pick it up</Link>
-    </button>
+        <button
+          style={{
+            border: "2px solid #187EB4",
+            padding: "5px 30px",
+            borderRadius: "10px",
+            color: "#187EB4",
+            margin: "10px",
+          }}
+        >
+          <Link href="/pickUpStorePage"> I'w pick it up</Link>
+        </button>
+      </div>
 
-    <button  
-style={{ 
-  
-  border: '2px solid #187EB4',
-   padding: '5px 30px',
-   borderRadius:'10px',
-   color: '#187EB4', 
-   margin:'10px'
-   
-    }}>
-    <Link href="/pickUpStorePage"> I'w pick it up</Link>
-    
-    </button>
+      <div className="flex justify-between">
+        <div className="font-bold">
+          <p>Please note: We charge #3000 </p>
+          <p>upfront for delivery payment</p>
+        </div>
+      </div>
 
-    
-</div>
-
-
-<div className='flex justify-between m-5'>
-
-<div className='font-bold'>
-      <p>Please note: We charge #3000 </p>
-      <p>upfront for delivery payment</p>
-      
-        
-     
-</div>
-    <div>
-      
-    </div>
-</div>
-
-
-
-
-
-<div  className=" flex justify-center items-center">
-<button  
-style={{ 
-  backgroundColor: '#187EB4',
-   padding: '10px 35px',
-   borderRadius:'20px',
-   color: 'white', 
-   margin:'30px' }}>
-    ENTER ADDRESS
-    </button>
-
-    
-</div>
+      <div className="flex justify-center items-center">
+        <button className="bg-[#187EB4] rounded-xl text-[#FFFFFF]">
+          ENTER ADDRESS
+        </button>
+      </div>
     </div>
   );
 }
