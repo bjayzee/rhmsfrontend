@@ -505,10 +505,10 @@ export default function Buy() {
                       />
                       <BiLeftArrow className="absolute left-5 text-2xl" onClick={showPrevImage} />
                       <BiRightArrow className="absolute right-5 text-2xl" onClick={showNextImage} />
-                       <div className="absolute bottom-3 flex space-x-2">
+                       <div className="absolute bottom-2 flex space-x-1">
                           {iphoneModel?.pictures.map((_, index) => (
                             <span
-                              className="text-2xl text-center"
+                              className="text-lg text-center"
                               key={index}
                               aria-label={`View Image ${index + 1}`}
                               onClick={() => setCurrentPictureIndex(index)}

@@ -65,7 +65,7 @@ const BuyAirPods = () => {
             
         </div>
 
-        <div className="flex flex-wrap justify-center shadow  border-color-gray">
+        <div className="flex flex-wrap justify-center shadow border-color-gray">
         {models.map((model, index) => (
           <div
             key={index}

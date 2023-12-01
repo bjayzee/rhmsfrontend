@@ -10,12 +10,10 @@ export default function CheckoutPage() {
 
      <div className="flex flex-col font-bold text-[#000000] my-5 text-lg"> 
       <span>Your Swap:</span>
-      <span>iPhone 11 Pro Max  - #2000</span>
+      <span>iPhone 11 Pro Max - #2000</span>
       <span>Price After Swap:</span>
-      <span>iPhone 11 Pro Max  - #4000</span>
+      <span>iPhone 11 Pro Max - #4000</span>
      </div>
-        
-      
 
       <p className="font-bold text-[#000000] text-2xl py-3">How would you like to get your order?</p>
 
@@ -25,7 +23,7 @@ export default function CheckoutPage() {
       </div> 
        
      
-      <p className="font-bold my-5 text-lg w-14">Please note: We charge #3000 upfront for delivery payment</p>
+      <p className="font-bold my-5 text-lg w-48">Please note: We charge #3000 upfront for delivery payment</p>
      
       <div className="flex justify-center items-center">
         <button className="my-10 bg-[#187EB4] text-[#FFFFFF] rounded-full px-16 py-5">
