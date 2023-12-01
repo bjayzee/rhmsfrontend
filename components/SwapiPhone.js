@@ -412,12 +412,12 @@ const SwapiPhone = () => {
                 <>
                   <div className="my-5 text-[#187EB4] text-xl">
                     <div className="flex">
-                      <p className="font-bold">Swap item:</p>
-                      <p className="pl-2 ">{selectedOption.label}</p>
+                      <span className="font-bold">Swap item:</span>
+                      <span className="pl-2 ">{selectedOption.label}</span>
                     </div>
                     <div className="flex">
-                      <p className="font-bold">Swap value:</p>
-                      <p className="pl-2">#33000</p>
+                      <span className="font-bold">Swap value:</span>
+                      <span className="pl-2">#33000</span>
                     </div>
                   </div>
                   <p className="font-semibold py-5 text-xl">
@@ -486,7 +486,7 @@ const SwapiPhone = () => {
                        <div className="absolute bottom-3 flex space-x-1">
                           {iphoneModel?.pictures.map((_, index) => (
                             <span
-                              className="text-2xl text-center"
+                              className="text-lg text-center"
                               key={index}
                               aria-label={`View Image ${index + 1}`}
                               onClick={() => setCurrentPictureIndex(index)}
