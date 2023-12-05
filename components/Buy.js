@@ -430,13 +430,6 @@ export default function Buy() {
 
  
 
-  
-
-  const showNextPicture = () => {
-    setCurrentPictureIndex((prevIndex) => (prevIndex + 1) % models[selectedModel].pictures.length);
-  };
-
-
 
   // Function to handle storage selection
   const handleStorageSelection = (storage) => {

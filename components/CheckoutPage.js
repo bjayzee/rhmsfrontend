@@ -14,8 +14,8 @@ export default function CheckoutPage() {
     </div>
 
     <div className='flex justify-between m-5'>
-      <p>Price</p>
-      <p>#2000</p>
+      <span>Price</span>
+      <span>#2000</span>
 
       
         
