@@ -14,6 +14,7 @@ const BuyAirPods = () => {
     const [addToCartButton, setAddToCartButton] = useState(false);
     const [removeItem, setRemoveItem] = useState(true);
     const [checkoutButton, setCheckoutButton] = useState(false);
+    const [modelIndex, setModelIndex] = useState(0);
 
 
     const showNextPicture = () => {
@@ -29,6 +30,20 @@ const BuyAirPods = () => {
         
     }
 
+
+    const showNextImage = () => {
+      setCurrentPictureIndex((index) => {
+        if (index === iwatchModel?.pictures?.length - 1) return 0;
+        return index + 1;
+      });
+    }
+  
+    const showPrevImage = () => {
+      setCurrentPictureIndex((index) => {
+        if (index === 0) return iwatchModel?.pictures?.length - 1;
+        return index - 1;
+      });
+    }
     
 
     const models = [
@@ -56,14 +71,11 @@ const BuyAirPods = () => {
         
       ];
   return (
-    <div>
-        <div className=" text-lg font-bold mt-10 my-custom-font m-5  ">
-            <p>
-              AirPods: Making your earbuds 
-            </p>
-            <p>jealous.</p>
-            
-        </div>
+    <div className="overflow-x-hidden py-5 px-5">
+        <p className="text-2xl py-3 font-bold">
+        AirPods: Making your earbuds jealous.
+    </p>
+       
 
         <div className="flex flex-wrap justify-center shadow  border-color-gray">
         {models.map((model, index) => (
