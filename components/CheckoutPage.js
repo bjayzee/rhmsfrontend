@@ -1,95 +1,45 @@
-import Link from 'next/link';
-import React from 'react';
+import Link from "next/link";
+import React from "react";
 
 export default function CheckoutPage() {
   return (
-    <div>
+    <div className="px-5">
+      <h2 className="font-bold text-[#000000] text-2xl py-3">Checkout:</h2>
 
-     <div className='font-bold m-5'>
-      <h2>Checkout:</h2>
-    </div>
+    <span className="font-bold text-[#000000] text-2xl">1 used iPhone 11 Pro Max 512GB unlocked pink</span>
 
-    <div className='font-bold m-5'>
-      <h2>1 used iPhone 11 Pro Max 512GB unlocked pink</h2>
-    </div>
+     <div className="flex flex-col font-bold text-[#000000] my-5 text-lg"> 
+      <span>Your Swap:</span>
+      <span>iPhone 11 Pro Max - #2000</span>
+      <span>Price After Swap:</span>
+      <span>iPhone 11 Pro Max - #4000</span>
+     </div>
 
-    <div className='flex justify-between m-5'>
-      <span>Price</span>
-      <span>#2000</span>
+      <p className="font-bold text-[#000000] text-2xl py-3">How would you like to get your order?</p>
 
-      
-        
+     <div className="flex space-x-5 font-bold my-5">
+        <Link className="border-2 w-1/2 border-[#D3D3D3] text-[#187EB4] py-5 rounded-2xl flex items-center justify-center" href="/deliveryInfoPage">I'w like it delivered</Link>
+        <Link className="border-2 w-1/2 border-[#D3D3D3] text-[#187EB4] py-5 rounded-2xl flex items-center justify-center" href="/pickUpStorePage">I’w pick it up</Link>
+      </div> 
+       
      
-    </div>
-
-    <div className='font-bold m-5'>
-      <h1>How would you like to get your order?</h1>
-      
-        
+      <p className="font-bold my-5 text-lg w-48">Please note: We charge #3000 upfront for delivery payment</p>
      
-    </div>
-    <div  className=" flex ">
-      <button  
-        style={{ 
-           border: '2px solid #187EB4',
-           padding: '5px 30px',
-           borderRadius:'10px',
-           color: '#187EB4', 
-           margin:'10px'
-           }}>
-    
-    <Link href="/deliveryInfoPage"> I'w like it delivered</Link>
-    </button>
-
-    <button  
-style={{ 
-  
-  border: '2px solid #187EB4',
-   padding: '5px 30px',
-   borderRadius:'10px',
-   color: '#187EB4', 
-   margin:'10px'
-   
-    }}>
-    <Link href="/pickUpStorePage"> I'w pick it up</Link>
-    
-    </button>
-
-    
-</div>
-
-
-<div className='flex justify-between m-5'>
-
-<div className='font-bold'>
-      <p>Please note: We charge #3000 </p>
-      <p>upfront for delivery payment</p>
-      
-        
-     
-</div>
-    <div>
-      
-    </div>
-</div>
-
-
-
-
-
-<div  className=" flex justify-center items-center">
-<button  
-style={{ 
-  backgroundColor: '#187EB4',
-   padding: '10px 35px',
-   borderRadius:'20px',
-   color: 'white', 
-   margin:'30px' }}>
-    ENTER ADDRESS
-    </button>
-
-    
-</div>
+      <div className="flex justify-center items-center">
+        <button className="my-10 bg-[#187EB4] text-[#FFFFFF] rounded-full px-16 py-5">
+          ENTER ADDRESS
+        </button>
+      </div>
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
