@@ -37,8 +37,8 @@ export default function CheckoutPage() {
            color: '#187EB4', 
            margin:'10px'
            }}>
-    I'w like it delivered
-    <Link href="/deliveryInfoPage"> I'w pick it up</Link>
+    
+    <Link href="/deliveryInfoPage"> I'w like it delivered</Link>
     </button>
 
     <button  
