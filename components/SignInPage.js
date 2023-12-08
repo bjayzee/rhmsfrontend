@@ -1,63 +1,47 @@
-import Link from 'next/link'
-import React from 'react'
+import Link from "next/link";
+import React from "react";
+import { ImAppleinc } from "react-icons/im";
+import { FcGoogle } from "react-icons/fc";
+import { BsFacebook } from "react-icons/bs";
 
 
 const SignInPage = () => {
   return (
-    <div>
-        <div className='m-5 font-bold'>
-            <h1>Sign in</h1>
-        </div>
-        <div className='pl-5'>
-            <input
-             style={{ 
-                border: '2px solid #187EB4',
-                padding: '8px 80px',
-                borderRadius:'10px',
-                color: '#187EB4', 
-                margin:'10px'
-                }}
+    <div className="px-5">
+      <h1 className="font-bold text-[20px] py-5 text-[#187EB4]">Sign in</h1>
+    
+       <div className="flex flex-col space-y-8 text-lg">
+        <input
+          className="focus:ring-0 outline-none border-2 border-[#187EB4] text-[#187EB4] rounded-2xl h-16 px-3"
+          placeholder="Email or Phone Number"
+        />
+        <input
+          className="focus:ring-0 outline-none border-2 border-[#187EB4] text-[#187EB4] rounded-2xl h-16 px-3"
+          placeholder="Password"
+        />  
+      </div>
+  
+   <div className="flex justify-end">
+    <span className="text-[#187EB4] font-bold text-lg">Forgot Password?</span>
+   </div>
 
-                placeholder='Email or Phone Number'
-            />
-
-            <input
-             style={{ 
-                border: '2px solid #187EB4',
-                padding: '8px 80px',
-                borderRadius:'10px',
-                color: '#187EB4', 
-                margin:'10px'
-                }}
-
-                placeholder='Password'
-            />
-            <div className='font-bold '>
-            <p  style={{ 
-                color: '#187EB4', 
-                marginRight:'10px'
-                }}>Forgot Password?</p>
-            </div>
-
-
-        </div>
-
-        <div  className=" flex m-5   pl-10 font-bold">
-          <button  
-           style={{ 
-           border: '2px solid #187EB4',
-           padding: '5px 35px',
-           borderRadius:'20px',
-           color: 'white', 
-           backgroundColor: '#187EB4', 
-           margin:'10px'
-           }}>
-            <Link href="/checkoutPage">Sign In</Link> 
-          </button>
-          </div>
-      
+      <div className="flex flex-col justify-center space-y-5 items-center my-10">
+        <Link
+          className="w-1/2 py-3 rounded-full bg-[#187EB4] text-[#FFFFFF] flex items-center justify-center text-lg"
+          href="/checkoutPage"  
+        >
+          Sign In
+        </Link>
+        <span className="text-lg">Or login with</span>
+        <span className="flex items-center justify-center space-x-5 text-[40px]"><ImAppleinc /> <FcGoogle /> <BsFacebook className="text-[#1877F2]" /></span>
+        <p className="text-[#000000] font-bold text-lg">I dont have an account ? <span className="text-[#187EB4]">Sign Up</span></p>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default SignInPage
+export default SignInPage;
+
+
+
+
