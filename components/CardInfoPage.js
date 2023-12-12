@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+
 const CardInfoPage = () => {
   return (
     <div className="px-5">
@@ -7,15 +8,42 @@ const CardInfoPage = () => {
             <h1>Enter  your card information:</h1>
         </div>
         <div className="flex flex-col space-y-8 text-xl">
-        
-
        
 
+        
+
         <input
+          type="text"
           className="focus:ring-0 outline-none border-2 border-[#187EB4] text-[#187EB4] rounded-2xl h-16 px-3"
           placeholder="Debit Card Number"
         />
+        <div className="absolute inset-y-0 left-0 flex items-center  pl-60  ">
+          <img
+            src="pngwing 54.png"
+            alt="Icon"
+            className="h-5 w-5 text-gray-400 mx-1 mb-60"
+          />
+
+          <img
+            src="pngwing 55.png"
+            alt="Icon"
+            className="h-5 w-5 text-gray-400 mx-1 mb-60"
+          />
+
+            <img
            
+            src="pngwing 56.png"
+            alt="Icon"
+            className="h-5 w-5 text-gray-400 mx-1 mb-60"
+          />
+      
+    </div>
+
+    
+
+        
+
+          
             <div  className="flex space-x-5 font-bold my-5">
                
                 
