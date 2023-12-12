@@ -10,7 +10,7 @@ const DeliveryInfoPage = () => {
     setIsChecked(event.target.checked);
   };
   return (
-    <div>
+    <div  className="px-5">
        <div className='font-bold pl-5 m-5'>
             <h1>Where should we complete your order:</h1>
         </div>
@@ -37,109 +37,60 @@ const DeliveryInfoPage = () => {
             <h1 className='justify-center pl-20'>OR</h1>
             <h2>Enter you name, address and contact</h2>
         </div>
-        <div className='pl-5'>
+        <div className="flex flex-col space-y-8 text-xl">
+           
+            
+        <input
+          className="focus:ring-0 outline-none border-2 border-[#187EB4] text-[#187EB4] rounded-2xl h-16 px-3"
+          placeholder="First Name"
+        />  
+
+        <input
+          className="focus:ring-0 outline-none border-2 border-[#187EB4] text-[#187EB4] rounded-2xl h-16 px-3"
+          placeholder="Last Name"
+        />  
+
+        <input
+          className="focus:ring-0 outline-none border-2 border-[#187EB4] text-[#187EB4] rounded-2xl h-16 px-3"
+          placeholder="Street Address"
+        />
+
             <input
-             style={{ 
-                border: '2px solid #187EB4',
-                padding: '8px 80px',
-                borderRadius:'10px',
-                color: '#187EB4', 
-                margin:'10px'
-                }}
+          className="focus:ring-0 outline-none border-2 border-[#187EB4] text-[#187EB4] rounded-2xl h-16 px-3"
+          placeholder="House number"
+        />
 
-                placeholder='First Name'
-            />
-
-            <input
-             style={{ 
-                border: '2px solid #187EB4',
-                padding: '8px 80px',
-                borderRadius:'10px',
-                color: '#187EB4', 
-                margin:'10px'
-                }}
-
-                placeholder='Last Name'
-            />
-
-<input
-             style={{ 
-                border: '2px solid #187EB4',
-                padding: '8px 80px',
-                borderRadius:'10px',
-                color: '#187EB4', 
-                margin:'10px'
-                }}
-
-                placeholder='Street Address'
-            />
-
-<input
-             style={{ 
-                border: '2px solid #187EB4',
-                padding: '8px 80px',
-                borderRadius:'10px',
-                color: '#187EB4', 
-                margin:'10px'
-                }}
-
-                placeholder=' House number'
-            />
-            <div className='flex mr-2'>
-                <div>
-                <input
-             style={{ 
-                border: '2px solid #187EB4',
-                padding: '6px ',
-                
-                borderRadius:'10px',
-                color: '#187EB4', 
-                margin:'1px'
-                }}
-
-                placeholder='City'
-            />
-                </div>
-                <div>
-                <input
-             style={{ 
-                border: '2px solid #187EB4',
-                padding: '6px ',
-                
-                borderRadius:'10px',
-                color: '#187EB4', 
-                margin:'1px'
+        <div  className="flex space-x-5 font-bold my-5">
                
-                }}
+                
+        <input
+          className="focus:ring-0 w-1/2 outline-none border-2 border-[#187EB4] text-[#187EB4] rounded-2xl h-16 px-3"
+          placeholder="City"
+        />  
+         <input
+          className="focus:ring-0  w-1/2 outline-none border-2 border-[#187EB4] text-[#187EB4] rounded-2xl h-16 px-3"
+          placeholder="state"
+        />  
+        </div>
+          
 
-                placeholder='State'
-            />
-                </div>
-            </div>
 
-<input
-             style={{ 
-                border: '2px solid #187EB4',
-                padding: '8px 80px',
-                borderRadius:'10px',
-                color: '#187EB4', 
-                margin:'10px'
-                }}
 
-                placeholder='Email'
-            />
+
 
 <input
-             style={{ 
-                border: '2px solid #187EB4',
-                padding: '8px 80px',
-                borderRadius:'10px',
-                color: '#187EB4', 
-                margin:'10px'
-                }}
+          className="focus:ring-0 outline-none border-2 border-[#187EB4] text-[#187EB4] rounded-2xl h-16 px-3"
+          placeholder="Email"
+        />
 
-                placeholder='Phone Number'
-            />
+
+<input
+          className="focus:ring-0 outline-none border-2 border-[#187EB4] text-[#187EB4] rounded-2xl h-16 px-3"
+          placeholder="Phone Number"
+        />
+
+
+        
         </div>
 
         <div  className=" flex m-5   pl-10 font-bold">
