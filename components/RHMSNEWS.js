@@ -15,4 +15,4 @@ const RHMSNEWS = () =>{
   );
 };
 
-module.exports = RHMSNEWS;
+export default RHMSNEWS;

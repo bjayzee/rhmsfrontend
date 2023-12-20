@@ -62,4 +62,4 @@ const NavBar = () => {
   )
 }
 
-module.exports = NavBar;
+export default NavBar;

@@ -1,5 +1,7 @@
 "use client"; 
 
+import useSWR from 'swr'
+
 import Link from 'next/link';
 
 import React, { useState } from 'react';
@@ -114,7 +116,12 @@ export default function Buy() {
     });
   }
 
-  
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+  const getModelsAvailable = ()=>{
+    const { data, error } = useSWR('api/products/search?name=iPhone', fetcher);
+    console.log(data);
+  }
+
 
   return (
     <div className="overflow-x-hidden py-5 px-5">
@@ -137,6 +144,8 @@ export default function Buy() {
                 setIphoneModel(model);
                 setSelectedModel(index);
                 setCurrentPictureIndex(0);
+                getModelsAvailable();
+
               }}
             >
               <div className="flex justify-between">

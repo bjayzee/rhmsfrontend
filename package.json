@@ -9,13 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "13.5.5",
+    "http-status": "^1.7.3",
+    "joi": "^17.11.0",
+    "mongoose": "^8.0.1",
+    "next": "^14.0.3",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^4.12.0",
     "react-router-dom": "^6.17.0",
     "react-slick": "^0.29.0",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "swr": "^2.2.4"
   },
   "devDependencies": {
     "autoprefixer": "^10",
