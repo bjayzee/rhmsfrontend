@@ -42,7 +42,7 @@ export async function POST(request){
         }
         
         const res = await Product.create({...requestData, specification, category });
-        return NextResponse.json({success: true, message: 'Phone created successfully', data: res.toJSON()}, {status: httpStatus.CREATED});
+        return NextResponse.json({success: true, message: 'Product created successfully', data: res.toJSON()}, {status: httpStatus.CREATED});
         } catch (error) {
         return NextResponse.json({success: false, message: 'Something went wrong', data: error.message}, {status: error?.status || httpStatus.INTERNAL_SERVER_ERROR})
     }
@@ -53,7 +53,7 @@ export async function POST(request){
 export async function GET(){
     try {
         await connectDB();
-        const resData = await Product.find().populate('specification');
+        const resData = await Product.find().populate(['specification', 'category']);
         return NextResponse.json({success: true, message: 'Products found successfully', data: resData}, {status: httpStatus.FOUND})
     } catch (error) {
         return NextResponse.json({success: false, message: 'Something went wrong', data: error.message}, {status: httpStatus.INTERNAL_SERVER_ERROR})

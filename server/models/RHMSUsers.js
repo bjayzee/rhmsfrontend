@@ -1,21 +1,28 @@
 import { Schema, model, models } from 'mongoose';
 
 const userSchema = new Schema({
-    name: {
+    firstname: {
+        type: String,
+    },
+    lastname: {
+        type: String,
+    },
+    type: {
         type: String,
         required: true,
+        default: 'guest',
+        enum: ['guest', 'customer']
     },
     email: {
         type: String,
-        required: true,
+        unique: [true, 'email already exist']
     },
     password: {
         type: String,
-        required: [true, 'password is required']
     },
-    phone: {
+    phoneNumber: {
         type: String,
-        required: [true, 'phone number is required'],
+        unique: [true, 'Phone number already exist']
     },
     isAdmin: {
         type: Boolean,
@@ -26,12 +33,12 @@ const userSchema = new Schema({
         default: false,
     },    
     address: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Address'
     },
     shippingAdress: [
         {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Address',
     },
     ],

@@ -13,11 +13,10 @@ export async function GET(request) {
         await connectDB();
 
         const { category, name, subCategory, productType } = url.parse(request.url, true).query;
-
         if (category) {
-            const foundCategory = await Category.findOne({ name: category });
+            const foundCategory = await Category.findOne({ name: category});
             if (foundCategory) {
-                const productsInCategory = await Product.find({ category: foundCategory.id }).populate(['specification', 'category']);
+                const productsInCategory = await Product.find({ category: foundCategory.id }).populate(['category', 'specification']);
                 return successMessage(message, productsInCategory, httpStatus.FOUND);
             }
         } else if (subCategory) {

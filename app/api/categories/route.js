@@ -7,16 +7,16 @@ import { NextResponse } from "next/server";
 
 export async function POST(request){
     
+    const req = await request.json();
     try {
-        const req = await request.json();
-
         await connectDB();
 
         const category = await Category.create(req);
 
         return NextResponse.json({ success: true, message: 'category created successfully', data: category.toJSON() }, { status: httpStatus.CREATED })
     } catch (error) {
-        return NextResponse.json({success: false, message: `Error occur creating ${req.name} category`, data: error.message}, {status: error.status || httpStatus.BAD_REQUEST});
+        const name = req.name;
+        return NextResponse.json({ success: false, message: error.message || `Error occur creating ${name} category`}, {status: error.status || httpStatus.BAD_REQUEST});
     }
     
 }

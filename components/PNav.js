@@ -17,7 +17,7 @@ const PNav = () => {
                 <p className="p-0 font-bold">Login/Register</p>
                 <Image
                     src="/cart.png"
-                    alt=""
+                    alt="cart image"
                     width={20}
                     height={21}
                 />

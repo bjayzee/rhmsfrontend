@@ -28,6 +28,12 @@ const specificationSchema = new Schema({
     },
     sim: {
         type: String
+    },
+    processor: {
+        type: String
+    },
+    RAM: {
+        type: String
     }
 },
 )

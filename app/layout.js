@@ -1,10 +1,10 @@
 import { PNav, NavBar, Footer } from '@/components'
 import './globals.css'
 
-import { EB_Garamond } from "next/font/google";
+import { Nunito_Sans } from "next/font/google";
 
 
-const garamond = EB_Garamond({subsets: ["latin"]})
+const garamond = Nunito_Sans({subsets: ["latin"]})
 
 export const metadata = {
   title: 'RHMS',
