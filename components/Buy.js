@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 import { GoDot, GoDotFill } from "react-icons/go";
 import { BiRightArrow, BiLeftArrow } from "react-icons/bi";
 import { models } from '@/server/utils/iPhonedata';
+import RadioSelection from './RadioSelectionButton';
 
 
 export default function Buy() {
@@ -34,15 +35,24 @@ export default function Buy() {
   const [iphoneModel, setIphoneModel] = useState("");
 
 
+  const [availableModels, setAvailableModels] = useState([]);
+  const [pending, setPending] = useState(false);
+  const [pickItems, setPickItems] = useState([]);
+  const [grade, setGrade] = useState([]);
+  const [colorVariant, setColorVariant] = useState([]);
+  const [availableCarrier, setAvailableCarrier] = useState([]);
+
+  const [phoneBasedOnCarrier, setPhoneBasedOnCarrier] = useState([]);
+  const [storageList, setStorageList] = useState([]);
+
+  const [phoneBasedOnStorage, setPhoneBasedOnStorage] = useState([]);
+  const [colorList, setColorList] = useState([]);
+
+  const [phoneBasedOnColor, setPhoneBasedOnColor] = useState([]);
+  const [phoneColorValue, setPhoneColorValue] = useState(null);
 
 
 
-  // Function to handle storage selection
-  const handleStorageSelection = (storage) => {
-    setSelectedStorage(storage);
-    setShowAddToCart(false); // Show the "Add to Cart" button when storage is selected
-    setAddToCartButton(true)
-  };
 
 
 
@@ -54,14 +64,25 @@ export default function Buy() {
   }
 
 
-  const handleColorChange = (iphoneColor) => {
-    setSelectedColor(iphoneColor);
-    setSelectedStorage(null);
-    setShowAddToCart(false); // Hide "Add to Cart" when color changes
-    setShowStorageOptions(true); // Show storage options
-  };
+
 
   const handleNewOrUsedChange = (iphoneState) => {
+    console.log(pickItems)
+
+    const filteredItems = pickItems.filter(
+      (iphoneModel) => iphoneModel.specification.grade.trim().toLowerCase() === iphoneState.trim().toLowerCase()
+    );
+    console.log(filteredItems);
+
+    const carriers = filteredItems.map((iphoneModel) => iphoneModel.specification.carrier);
+
+    const carriersSet = new Set(carriers);
+
+    console.log(carriers);
+
+
+    setPhoneBasedOnCarrier(filteredItems);
+    setAvailableCarrier(Array.from(carriersSet))
     setSelectedCondition(iphoneState);
     setLockState(null);
     setSelectedColor(null);
@@ -70,12 +91,71 @@ export default function Buy() {
     setShowStorageOptions(false);
   };
 
-  const handleLockedOrUnlockedChange = (iphoneState) => {
-    setLockState(iphoneState);
+  const handleLockedOrUnlockedChange = (iphoneLockState) => {
+
+    console.log(phoneBasedOnCarrier)
+
+    const filteredItems = phoneBasedOnCarrier.filter(
+      (iphoneModel) => iphoneModel.specification.carrier.trim().toLowerCase() === iphoneLockState.trim().toLowerCase()
+    );
+    console.log(filteredItems);
+
+    const capacities = filteredItems.map((iphoneModel) => iphoneModel.specification.capacity);
+
+    const capacitiesSet = new Set(capacities);
+
+    console.log(capacities);
+
+
+    setPhoneBasedOnStorage(filteredItems);
+    setLockState(iphoneLockState);
+    setStorageList(Array.from(capacitiesSet))
     setSelectedColor(null);
     setSelectedStorage(null);
     setShowAddToCart(false); // Hide "Add to Cart" when status changes
   };
+
+  // Function to handle storage selection
+  const handleStorageSelection = (storage) => {
+
+    console.log(phoneBasedOnStorage)
+
+    const filteredItems = phoneBasedOnStorage.filter(
+      (iphoneModel) => iphoneModel.specification.capacity.trim().toLowerCase() === storage.trim().toLowerCase()
+    );
+    console.log(filteredItems);
+
+    const colors = filteredItems.map((iphoneModel) => iphoneModel.specification.color);
+
+    const colorSets = new Set(colors);
+
+    console.log(colorSets);
+
+
+    setPhoneBasedOnColor(filteredItems);
+    setColorList(Array.from(colorSets));
+    setSelectedStorage(storage);
+    setShowAddToCart(false); // Show the "Add to Cart" button when storage is selected
+    setAddToCartButton(true)
+  };
+
+
+
+  const handleColorChange = (iphoneColor) => {
+
+    console.log(phoneBasedOnColor)
+
+    const filteredItems = phoneBasedOnColor.filter(
+      (iphoneModel) => iphoneModel.specification.color.trim().toLowerCase() === iphoneColor.trim().toLowerCase()
+    );
+    console.log(filteredItems);
+
+
+    setSelectedColor(iphoneColor);
+    setShowAddToCart(true);
+  };
+
+
 
   const showNextImage = () => {
     setCurrentPictureIndex((index) => {
@@ -91,12 +171,6 @@ export default function Buy() {
     });
   }
 
-  const [availableModels, setAvailableModels] = useState([]);
-  const [pending, setPending] = useState(false);
-  const [pickItems, setPickItems] = useState([]);
-  const [grade, setGrade] = useState([]);
-  const [colorVariant, setColorVariant] = useState([]);
-
 
 
 
@@ -104,7 +178,7 @@ export default function Buy() {
     try {
       const response = await axios.get('/api/products/search?category=iPhone', {
         validateStatus: function (status) {
-          return status < 400; // Resolve only if the status code is less than 500
+          return status < 400;
         }
       }).then(res => res.data);
       const iphoneModels = response.data;
@@ -118,19 +192,7 @@ export default function Buy() {
     getModelsAvailable();
   }, []);
 
-  console.log(grade)
-
-  // const fetcher = url => axios.get(url, {
-  //   validateStatus: function (status) {
-  //     return status < 400; // Resolve only if the status code is less than 400
-  //   }
-  // }).then(res => res.data);
-
-  // const { data: response, isLoading, error } = useSWR('api/products/search?category=iPhone', fetcher);
-
-  // console.log()
-  // const iphoneModels = response?.data;
-  // setAvailableModels(iphoneModels);
+  let phoneStatus;
 
   return (
     <div className="overflow-x-hidden py-5 px-5">
@@ -163,7 +225,7 @@ export default function Buy() {
 
                     const grades = itemPicked.map((iphoneModel) => iphoneModel.specification.grade)
                     const uniqueGradesSet = new Set(grades);
-                    console.log(grades)
+
 
                     setPickItems(itemPicked);
                     setGrade(Array.from(uniqueGradesSet))
@@ -226,234 +288,110 @@ export default function Buy() {
               </div>
             ) : null}
 
-            {removeItem !== false ? (
-              <div className="flex flex-col space-y-3 text-lg my-5">
-                <span className="font-bold">Pick your preference</span>
+            {removeItem !== false && (
+              <RadioSelection
+                title={'Pick your preference'}
+                name={`condition-${iphoneModel?.name}`}
+                options={grade}
+                onChange={(selectedOption) => handleNewOrUsedChange(selectedOption)}
+              />
+            )}
 
-                <div className="flex space-x-3">
-                  <label className="flex items-center space-x-1">
-                    <input
-                      type="radio"
-                      name={`condition-${iphoneModel?.name}`}
-                      value={grade[1]} onChange={() => handleNewOrUsedChange(`${grade[1]}`)}
-                    />
-                    <span>{grade[1]}</span>
-                  </label>
-
-
-
-                  <label className="flex items-center space-x-1">
-                    <input
-                      type="radio"
-                      name={`condition-${iphoneModel?.name}`}
-                      value={grade[0]}
-                      onChange={() => handleNewOrUsedChange(`${grade[0]}`)}
-                    />
-                    <span>`${grade[0]}`</span>
-                  </label>
-                </div>
-              </div>
-            ) : null}
-
-            {selectedCondition === "brand-new" ? (
+            {selectedCondition != null ? (
               <>
                 {removeItem !== false ? (
-                  <div className="flex flex-col space-y-3 my-5 text-lg">
-                    <span className="font-bold">Phone Status</span>
-
-                    <div className="flex space-x-3">
-                      <label className="flex items-center space-x-1">
-                        <input
-                          type="radio"
-                          name={`status-${iphoneModel?.name}`}
-                          value="locked"
-                          onChange={() =>
-                            handleLockedOrUnlockedChange("locked")
-                          }
-                        />
-                        <span>Locked</span>
-                      </label>
-                      <label className="flex items-center space-x-1">
-                        <input
-                          type="radio"
-                          name={`status-${iphoneModel?.name}`}
-                          value="unlocked"
-                          onChange={() => {
-                            handleLockedOrUnlockedChange("locked");
-                            setShowStorageOptions(false); // Hide storage options
-                          }}
-                        />
-                        <span>Unlocked</span>
-                      </label>
-                    </div>
-                  </div>
+                  <RadioSelection
+                    title={'Carrier/Lock Status'}
+                    name={`condition-${iphoneModel?.name}`}
+                    options={availableCarrier}
+                    onChange={(selectedOption) => handleLockedOrUnlockedChange(selectedOption)}
+                  />
                 ) : null}
 
                 {lockState !== null ? (
                   <>
                     {removeItem !== false ? (
-                      <div className="flex flex-col space-y-3 text-lg my-5">
-                        <span className="font-bold">
-                          Select from available Colors
-                        </span>
+                      <RadioSelection
+                        title={'Select from available storages'}
+                        name={`condition-${iphoneModel?.name}`}
+                        options={storageList}
+                        onChange={(selectedOption) => handleStorageSelection(selectedOption)}
+                      />
+                    ) : null}
 
-                        <div className="grid grid-cols-4 gap-2">
-                          <label className="flex items-center space-x-1">
-                            <input
-                              type="radio"
-                              name={`color-${iphoneModel?.name}`}
-                              value="red"
-                              onChange={() => handleColorChange("red")}
-                            />
-                            <span>Red</span>
-                          </label>
+                    {selectedStorage !== null ? (
+                      <>
+                        {removeItem !== false ? (
+                          <RadioSelection
+                            title={'Select from available colors'}
+                            name={`condition-${iphoneModel?.name}`}
+                            options={colorList}
+                            onChange={(selectedOption) => handleColorChange(selectedOption)}
+                          />
+                        ) : null}
 
-                          <label className="flex items-center space-x-1">
-                            <input
-                              type="radio"
-                              name={`color-${iphoneModel?.name}`}
-                              value="blue"
-                              onChange={() => handleColorChange("blue")}
-                            />
-                            <span>Blue</span>
-                          </label>
-                          <label className="flex items-center space-x-1">
-                            <input
-                              type="radio"
-                              name={`color-${iphoneModel?.name}`}
-                              value="black"
-                              onChange={() => handleColorChange("black")}
-                            />
-                            <span>Black</span>
-                          </label>
-                          <label className="flex items-center space-x-1">
-                            <input
-                              type="radio"
-                              name={`color-${iphoneModel?.name}`}
-                              value="green"
-                              onChange={() => handleColorChange("green")}
-                            />
-                            <span>Green</span>
-                          </label>
-                          <label className="flex items-center space-x-1">
-                            <input
-                              type="radio"
-                              name={`color-${iphoneModel?.name}`}
-                              value="pink"
-                              onChange={() => handleColorChange("pink")}
-                            />
-                            <span>Pink</span>
-                          </label>
+                      </>
+                    ) : null}
+
+
+                    {showAddToCart && selectedModel !== null ? (
+                      <div className="text-lg">
+                        <div className="flex justify-between items-center">
+                          <div className="flex font-bold capitalize my-5">
+                            <span>1 {selectedCondition}</span>
+                            <span>{models[selectedModel].name}</span>
+                          </div>
+                          <div className="flex space-x-2 capitalize">
+                            <span>{selectedStorage}</span>
+                            <span>{lockState}</span>
+                            <span>{selectedColor}</span>
+                          </div>
                         </div>
+
+                        <div className="flex justify-between font-semibold">
+                          <span>Price</span>
+                          <span className="capitalize">{models[selectedModel].price}</span>
+                        </div>
+
+                        <div className="flex justify-end my-2">
+                          <span
+                            className="text-[#187EB4] mt-10 text-right my-10 font-extrabold"
+                            onClick={() => setShowAddToCart(false)}
+                          >
+                            Remove
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+
+                    {addToCartButton ? (
+                      <div className="flex justify-center items-center">
+                        <button
+                          className="bg-[#187EB4] px-16 py-4 mt-5 rounded-full text-[#FFFFFF]"
+                          onClick={showCartDetails}
+                        >
+                          Add to Cart
+                        </button>
                       </div>
                     ) : null}
 
-                    {showStorageOptions ? (
-                      <>
-                        {removeItem !== false ? (
-                          <div className="flex flex-col space-y-3 text-lg my-5">
-                            <span className="font-bold">
-                              Select Storage Capacity
-                            </span>
+                    {checkoutButton ? (
+                      <div className="flex justify-center">
+                        <div className="flex items-center flex-col space-y-2">
+                          <Link
+                            className="bg-[#187EB4] px-16 py-4 mt-3 rounded-full text-[#FFFFFF]"
+                            href="/howToCheckOut"
 
-                            <div className="flex space-x-3">
-                              <label className="flex items-center space-x-1">
-                                <input
-                                  type="radio"
-                                  name={`storage-${iphoneModel?.name}`}
-                                  value="128GB"
-                                  onChange={() =>
-                                    handleStorageSelection("128GB")
-                                  }
-                                />
-                                <span>128GB</span>
-                              </label>
-                              <label className="flex items-center space-x-1">
-                                <input
-                                  type="radio"
-                                  name={`storage-${iphoneModel?.name}`}
-                                  value="256GB"
-                                  onChange={() =>
-                                    handleStorageSelection("256GB")
-                                  }
-                                />
-                                <span>256GB</span>
-                              </label>
-                              <label className="flex items-center space-x-1">
-                                <input
-                                  type="radio"
-                                  name={`storage-${iphoneModel?.name}`}
-                                  value="512GB"
-                                  onChange={() =>
-                                    handleStorageSelection("512GB")
-                                  }
-                                />
-                                <span>512GB</span>
-                              </label>
-                            </div>
-                          </div>
-                        ) : null}
-
-                        {showAddToCart && selectedModel !== null ? (
-                          <div className="text-lg">
-                            <div className="flex justify-between items-center">
-                              <div className="flex font-bold capitalize my-5">
-                                <span>1 {selectedCondition}</span>
-                                <span>{models[selectedModel].name}</span>
-                              </div>
-                              <div className="flex space-x-2 capitalize">
-                                <span>{selectedStorage}</span>
-                                <span>{lockState}</span>
-                                <span>{selectedColor}</span>
-                              </div>
-                            </div>
-
-                            <div className="flex justify-between font-semibold">
-                              <span>Price</span>
-                              <span className="capitalize">{models[selectedModel].price}</span>
-                            </div>
-
-                            <div className="flex justify-end my-2">
-                              <span
-                                className="text-[#187EB4] mt-10 text-right my-10 font-extrabold"
-                                onClick={() => setShowAddToCart(false)}
-                              >
-                                Remove
-                              </span>
-                            </div>
-                          </div>
-                        ) : (
-                          ""
-                        )}
-
-                        {addToCartButton ? (
-                          <div className="flex justify-center items-center">
-                            <button
-                              className="bg-[#187EB4] px-16 py-4 mt-5 rounded-full text-[#FFFFFF]"
-                              onClick={showCartDetails}
-                            >
-                              Add to Cart
-                            </button>
-                          </div>
-                        ) : null}
-
-                        {checkoutButton ? (
-                          <div className="flex justify-center">
-                            <div className="flex items-center flex-col space-y-2">
-                              <Link
-                                className="bg-[#187EB4] px-16 py-4 mt-3 rounded-full text-[#FFFFFF]"
-                                href="/howToCheckOut"
-
-                              >
-                                Checkout
-                              </Link>
-                              <span className="text-[#187EB4] text-center">
-                                Add more items
-                              </span>
-                            </div>
-                          </div>
-                        ) : null}
-                      </>
+                          >
+                            Checkout
+                          </Link>
+                          <span className="text-[#187EB4] text-center">
+                            Add more items
+                          </span>
+                        </div>
+                      </div>
                     ) : null}
                   </>
                 ) : null}
@@ -463,13 +401,6 @@ export default function Buy() {
         </>
       ) : ""}
 
-
-
     </div>
   );
 }
-
-
-
-
-
