@@ -11,9 +11,9 @@ const RadioSelection = ({ title, name, options, onChange }) => {
                     <label key={index} className="flex items-center space-x-1">
                         <input
                             type="radio"
-                            name={name}
                             value={option}
                             onChange={() => onChange(option)}
+                            name={name}
                         />
                         <span>{option}</span>
                     </label>
