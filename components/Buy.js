@@ -3,10 +3,13 @@
 import axios from 'axios';
 import useSWR from 'swr';
 import Link from 'next/link';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import RadioSelection from './RadioSelectionButton';
 import { models } from '@/server/utils/iPhonedata';
 import ImageSlider from './ImageSlider';
+import { useRouter } from 'next/navigation';
+import { CartContent } from '@/app/context/AppContext';
+import { TbCurrencyNaira } from 'react-icons/tb';
 
 export default function Buy() {
   const [selectedModel, setSelectedModel] = useState(null);
@@ -31,7 +34,10 @@ export default function Buy() {
   const [grade, setGrade] = useState([null]);
   const [price, setPrice] = useState(0);
   const [pickItems, setPickItems] = useState([]);
-  const priceRef = useRef(null);
+  const priceRef = useRef(null)
+  const router = useRouter();
+
+  const {cartItems, setCartItems }= useContext(CartContent);
 
   const handleNewOrUsedChange = (iphoneState) => {
     const filteredItems = filterItemsBySpec(pickItems, 'grade', iphoneState);
@@ -84,6 +90,12 @@ export default function Buy() {
     setAddToCartButton(true);
   };
 
+  const handleClickAddToCart = () =>{
+    setSelectedModel(null);
+    const updatedCartItems = [...cartItems, iphoneModel];
+    setCartItems(updatedCartItems);    
+  }
+
   const showNextImage = () => {
     setCurrentPictureIndex((index) => (index === iphoneModel?.images?.length - 1 ? 0 : index + 1));
   };
@@ -114,14 +126,7 @@ export default function Buy() {
 
   const getUniqueValues = (items, spec) => Array.from(new Set(items.map((iphone) => iphone.specification[spec])));
 
-  const showCartDetails = () => {
-    setShowAddToCart(true);
-    setRemoveItem(false);
-    setCheckoutButton(true);
-    setAddToCartButton(false);
-  };
-
-  return (
+   return (
     <div className="overflow-x-hidden py-5 px-5">
       <p className="text-xl py-3 font-semi-bold">
         The iPhone connection - connecting you to the world
@@ -177,7 +182,7 @@ export default function Buy() {
             {removeItem !== false && (
               <div className="flex justify-between py-4">
                 <b>{iphoneModel?.name}</b>
-                <b>Price: {"N " + price}</b>
+                 <b className='flex'>Price: <TbCurrencyNaira className="h-6 mr-1" />{price}</b>
               </div>
             )}
 
@@ -227,17 +232,18 @@ export default function Buy() {
 
                     {addToCartButton && (
                       <div className="flex justify-center items-center">
-                        <button
-                          className="bg-[#187EB4] px-16 py-4 mt-5 rounded-full text-[#FFFFFF]"
-                          onClick={showCartDetails}
-                        >
-                          Add to Cart
-                        </button>
+
+                        <Link href='/checkoutPage'>
+                          <button
+                            className="bg-[#187EB4] px-16 py-4 mt-5 rounded-full text-[#FFFFFF]"
+                            onClick={handleClickAddToCart}
+                          >
+                            Add to Cart
+                          </button>
+                        </Link>
+                       
                       </div>
-                    )}
-
-
-                   
+                    )}                 
                   </>
                 )}
               </>
