@@ -4,15 +4,32 @@ import { CartContent } from '@/app/context/AppContext';
 import CartCard from './CartCard';
 import Link from 'next/link';
 import { TbCurrencyNaira } from 'react-icons/tb';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+
+
 
 
 const Cart = () => {
+    const { data: session, status: sessionStatus } = useSession();
+    const router = useRouter()
+
 
     const { cartItems, setCartItems, removeFromCart } = useContext(CartContent);
 
-    const onCheckout = () =>{
-        
+    const handleCheckout = (e) =>{
+        e.preventDefault();
+        if(sessionStatus === "unauthenticated"){
+            router.push('/login')
+        }
+        else if(sessionStatus === "loading"){
+            return <div>loading....</div>
+        }
+        else if(sessionStatus === "authenticated"){
+            router.push('order-review-page')
+        }
     }
+
     return (
         <div className="container mx-auto mt-5">
             <h2 className="text-xl  text-center font-bold mb-4">Shopping Cart</h2>
@@ -21,10 +38,10 @@ const Cart = () => {
                 <p className="text-gray-500 ml-5">Your cart is empty.</p>
             ) : (
                 <div>
-                    {cartItems.map((phone, index) => (
+                    {cartItems.map((jhjhhj, index) => (
                         <CartCard
                             key={index}
-                            phone={phone}
+                            phone={jhjhhj}
                             onRemove={() => removeFromCart(index)}
                         />
                     ))}
@@ -45,15 +62,13 @@ const Cart = () => {
                 </Link>
 
 
-                <Link href='/signin-page' disabled={cartItems.length === 0} passHref>
                     <button
                         className={`bg-rh-blue text-[white] px-4 py-2 rounded-md ${cartItems.length === 0 ? 'opacity-30 cursor-not-allowed' : ''}`}
-                        onClick={onCheckout}
+                        onClick={(e) => handleCheckout(e)}
                         disabled={cartItems.length === 0}
                     >
                         CHECKOUT
                     </button>
-                </Link>
             </div>
         </div>
     );

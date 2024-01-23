@@ -1,15 +1,18 @@
 'use client'
+
 import toast from "react-hot-toast";
 
-const { useState, createContext } = require("react");
+const { useState, createContext, useEffect } = require("react");
 
 
 export const CartContent = createContext({});
 
-async function AppContext({ children }) {
+function AppContext({ children }) {
   const [cartItems, setCartItems] = useState([]);
 
+
   const ls = typeof window !== 'undefined' ? window.localStorage : null;
+
 
   const saveCartItemsToLocalStorage = (cartItems) => {
     if (ls) {
@@ -21,6 +24,23 @@ async function AppContext({ children }) {
     }
   };
 
+  const addToCart = async(phone) => {
+    let quantity = 1
+    const cartProduct = { 
+      ...phone, 
+      quantity, 
+      price: phone.price 
+    };
+    setCartItems((prev) => {
+      const newProducts = [...prev, cartProduct];
+      saveCartItemsToLocalStorage(newProducts);
+      toast.success('Item added to cart');
+      return newProducts;
+    });
+        
+  };
+
+
   // remove from cart
   const removeFromCart = (index) => {
     const updatedCart = [...cartItems];
@@ -28,26 +48,16 @@ async function AppContext({ children }) {
     setCartItems(updatedCart);
   };
 
-  // add to cart function
-  const addToCart = (product, quantity = 1, price) => {
-    const cartProduct = { ...product, quantity, price };
-    setCartItems((prev) => {
-      const newProducts = [...prev, cartProduct];
-      saveCartItemsToLocalStorage(newProducts);
-      return newProducts;
-    });
-    toast.success('Item added to cart');
-  };
 
   return (
     <div>
-        
-        <CartContent.Provider value={{ cartItems, setCartItems, addToCart, removeFromCart }}>
-          {children}
-        </CartContent.Provider>
+
+      <CartContent.Provider value={{ cartItems, setCartItems, removeFromCart, addToCart }}>
+        {children}
+      </CartContent.Provider>
 
     </div>
-  
+
   );
 }
 

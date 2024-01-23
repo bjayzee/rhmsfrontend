@@ -1,13 +1,11 @@
 "use client";
 
 import axios from 'axios';
-import useSWR from 'swr';
 import Link from 'next/link';
 import { useState, useEffect, useRef, useContext } from 'react';
 import RadioSelection from './RadioSelectionButton';
 import { models } from '@/server/utils/iPhonedata';
 import ImageSlider from './ImageSlider';
-import { useRouter } from 'next/navigation';
 import { CartContent } from '@/app/context/AppContext';
 import { TbCurrencyNaira } from 'react-icons/tb';
 
@@ -35,12 +33,11 @@ export default function Buy() {
   const [price, setPrice] = useState(0);
   const [pickItems, setPickItems] = useState([]);
   const priceRef = useRef(null)
-  const router = useRouter();
-  const { addToCart } = useContext(CartContent);
 
 
-  const { cartItems, setCartItems } = useContext(CartContent);
+  const { cartItems, setCartItems, addToCart } = useContext(CartContent);
 
+  
   const handleNewOrUsedChange = (iphoneState) => {
     const filteredItems = filterItemsBySpec(pickItems, 'grade', iphoneState);
     const carriers = getUniqueValues(filteredItems, 'carrier');
@@ -104,7 +101,7 @@ export default function Buy() {
   };
 
 
-  const [fetchingModel, setFetchingModel] = useState(false)
+  const [fetchingModel, setFetchingModel] = useState(true)
   const getModelsAvailable = async () => {
     setFetchingModel(true)
     try {
@@ -241,25 +238,10 @@ export default function Buy() {
                     {addToCartButton && (
                       <div className="flex justify-center items-center">
 
-                        <Link href='/checkoutPage' passHref>
+                        <Link href='/checkoutPage'>
                           <button
                             className="bg-[#187EB4] px-16 py-4 mt-5 rounded-full text-[#FFFFFF]"
-                            onClick={() => {
-                              addToCart(iphoneModel, 1, iphoneModel.price)
-                              
-                              return 
-                              <div className="flying-button-parent mt-4">
-                                {/* <FlyingButton
-                                  targetTop={'5%'}
-                                  targetLeft={'95%'}
-                                  src={image}>
-                                  <div onClick={onClick}>
-                                    Add to cart ${basePrice}
-                                  </div>
-                                </FlyingButton> */}
-                              </div>
-                            }
-                            }
+                            onClick={()=> addToCart(iphoneModel)}
                           >
                             Add to Cart
                           </button>

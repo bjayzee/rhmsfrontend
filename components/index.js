@@ -4,9 +4,7 @@ import DealOfTheDay from './DealOfTheDay'
 import NavBar from './NavBar'
 import PNav from './PNav'
 import RHMSNEWS from './RHMSNEWS'
-import HeroCard from './HeroCard'
 import DealODayCard from './DealODayCard'
-import Link from 'next/link';
 
 import Repair from './Repair'
 import Buy from './Buy'
@@ -35,7 +33,6 @@ export {
     NavBar,
     PNav,
     RHMSNEWS,
-    HeroCard,
     DealODayCard,
     Repair,
     Buy,

@@ -6,9 +6,11 @@ import {useState, useEffect} from "react";
 import { ImAppleinc } from "react-icons/im";
 import { FcGoogle } from "react-icons/fc";
 import { BsFacebook } from "react-icons/bs";
+import axios from "axios";
+import toast from "react-hot-toast";
+
 
 const SignUp = () => {
-
     const [error, setError] = useState("");
     const router = useRouter();
     const { data: session, status: sessionStatus } = useSession();
@@ -23,6 +25,7 @@ const SignUp = () => {
         const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
         return emailRegex.test(email);
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const email = e.target[0].value;
@@ -40,55 +43,53 @@ const SignUp = () => {
         }
 
         try {
-            const res = await fetch("/api/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email,
-                    phone,
-                    password,
-                }),
+            const res = await axios.post("/api/register", {
+                email,
+                phone,
+                password,
             });
+
             if (res.status === 400) {
                 setError("This email is already registered");
-            }
-            if (res.status === 200) {
+            } else if (res.status === 200) {
                 setError("");
+                toast.success('Registration successful')
                 router.push("/login");
             }
         } catch (error) {
             setError("Error, try again");
-            console.log(error);
+            console.error(error);
         }
     };
 
-    if (sessionStatus === "loading") {
+    if (sessionStatus !== "loading") {
         return <h1>Loading...</h1>;
     }
 
     return (
-        sessionStatus!== 'authenticated' && (
-        <div className="flex min-h-screen flex-col items-center justify-between">
+        sessionStatus !== "authenticated" && (
+            <div className="flex min-h-screen flex-col items-center justify-between">
             <div className="p-8 rounded shadow-md w-96">
                 <h1 className="text-3xl text-center font-semibold mb-8 text-rh-blue">Sign up</h1>
                 <form onSubmit={handleSubmit}>
                     <input
                         type="text"
-                        className="w-full border border-rh-blue text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-rh-blue focus:text-black"
+                        name="email"
+                            className="w-full border border-rh-blue text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-rh-blue focus:text-black focus:border-2"
                         placeholder="Email"
                         required
                     />
                     <input
                         type="text"
-                        className="w-full border border-rh-blue text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-rh-blue focus:text-black"
+                        name="phone"
+                            className="w-full border border-rh-blue text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-rh-blue focus:text-black focus:border-2"
                         placeholder="Phone Number"
                         required
                     />
                     <input
                         type="text"
-                        className="w-full border border-rh-blue text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-rh-blue focus:text-black"
+                        name="password"
+                            className="w-full border border-rh-blue text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-rh-blue focus:text-black focus:border-2"
                         placeholder="Password"
                         required
                     />

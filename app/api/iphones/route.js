@@ -6,6 +6,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(request) {
     try {
+        await connectDB();
         const searchParams = request.nextUrl.searchParams;
         const query = searchParams.get('query');
 

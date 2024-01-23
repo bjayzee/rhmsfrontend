@@ -4,7 +4,7 @@ import { GoDot, GoDotFill } from 'react-icons/go';
 
 const ImageSlider = ({ images, currentPictureIndex, showPrevImage, showNextImage }) => {
     return (
-        <div className="relative flex items-center justify-center bg-white rounded-[30px] shadow-xl px-16 py-10 my-5 border-[#D9D9D9] border-r-8 border-b-8">
+        <div className="relative flex items-center justify-center bg-white rounded-[10px] shadow-xl px-16 py-10 my-5 border-[#D9D9D9] border-r-8 border-b-8">
             <img
                 src={images[currentPictureIndex]}
                 className="w-full h-64 object-cover cursor-pointer"

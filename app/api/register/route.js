@@ -1,31 +1,33 @@
-import User from "@/models/User";
-import connect from "@/utils/db";
+import User from "@/server/models/RHMSUsers";
+import { failMessage, successMessage } from "@/server/utils/apiResponse";
+import connectDB from "@/server/utils/db";
 import bcrypt from "bcryptjs";
-import { NextResponse } from "next/server";
+import httpStatus from "http-status";
+import { ApiError } from "next/dist/server/api-utils";
 
 export const POST = async (request) => {
-    const { email, password } = await request.json();
-
-    await connect();
-
-    const existingUser = await User.findOne({ email });
-
-    if (existingUser) {
-        return new NextResponse("Email is already in use", { status: 400 });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 5);
-    const newUser = new User({
-        email,
-        password: hashedPassword,
-    });
-
     try {
-        await newUser.save();
-        return new NextResponse("user is registered", { status: 200 });
-    } catch (err: any) {
-        return new NextResponse(err, {
-            status: 500,
+        const { email, password, phone } = await request.json();
+
+        await connectDB();
+
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) {
+            throw new ApiError(httpStatus.BAD_REQUEST, "Email is already in use");
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 5);
+        const newUser = new User({
+            email,
+            password: hashedPassword,
+            phoneNumber: phone
         });
+
+        
+            const data = await newUser.save();
+            return successMessage("User created successfully", data, httpStatus.OK)
+    } catch (err) {
+       return failMessage(err, httpStatus.INTERNAL_SERVER_ERROR, "An error has occured")
     }
 };

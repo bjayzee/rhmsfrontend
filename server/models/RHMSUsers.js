@@ -7,12 +7,6 @@ const userSchema = new Schema({
     lastname: {
         type: String,
     },
-    type: {
-        type: String,
-        required: true,
-        default: 'guest',
-        enum: ['guest', 'customer']
-    },
     email: {
         type: String,
         unique: [true, 'email already exist']

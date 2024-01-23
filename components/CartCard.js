@@ -8,7 +8,6 @@ import { TbCurrencyNaira } from "react-icons/tb";
 
 const CartCard = ({ phone, onRemove }) => {
     const { setCartItems, cartItems } = useContext(CartContent)
-
     const updateItem = (type) => {
         const temp = [...cartItems]
 

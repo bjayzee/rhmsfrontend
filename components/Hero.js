@@ -1,6 +1,5 @@
 "use client";
 import Image from 'next/image';
-import HeroCard from './HeroCard';
 import Link from 'next/link';
 
 const Hero = () => {
