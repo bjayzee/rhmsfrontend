@@ -36,8 +36,10 @@ export default function Buy() {
   const [pickItems, setPickItems] = useState([]);
   const priceRef = useRef(null)
   const router = useRouter();
+  const { addToCart } = useContext(CartContent);
 
-  const {cartItems, setCartItems }= useContext(CartContent);
+
+  const { cartItems, setCartItems } = useContext(CartContent);
 
   const handleNewOrUsedChange = (iphoneState) => {
     const filteredItems = filterItemsBySpec(pickItems, 'grade', iphoneState);
@@ -70,6 +72,7 @@ export default function Buy() {
     setSelectedStorage(storage);
     setShowAddToCart(false);
     setAddToCartButton(false);
+    setSelectedColor(null);
   };
 
   const handleColorChange = (iphoneColor) => {
@@ -90,11 +93,7 @@ export default function Buy() {
     setAddToCartButton(true);
   };
 
-  const handleClickAddToCart = () =>{
-    setSelectedModel(null);
-    const updatedCartItems = [...cartItems, iphoneModel];
-    setCartItems(updatedCartItems);    
-  }
+
 
   const showNextImage = () => {
     setCurrentPictureIndex((index) => (index === iphoneModel?.images?.length - 1 ? 0 : index + 1));
@@ -104,7 +103,10 @@ export default function Buy() {
     setCurrentPictureIndex((index) => (index === 0 ? iphoneModel?.images?.length - 1 : index - 1));
   };
 
+
+  const [fetchingModel, setFetchingModel] = useState(false)
   const getModelsAvailable = async () => {
+    setFetchingModel(true)
     try {
       const response = await axios.get('/api/products/search?category=iPhone', {
         validateStatus: (status) => status < 400,
@@ -114,6 +116,8 @@ export default function Buy() {
       setAvailableModels(iphoneModels);
     } catch (error) {
       console.error('Error fetching available models:', error);
+    } finally {
+      setFetchingModel(false)
     }
   };
 
@@ -126,13 +130,17 @@ export default function Buy() {
 
   const getUniqueValues = (items, spec) => Array.from(new Set(items.map((iphone) => iphone.specification[spec])));
 
-   return (
+  return (
     <div className="overflow-x-hidden py-5 px-5">
       <p className="text-xl py-3 font-semi-bold">
         The iPhone connection - connecting you to the world
       </p>
 
-      {selectedModel !== modelIndex && (
+      {
+        fetchingModel && <p>Fetching phones</p>
+      }
+
+      {selectedModel !== modelIndex && !fetchingModel && (
         <div className="flex flex-wrap shadow-lg border-[#D9D9D9] border-l-8 border-t-8 rounded-[20px]">
           {models.map((model, index) => {
             const modelExists = availableModels.some(
@@ -176,13 +184,13 @@ export default function Buy() {
             currentPictureIndex={currentPictureIndex}
             showPrevImage={showPrevImage}
             showNextImage={showNextImage}
-            
+
           />
           <div className="px-5">
             {removeItem !== false && (
               <div className="flex justify-between py-4">
                 <b>{iphoneModel?.name}</b>
-                 <b className='flex'>Price: <TbCurrencyNaira className="h-6 mr-1" />{price}</b>
+                <b className='flex'>Price: <TbCurrencyNaira className="h-6 mr-1" />{price}</b>
               </div>
             )}
 
@@ -233,17 +241,32 @@ export default function Buy() {
                     {addToCartButton && (
                       <div className="flex justify-center items-center">
 
-                        <Link href='/checkoutPage'>
+                        <Link href='/checkoutPage' passHref>
                           <button
                             className="bg-[#187EB4] px-16 py-4 mt-5 rounded-full text-[#FFFFFF]"
-                            onClick={handleClickAddToCart}
+                            onClick={() => {
+                              addToCart(iphoneModel, 1, iphoneModel.price)
+                              
+                              return 
+                              <div className="flying-button-parent mt-4">
+                                {/* <FlyingButton
+                                  targetTop={'5%'}
+                                  targetLeft={'95%'}
+                                  src={image}>
+                                  <div onClick={onClick}>
+                                    Add to cart ${basePrice}
+                                  </div>
+                                </FlyingButton> */}
+                              </div>
+                            }
+                            }
                           >
                             Add to Cart
                           </button>
                         </Link>
-                       
+
                       </div>
-                    )}                 
+                    )}
                   </>
                 )}
               </>

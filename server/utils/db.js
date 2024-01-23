@@ -9,12 +9,14 @@ import mongoose from "mongoose";
             const connection = await mongoose.connect(process.env.DB_URL);
             console.log('Database connected');
             global.mongoose = { conn: connection }; // Cache the connection
-
+            
             return connection;
         }
        
     } catch (error) {
         console.error('Error connecting to MongoDB:', error);
+
+        setTimeout(connectDB, 5000);
     }
 }
 

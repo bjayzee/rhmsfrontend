@@ -1,32 +1,31 @@
+import User from "@/models/User";
+import connect from "@/utils/db";
+import bcrypt from "bcryptjs";
+import { NextResponse } from "next/server";
 
-import User from "@/server/models/RHMSUsers";
-import { failMessage, successMessage } from "@/server/utils/apiResponse";
-import connectDB from "@/server/utils/db";
-import bcrypt from 'bcrypt';
-import httpStatus from "http-status";
-import { ApiError } from "next/dist/server/api-utils";
+export const POST = async (request) => {
+    const { email, password } = await request.json();
 
+    await connect();
 
-export async function POST(request){
-    try {
-        const requestData = await request.json();
-        const {password: plainPassword, ...rest} = requestData;
-        await connectDB();
+    const existingUser = await User.findOne({ email });
 
-        const exists = await User.findOne({ $or: [{email}, {phoneNumber}]});
-        if(exists){
-            throw new ApiError(httpStatus.BAD_REQUEST, "Phone number or email already exists")
-        }
-        const hashedPassword = await bcrypt.hash(plainPassword, 10);
-
-        const user = await User.create({...rest, password: hashedPassword});
-
-        const { password, ...responseObj } = user.toJSON();
-
-        return successMessage('User created successfully', responseObj, httpStatus.CREATED);
-    } catch (error) {
-        
-        return failMessage(error, httpStatus.BAD_REQUEST, 'error creating user');
+    if (existingUser) {
+        return new NextResponse("Email is already in use", { status: 400 });
     }
-}
 
+    const hashedPassword = await bcrypt.hash(password, 5);
+    const newUser = new User({
+        email,
+        password: hashedPassword,
+    });
+
+    try {
+        await newUser.save();
+        return new NextResponse("user is registered", { status: 200 });
+    } catch (err: any) {
+        return new NextResponse(err, {
+            status: 500,
+        });
+    }
+};
