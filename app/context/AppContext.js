@@ -8,11 +8,25 @@ const { useState, createContext, useEffect } = require("react");
 export const CartContent = createContext({});
 
 function AppContext({ children }) {
+
+  
   const [cartItems, setCartItems] = useState([]);
 
 
   const ls = typeof window !== 'undefined' ? window.localStorage : null;
 
+  useEffect(() => {
+    if (ls) {
+      try {
+        const storedCartItems = JSON.parse(ls.getItem('cart'));
+        if (storedCartItems) {
+          setCartItems(storedCartItems);
+        }
+      } catch (error) {
+        console.error('Error retrieving cart items from localStorage:', error);
+      }
+    }
+  }, [ls, setCartItems]);
 
   const saveCartItemsToLocalStorage = (cartItems) => {
     if (ls) {
@@ -23,6 +37,10 @@ function AppContext({ children }) {
       }
     }
   };
+  const clearCartAndLocalStorage = () =>{
+    ls.clear();
+    setCartItems([]);
+  }
 
   const addToCart = async(phone) => {
     let quantity = 1
@@ -52,7 +70,7 @@ function AppContext({ children }) {
   return (
     <div>
 
-      <CartContent.Provider value={{ cartItems, setCartItems, removeFromCart, addToCart }}>
+      <CartContent.Provider value={{ cartItems, setCartItems, removeFromCart, addToCart, clearCartAndLocalStorage }}>
         {children}
       </CartContent.Provider>
 

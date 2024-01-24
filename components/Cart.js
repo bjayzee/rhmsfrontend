@@ -38,10 +38,10 @@ const Cart = () => {
                 <p className="text-gray-500 ml-5">Your cart is empty.</p>
             ) : (
                 <div>
-                    {cartItems.map((jhjhhj, index) => (
+                    {cartItems.map((phone, index) => (
                         <CartCard
                             key={index}
-                            phone={jhjhhj}
+                            phone={phone}
                             onRemove={() => removeFromCart(index)}
                         />
                     ))}

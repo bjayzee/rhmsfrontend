@@ -26,12 +26,15 @@ const PNav = () => {
                 <p className="p-0 font-bold">Login/Register</p>
                 <div>
                     <div className="relative mr-3">
-                        <Image
-                            src="/cart.png"
-                            alt="cart image"
-                            width={20}
-                            height={21}
-                        />
+                        <Link href='/checkoutPage'>
+                            <Image
+                                src="/cart.png"
+                                alt="cart image"
+                                width={20}
+                                height={21}
+                            />
+                        </Link>
+                        
 
                         {!!cartItems.length > 0 && (
                             <span className=" bg-rh-blue text-[white] rounded-full px-1 absolute bottom-2 left-3">
