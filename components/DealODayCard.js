@@ -1,14 +1,27 @@
-import Image from "next/image"
+import Image from "next/image";
 
-const DealODayCard = () => {
+const DealODayCard = ({ onClick, param}) => {
   return (
-    <section className="w-[165px] h-[275px] bg-white rounded-xl shadow-2xl border-[#D9D9D9] border-r-8 border-b-8 grid justify-items-center py-5">
-      <Image src='/iphoneS.png' width={118} height={156} className="shadow rounded-2xl" />
-      <div className="w-[87.45px] h-[25.85px] text-black text-l font-bold">iPhone 15</div>
-      <div className="w-11 h-2 text-black text-l font-normal pb-5">$699</div>
-      <button className="w-[120px] h-[26px] bg-rh-blue rounded-[10px] shadow text-white-100 mt-2">BUY/SWAP</button>
-    </section>
-  )
-}
+      <section
+        onClick={onClick}
+        className="align-center border-radius-2xl shadow-2xl w-full p-5 ml-3"
+      >
+        <img
+          src={param.thumbnail}
+          width={100}
+          height={100}
+          className="shadow rounded-2xl"
+          alt={param.name}
+        />
+        <div className="w-fit text-black font-bold p-3">
+          {param.name}
+        </div>
+        <div className="text-black text-l font-normal p-1">${param.price}</div>
+        <button className="w-[120px] h-[26px] bg-rh-blue rounded-[10px] shadow text-white-100">
+          BUY/SWAP
+        </button>
+      </section>
+  );
+};
 
-export default DealODayCard
+export default DealODayCard;

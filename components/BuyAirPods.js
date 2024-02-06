@@ -51,29 +51,32 @@ const BuyAirPods = () => {
     
 
     const models = [
-        {
-          name: 'MacBook Air',
-          pictures: ['pod.png', 'basket.png'],
-          price: '$599',
-        },
-        {
-          name: 'Mac Mini',
-          pictures: ['pod.png'],
-          price: '$859',
-        },
-        {
-          name: 'MacBook Pro',
-          pictures: ['pod.png'],
-          price: '$1599',
-        },
-        {
-          name: 'IMac',
-          pictures: ['pod.png'],
-          price: '$900',
-        },
-       
-        
-      ];
+      {
+        name: "iPad",
+        pictures: ["pod.png", "basket.png"],
+        price: "$599",
+      },
+      {
+        name: "iPad Pro",
+        pictures: ["pod.png"],
+        price: "$859",
+      },
+      {
+        name: "iPad Mini",
+        pictures: ["pod.png"],
+        price: "$1599",
+      },
+      {
+        name: "iPad Air",
+        pictures: ["pod.png"],
+        price: "$900",
+      },
+      {
+        name: "Magic Keyboard - iPad Pro",
+        pictures: ["pod.png"],
+        price: "$900",
+      },
+    ];
   return (
     <div className="overflow-x-hidden py-5 px-5">
         <p className="text-2xl py-3 font-bold">
@@ -98,7 +101,7 @@ const BuyAirPods = () => {
               }}
             >
               <div className="flex justify-between">
-                <span className="text-xl font-bold">{model.name}</span>
+                <span className="text-lg font-semi-bold">{model.name}</span>
               </div>
             </div>
           ))}

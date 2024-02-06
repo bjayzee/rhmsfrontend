@@ -1,7 +1,6 @@
 import RepairCenter from "./repair/RepairCenter";
 import Repair from "./repair/Repair";
 import ItemRepair from "./repair/ItemRepair";
-import iPhone from "./products/iPhone";
 import OldiPhones from "./products/OldiPhones";
 import Product from "./products/Product";
 import Specification from "./products/Specification";
@@ -16,7 +15,6 @@ export {
     RepairCenter,
     Repair,
     ItemRepair,
-    iPhone,
     OldiPhones,
     Specification,
     Product,

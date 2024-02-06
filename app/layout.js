@@ -3,8 +3,8 @@ import './globals.css'
 
 import { Nunito_Sans } from "next/font/google";
 import AppContext from './context/AppContext';
-import { getServerSession } from "next-auth";
 import SessionProvider from './context/AuthProvider'
+import { getServerSession } from 'next-auth';
 
 
 
