@@ -1,18 +1,17 @@
-'use client'
-import Image from "next/image"
-import DealODayCard from "./DealODayCard"
+"use client";
+import Image from "next/image";
+import DealODayCard from "./DealODayCard";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
 const DealOfTheDay = () => {
-
-  const [availableForDeals, setAvailableForDeals] = useState([])
+  const [availableForDeals, setAvailableForDeals] = useState([]);
   const [fetchingModel, setFetchingModel] = useState(true);
   const getModelsAvailable = async () => {
     setFetchingModel(true);
     try {
       const response = await axios
-        .get("/api/products/search?dealOfTheDay=true", {
+        .get("/api/products/search?dealOfTheDay=" + true, {
           validateStatus: (status) => status < 400,
         })
         .then((res) => res.data);
@@ -30,28 +29,22 @@ const DealOfTheDay = () => {
     getModelsAvailable();
   }, []);
   return (
-    <div className="">
-      <h1 className="font-black text-center text-2xl">DEALS OF THE DAY</h1>
-      <div className="flex flex-wrap justify-around gap-5">
+    <div className="grid justify-items-center">
+      <h1 className="font-black text-center">DEALS OF THE DAY</h1>
+      <div className="grid grid-cols-2 justify-between gap-6">
+        {fetchingModel && <div>fetching deals of the day</div>}
 
-      {fetchingModel && <div>fetching deals of the day</div>}
-        
-        {availableForDeals.length !== 0 && (
+        {availableForDeals.length !== 0 &&
           availableForDeals.map((deal, index) => (
             <div key={index}>
               <DealODayCard param={deal} />
             </div>
-          )
-          
-          
           ))}
-       
-      <div>
 
-        </div>
+        <div></div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default DealOfTheDay
+export default DealOfTheDay;
