@@ -59,12 +59,8 @@ const Cart = () => {
 
         {swapValue > 1 ? (
           <p className="flex justify-end pt-3 px-5">
-            <span className="font-bold font pr-3">
-              Swap Item Value: <TbCurrencyNaira />
-              {swapValue}:
-            </span>{" "}
-            <TbCurrencyNaira className="w-5 h-6" />{" "}
-            {swapValue?.toLocaleString()}
+            <span className="font-bold font pr-3">Swap Item Value:</span>{" "}
+            <TbCurrencyNaira className="w-5 h-6" /> {swapValue?.toLocaleString()}
           </p>
         ) : (
           ""
