@@ -140,7 +140,7 @@ const models = [
     price: '$213'
   },
   {
-    name: 'iPhone 7 Plus',
+    name: 'iPhone 7Plus',
     pictures: [],
     price: '$213'
   },

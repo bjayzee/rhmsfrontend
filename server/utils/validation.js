@@ -7,13 +7,21 @@ const itemRepairValidation = Joi.object({
     premiumPrice: Joi.number().required(),
 });
 
-const iPhoneSchema = Joi.object({
-    name: Joi.string().required(),
-    state: Joi.string().valid('new', 'used').required(),
-    lockStatus: Joi.string().valid('locked', 'unlocked').default('unlocked'),
-    storageAndPrice: Joi.object().pattern(Joi.string(), Joi.string()),
-    color: Joi.array().items(Joi.string()),
-    images: Joi.array().items(Joi.string().required()),
+const gradePriceSchema = Joi.object({
+  name: Joi.string().required(),
+  price: Joi.number().required(),
+});
+const oldiPhoneSchema = Joi.object({
+  name: Joi.string().required(),
+  storagePrice: Joi.number().required(),
+  baseStorage: Joi.string().required(),
+  storageVariance: Joi.array().items(Joi.string()).required(),
+  lockStatus: Joi.string().required(),
+  pricePerGrade: Joi.array()
+    .items(
+      Joi.object()
+    )
+    .required(),
 });
 
 // Define Joi schema for the review sub-schema
@@ -63,7 +71,7 @@ const productSchema = Joi.object({
 
 export {
     itemRepairValidation,
-    iPhoneSchema,
+    oldiPhoneSchema,
     productSchema,
     specificationSchema,
     reviewSchema

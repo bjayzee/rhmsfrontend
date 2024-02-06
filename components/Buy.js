@@ -2,12 +2,13 @@
 
 import axios from 'axios';
 import Link from 'next/link';
-import { useState, useEffect, useRef, useContext } from 'react';
+import { useState, useEffect, useRef, useContext, CSSProperties } from 'react';
 import RadioSelection from './RadioSelectionButton';
 import { models } from '@/server/utils/iPhonedata';
 import ImageSlider from './ImageSlider';
 import { CartContent } from '@/app/context/AppContext';
 import { TbCurrencyNaira } from 'react-icons/tb';
+import PropagateLoader from "react-spinners/PropagateLoader";
 
 export default function Buy() {
   const [selectedModel, setSelectedModel] = useState(null);
@@ -34,10 +35,29 @@ export default function Buy() {
   const [pickItems, setPickItems] = useState([]);
   const priceRef = useRef(null)
 
-
   const { cartItems, setCartItems, addToCart } = useContext(CartContent);
 
-  
+   useEffect(() => {
+     getModelsAvailable();
+   }, []);
+  const getModelsAvailable = async () => {
+    setFetchingModel(true);
+    try {
+      const response = await axios
+        .get("/api/products/search?category=iPhone", {
+          validateStatus: (status) => status < 400,
+        })
+        .then((res) => res.data);
+
+      const iphoneModels = response.data;
+      setAvailableModels(iphoneModels);
+    } catch (error) {
+      console.error("Error fetching available models:", error);
+    } finally {
+      setFetchingModel(false);
+    }
+  };
+
   const handleNewOrUsedChange = (iphoneState) => {
     const filteredItems = filterItemsBySpec(pickItems, 'grade', iphoneState);
     const carriers = getUniqueValues(filteredItems, 'carrier');
@@ -102,31 +122,18 @@ export default function Buy() {
 
 
   const [fetchingModel, setFetchingModel] = useState(true)
-  const getModelsAvailable = async () => {
-    setFetchingModel(true)
-    try {
-      const response = await axios.get('/api/products/search?category=iPhone', {
-        validateStatus: (status) => status < 400,
-      }).then((res) => res.data);
-
-      const iphoneModels = response.data;
-      setAvailableModels(iphoneModels);
-    } catch (error) {
-      console.error('Error fetching available models:', error);
-    } finally {
-      setFetchingModel(false)
-    }
-  };
-
-  useEffect(() => {
-    getModelsAvailable();
-  }, []);
+  
 
   const filterItemsBySpec = (items, spec, value) =>
     items.filter((iphone) => iphone.specification[spec].trim().toLowerCase() === value.trim().toLowerCase());
 
   const getUniqueValues = (items, spec) => Array.from(new Set(items.map((iphone) => iphone.specification[spec])));
 
+  const override = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "green",
+  };
   return (
     <div className="overflow-x-hidden py-5 px-5">
       <p className="text-xl py-3 font-semi-bold">
@@ -134,7 +141,15 @@ export default function Buy() {
       </p>
 
       {
-        fetchingModel && <p>Fetching phones</p>
+        fetchingModel && <p>fetching phones</p>
+        // <PropagateLoader
+        //   color= {"green"}
+        //   loading={fetchingModel}
+        //   cssOverride={override}
+        //   size={20}
+        //   aria-label="Loading Spinner"
+        //   data-testid="loader"
+        //  />
       }
 
       {selectedModel !== modelIndex && !fetchingModel && (

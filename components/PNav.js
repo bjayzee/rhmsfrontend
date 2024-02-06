@@ -1,7 +1,6 @@
 'use client'
 
 import { CartContent } from "@/app/context/AppContext";
-import { cartDetails } from "@/server/utils/CartData";
 import Image from "next/image"
 import Link from "next/link"
 import { useContext } from "react";

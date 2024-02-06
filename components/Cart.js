@@ -15,7 +15,7 @@ const Cart = () => {
     const router = useRouter()
 
 
-    const { cartItems, setCartItems, removeFromCart } = useContext(CartContent);
+    const { cartItems, removeFromCart, swapValue, clearCartAndLocalStorage } = useContext(CartContent);
 
     const handleCheckout = (e) =>{
         e.preventDefault();
@@ -30,47 +30,71 @@ const Cart = () => {
         }
     }
 
+    const price = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    console.log({swapValue})
+    const totalPrice = price - swapValue;
+
     return (
-        <div className="container mx-auto mt-5">
-            <h2 className="text-xl  text-center font-bold mb-4">Shopping Cart</h2>
+      <div className="container mx-auto mt-5">
+        <h2 className="text-xl  text-center font-bold mb-4">Shopping Cart</h2>
 
-            {cartItems.length === 0 ? (
-                <p className="text-gray-500 ml-5">Your cart is empty.</p>
-            ) : (
-                <div>
-                    {cartItems.map((phone, index) => (
-                        <CartCard
-                            key={index}
-                            phone={phone}
-                            onRemove={() => removeFromCart(index)}
-                        />
-                    ))}
-                </div>
-            )}
+        {cartItems.length === 0 ? (
+          <p className="text-gray-500 ml-5">Your cart is empty.</p>
+        ) : (
+          <div>
+            {cartItems.map((phone, index) => (
+              <CartCard
+                key={index}
+                phone={phone}
+                onRemove={() => removeFromCart(index)}
+              />
+            ))}
+          </div>
+        )}
 
-            <p className='flex justify-end pt-3 px-5'><span className='font-bold font pr-3'>Subtotal:</span> <TbCurrencyNaira className='w-5 h-6'/> {cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)?.toLocaleString()}</p>
+        <p className="flex justify-end pt-3 px-5">
+          <span className="font-bold font pr-3">Subtotal:</span>{" "}
+          <TbCurrencyNaira className="w-5 h-6" /> {price?.toLocaleString()}
+        </p>
 
-            <div className="flex justify-center my-4 ">
+        {swapValue > 1 ? (
+          <p className="flex justify-end pt-3 px-5">
+            <span className="font-bold font pr-3">
+              Swap Item Value: <TbCurrencyNaira />
+              {swapValue}:
+            </span>{" "}
+            <TbCurrencyNaira className="w-5 h-6" />{" "}
+            {swapValue?.toLocaleString()}
+          </p>
+        ) : (
+          ""
+        )}
 
-                <Link href='/' passHref>
-                    <button
-                        className="text-rh-blue text-sm px-4 py-2 mr-2 rounded-md"
-                        disabled={cartItems.length === 0}
-                    >
-                        Add More Items
-                    </button>
-                </Link>
+        <p className="flex justify-end pt-3 px-5">
+          <span className="font-bold font pr-3">Total:</span>{" "}
+          <TbCurrencyNaira className="w-5 h-6" /> {totalPrice?.toLocaleString()}
+        </p>
+        <div className="flex justify-center my-4 ">
+          <Link href="/" passHref>
+            <button
+              className="text-rh-blue text-sm px-4 py-2 mr-2 rounded-md"
+              disabled={cartItems.length === 0}
+            >
+              Add More Items
+            </button>
+          </Link>
 
-
-                    <button
-                        className={`bg-rh-blue text-[white] px-4 py-2 rounded-md ${cartItems.length === 0 ? 'opacity-30 cursor-not-allowed' : ''}`}
-                        onClick={(e) => handleCheckout(e)}
-                        disabled={cartItems.length === 0}
-                    >
-                        CHECKOUT
-                    </button>
-            </div>
+          <button
+            className={`bg-rh-blue text-[white] px-4 py-2 rounded-md ${
+              cartItems.length === 0 ? "opacity-30 cursor-not-allowed" : ""
+            }`}
+            onClick={(e) => handleCheckout(e)}
+            disabled={cartItems.length === 0}
+          >
+            CHECKOUT
+          </button>
         </div>
+      </div>
     );
 };
 

@@ -3,11 +3,11 @@ import React from 'react';
 
 const RadioSelection = ({ title, name, options, onChange }) => {
     return (
-        <div className="flex flex-col space-y-3 text-lg my-5">
+        <div className="flex flex-col text-lg my-2">
             <span className="font-bold">{title}</span>
 
             <div className="flex space-x-3">
-                {options.map((option, index) => (
+                {options?.map((option, index) => (
                     <label key={index} className="flex items-center space-x-1">
                         <input
                             type="radio"

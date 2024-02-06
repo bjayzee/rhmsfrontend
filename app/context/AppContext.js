@@ -1,29 +1,26 @@
-'use client'
+"use client";
 
 import toast from "react-hot-toast";
 
 const { useState, createContext, useEffect } = require("react");
 
-
 export const CartContent = createContext({});
 
 function AppContext({ children }) {
-
-  
   const [cartItems, setCartItems] = useState([]);
+  const [swapValue, setSwapValue] = useState(0);
 
-
-  const ls = typeof window !== 'undefined' ? window.localStorage : null;
+  const ls = typeof window !== "undefined" ? window.localStorage : null;
 
   useEffect(() => {
     if (ls) {
       try {
-        const storedCartItems = JSON.parse(ls.getItem('cart'));
+        const storedCartItems = JSON.parse(ls.getItem("cart"));
         if (storedCartItems) {
           setCartItems(storedCartItems);
         }
       } catch (error) {
-        console.error('Error retrieving cart items from localStorage:', error);
+        console.error("Error retrieving cart items from localStorage:", error);
       }
     }
   }, [ls, setCartItems]);
@@ -31,33 +28,31 @@ function AppContext({ children }) {
   const saveCartItemsToLocalStorage = (cartItems) => {
     if (ls) {
       try {
-        ls.setItem('cart', JSON.stringify(cartItems));
+        ls.setItem("cart", JSON.stringify(cartItems));
       } catch (error) {
-        console.error('Error saving cart items to localStorage:', error);
+        console.error("Error saving cart items to localStorage:", error);
       }
     }
   };
-  const clearCartAndLocalStorage = () =>{
+  const clearCartAndLocalStorage = () => {
     ls.clear();
     setCartItems([]);
-  }
+  };
 
-  const addToCart = async(phone) => {
-    let quantity = 1
-    const cartProduct = { 
-      ...phone, 
-      quantity, 
-      price: phone.price 
+  const addToCart = async (phone) => {
+    let quantity = 1;
+    const cartProduct = {
+      ...phone,
+      quantity,
+      price: phone.price,
     };
     setCartItems((prev) => {
       const newProducts = [...prev, cartProduct];
       saveCartItemsToLocalStorage(newProducts);
-      toast.success('Item added to cart');
+      toast.success("Item added to cart");
       return newProducts;
     });
-        
   };
-
 
   // remove from cart
   const removeFromCart = (index) => {
@@ -66,16 +61,22 @@ function AppContext({ children }) {
     setCartItems(updatedCart);
   };
 
-
   return (
     <div>
-
-      <CartContent.Provider value={{ cartItems, setCartItems, removeFromCart, addToCart, clearCartAndLocalStorage }}>
+      <CartContent.Provider
+        value={{
+          cartItems,
+          setCartItems,
+          removeFromCart,
+          addToCart,
+          clearCartAndLocalStorage,
+          setSwapValue,
+          swapValue
+        }}
+      >
         {children}
       </CartContent.Provider>
-
     </div>
-
   );
 }
 

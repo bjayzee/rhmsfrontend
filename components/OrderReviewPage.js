@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 
 
 const OrderReviewPage = () => {
-  const { cartItems, clearCartAndLocalStorage } = useContext(CartContent);
+  const { cartItems, clearCartAndLocalStorage} = useContext(CartContent);
 
   const router = useRouter();
 
