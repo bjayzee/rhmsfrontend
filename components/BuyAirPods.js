@@ -2,55 +2,155 @@
 
 import Link from 'next/link';
 
-import React, { useState } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 
 import { GoDot, GoDotFill } from "react-icons/go";
 import { BiRightArrow, BiLeftArrow } from "react-icons/bi";
+import { CartContent } from '@/app/context/AppContext';
 
 
 const BuyAirPods = () => {
 
-    const [selectedModel, setSelectedModel] = useState(null);
-    const [currentPictureIndex, setCurrentPictureIndex] = useState(0);
-    const [selectedCondition, setSelectedCondition] = useState(null);
-    const [showAddToCart, setShowAddToCart] = useState(false); 
-    const [addToCartButton, setAddToCartButton] = useState(false);
-    const [removeItem, setRemoveItem] = useState(true);
-    const [checkoutButton, setCheckoutButton] = useState(false);
-    const [modelIndex, setModelIndex] = useState(0);
-    const [airPodsModel, setAirPodsModel] = useState(null)
+   const [selectedModel, setSelectedModel] = useState(null);
+   const [currentPictureIndex, setCurrentPictureIndex] = useState(0);
+   const [selectedCondition, setSelectedCondition] = useState(null);
+   const [lockState, setLockState] = useState(null);
+   const [selectedColor, setSelectedColor] = useState(null);
+   const [selectedStorage, setSelectedStorage] = useState(null);
+   const [showAddToCart, setShowAddToCart] = useState(false);
+   const [addToCartButton, setAddToCartButton] = useState(false);
+   const [removeItem, setRemoveItem] = useState(true);
+   const [checkoutButton, setCheckoutButton] = useState(false);
+   const [modelIndex, setModelIndex] = useState(0);
+   const [iphoneModel, setIphoneModel] = useState("");
+   const [availableModels, setAvailableModels] = useState([]);
+   const [availableCarrier, setAvailableCarrier] = useState([]);
+   const [phoneBasedOnCarrier, setPhoneBasedOnCarrier] = useState([]);
+   const [storageList, setStorageList] = useState([]);
+   const [phoneBasedOnStorage, setPhoneBasedOnStorage] = useState([]);
+   const [colorList, setColorList] = useState([]);
+   const [phoneBasedOnColor, setPhoneBasedOnColor] = useState([]);
+   const [grade, setGrade] = useState([null]);
+   const [price, setPrice] = useState(0);
+   const [pickItems, setPickItems] = useState([]);
+   const priceRef = useRef(null);
 
+   const { cartItems, setCartItems, addToCart } = useContext(CartContent);
+    useEffect(() => {
+      getModelsAvailable();
+   }, []);
 
-    const showNextPicture = () => {
-        setCurrentPictureIndex((prevIndex) => (prevIndex + 1) % models[selectedModel].pictures.length);
+    const getModelsAvailable = async () => {
+      setFetchingModel(true);
+      try {
+        const response = await axios
+          .get("/api/products/search?category=iPad", {
+            validateStatus: (status) => status < 400,
+          })
+          .then((res) => res.data);
+
+        const iphoneModels = response.data;
+        setAvailableModels(iphoneModels);
+      } catch (error) {
+        console.error("Error fetching available models:", error);
+      } finally {
+        setFetchingModel(false);
+      }
     };
 
-    const showCartDetails = () =>{
-        setShowAddToCart(true); 
-        setRemoveItem(false);
-        setCheckoutButton(true);
-        setAddToCartButton(false)
-       
-        
-    }
+   
+   const handleNewOrUsedChange = (iphoneState) => {
+     const filteredItems = filterItemsBySpec(pickItems, "grade", iphoneState);
+     const carriers = getUniqueValues(filteredItems, "carrier");
+     setPhoneBasedOnCarrier(filteredItems);
+     setAvailableCarrier(carriers);
+     setSelectedCondition(iphoneState);
+     setLockState(null);
+     setSelectedColor(null);
+     setSelectedStorage(null);
+     setShowAddToCart(false);
+   };
 
+   const handleLockedOrUnlockedChange = (iphoneLockState) => {
+     const filteredItems = filterItemsBySpec(
+       phoneBasedOnCarrier,
+       "carrier",
+       iphoneLockState
+     );
+     const capacities = getUniqueValues(filteredItems, "capacity");
+     setPhoneBasedOnStorage(filteredItems);
+     setLockState(iphoneLockState);
+     setStorageList(capacities);
+     setSelectedColor(null);
+     setSelectedStorage(null);
+     setShowAddToCart(false);
+   };
 
-    const showNextImage = () => {
-      setCurrentPictureIndex((index) => {
-        if (index === airPodsModel?.pictures?.length - 1) return 0;
-        return index + 1;
-      });
-    }
+   const handleStorageSelection = (storage) => {
+     const filteredItems = filterItemsBySpec(
+       phoneBasedOnStorage,
+       "capacity",
+       storage
+     );
+     const colors = getUniqueValues(filteredItems, "color");
+     setPhoneBasedOnColor(filteredItems);
+     setColorList(colors);
+     setSelectedStorage(storage);
+     setShowAddToCart(false);
+     setAddToCartButton(false);
+     setSelectedColor(null);
+   };
+
+   const handleColorChange = (iphoneColor) => {
+     const filteredItems = filterItemsBySpec(
+       phoneBasedOnColor,
+       "color",
+       iphoneColor
+     );
+     setSelectedColor(iphoneColor);
+     setPrice(filteredItems[0].price);
+     setIphoneModel(filteredItems[0]);
+
+     if (priceRef.current) {
+       priceRef.current.focus();
+       window.scrollTo({
+         top: priceRef.current.offsetTop,
+         behavior: "smooth",
+       });
+     }
+
+     setCurrentPictureIndex(0);
+     setAddToCartButton(true);
+   };
+
+   const showNextImage = () => {
+     setCurrentPictureIndex((index) =>
+       index === iphoneModel?.images?.length - 1 ? 0 : index + 1
+     );
+   };
+
+   const showPrevImage = () => {
+     setCurrentPictureIndex((index) =>
+       index === 0 ? iphoneModel?.images?.length - 1 : index - 1
+     );
+   };
+
+   const [fetchingModel, setFetchingModel] = useState(true);
   
-    const showPrevImage = () => {
-      setCurrentPictureIndex((index) => {
-        if (index === 0) return airPodsModel?.pictures?.length - 1;
-        return index - 1;
-      });
-    }
-    
 
-    const models = [
+   const filterItemsBySpec = (items, spec, value) =>
+     items.filter(
+       (iphone) =>
+         iphone.specification[spec].trim().toLowerCase() ===
+         value.trim().toLowerCase()
+     );
+
+   const getUniqueValues = (items, spec) =>
+     Array.from(new Set(items.map((iphone) => iphone.specification[spec])));
+
+   const [proceed, setProceed] = useState(0);
+
+   const models = [
       {
         name: "iPad",
         pictures: ["pod.png", "basket.png"],
@@ -76,159 +176,134 @@ const BuyAirPods = () => {
         pictures: ["pod.png"],
         price: "$900",
       },
-    ];
-  return (
-    <div className="overflow-x-hidden py-5 px-5">
-        <p className="text-2xl py-3 font-bold">
-        AirPods: Making your earbuds jealous.
-    </p>
+   ];
+   console.log({ availableModels });
 
-    {selectedModel !== modelIndex ? (
-        <div className="flex flex-wrap shadow-lg items-center border-[#D9D9D9] border-l-8 border-t-8 rounded-[20px]">
-          {models.map((model, index) => (
-            <div
-              key={index}
-              className={`w-1/2 p-4 rounded-lg ${
-                selectedModel !== null && selectedModel !== index
-                  ? "hidden"
-                  : ""
-              }`}
-              onClick={() => {
-                setModelIndex(index);
-                setAirPodsModel(model);
-                setSelectedModel(index);
-                setCurrentPictureIndex(0);
-              }}
-            >
-              <div className="flex justify-between">
-                <span className="text-lg font-semi-bold">{model.name}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        ""
-      )}
+   return (
+     <div className="overflow-x-hidden py-5 px-5">
+       <div className="flex-column mb-4">
+         <h2 className="font-bold">Behind the iPad</h2>
+         <p>More power More performance</p>
+       </div>
 
-       
+       {fetchingModel && <p>fetching available iPad</p>}
 
-      {selectedModel === modelIndex ? (
-        <>
+       {selectedModel !== modelIndex && !fetchingModel && (
+         <div className="flex flex-wrap shadow-lg border-[#D9D9D9] border-l-8 border-t-8 rounded-[20px]">
+           {models.map((model, index) => {
+             const modelExists = availableModels.some(
+               (iphone) =>
+                 iphone.name.trim().toLowerCase() ===
+                 model.name.trim().toLowerCase()
+             );
 
-                <div className="relative flex items-center justify-center bg-white rounded-[30px] shadow-xl px-16 py-10 my-5 border-[#D9D9D9] border-r-8 border-b-8">
-                     
-                     <img
-                       src={airPodsModel?.pictures[currentPictureIndex]}
-                       className="w-full h-64 object-cover"
-                       alt="Perfect Image"
-                     />
-                     <BiLeftArrow className="absolute left-5 text-2xl" onClick={showPrevImage} />
-                     <BiRightArrow className="absolute right-5 text-2xl" onClick={showNextImage} />
-                      <div className="absolute bottom-2 flex space-x-1">
-                         {airPodsModel?.pictures.map((_, index) => (
-                           <span
-                             className="text-lg text-center"
-                             key={index}
-                             aria-label={`View Image ${index + 1}`}
-                             onClick={() => setCurrentPictureIndex(index)}
-                           >
-                             {index === currentPictureIndex ? (
-                               <GoDotFill className="text-[#000000]" aria-hidden />
-                             ) : (
-                               <GoDot className="text-[#D9D9D9]" aria-hidden />
-                             )}
-                           </span>
-                         ))}
-                       </div>
-                </div>
+             return (
+               <div
+                 key={index}
+                 className={`w-1/2 p-4 font-semibold text-xl ${
+                   !modelExists
+                     ? "text-[gray] opacity-50 cursor-not-allowed"
+                     : ""
+                 }`}
+                 onClick={() => {
+                   if (modelExists) {
+                     const itemPicked = availableModels.filter(
+                       (iphone) =>
+                         iphone.name.trim().toLowerCase() ===
+                         model.name.trim().toLowerCase()
+                     );
 
-                   <div className="px-5">
-                   {removeItem !== false ? (
-                    <>
-              <div className="flex justify-between py-4">
-                <b>{airPodsModel?.name}</b>
-                <b>Price: {airPodsModel?.price}</b>
-              </div>
+                     const grades = getUniqueValues(itemPicked, "grade");
 
-              <div className="flex justify-center items-center">
-                            <button
-                              className="bg-[#187EB4] px-16 py-4 mt-5 rounded-full text-[#FFFFFF]"
-                              onClick={showCartDetails}
-                            >
-                              Add to Cart
-                            </button>
-                          </div>
-              </>
-            ) : null}
+                     setPickItems(itemPicked);
+                     setGrade(grades);
+                     setModelIndex(index);
+                     setIphoneModel(itemPicked[0]);
+                     setSelectedModel(index);
+                     setCurrentPictureIndex(0);
+                     setProceed(1);
+                   }
+                 }}
+               >
+                 <div className="flex justify-between">
+                   <span className="text-sm font-bold">{model.name}</span>
+                 </div>
+               </div>
+             );
+           })}
+         </div>
+       )}
 
+       <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
+         {proceed === 1 &&
+           availableModels?.map((model, index) => (
+             <ProductCard
+               key={index}
+               onClick={() => {
+                 setProceed(2);
+                 setIphoneModel({ ...model });
+                 setAddToCartButton(true);
+                 setPrice(model.price);
+               }}
+               model={model}
+             />
+           ))}
+       </div>
 
+       {proceed === 2 && (
+         <div ref={priceRef}>
+           <ImageSlider
+             images={iphoneModel?.images}
+             currentPictureIndex={currentPictureIndex}
+             showPrevImage={showPrevImage}
+             showNextImage={showNextImage}
+           />
+           <div className="px-5">
+             {removeItem !== false && (
+               <>
+                 <div className="flex justify-between py-4">
+                   <b>{iphoneModel?.name}</b>
+                   <b className="flex">
+                     Price: <TbCurrencyNaira className="h-6 mr-1" />
+                     {price}
+                   </b>
+                 </div>
+                 <div className="flex justify-between">
+                   <p>Specification:</p>
+                   <div className="flex-column">
+                     <span></span>
+                     <span>
+                       {iphoneModel.specification.color},
+                       {iphoneModel.specification.batteryHealth}
+                     </span>
+                     <span>{iphoneModel.specification.model}</span>
                    </div>
-
-                   {showAddToCart && selectedModel !== null ? (
-                          <div className="text-lg">
-                           <div className="flex justify-between items-center">
-                             <div className="flex font-bold capitalize my-5">
-                              <span>1 {selectedCondition}</span>
-                              <span>{models[selectedModel].name}</span>
-                            </div>
-                           
-                           </div>
-
-                            <div className="flex justify-between font-semibold">
-                              <span>Price</span>
-                              <span className="capitalize">{models[selectedModel].price}</span>
-                            </div>
-
-                            <div className="flex justify-end my-2">
-                              <span
-                              className="text-[#187EB4] mt-10 text-right my-10 font-extrabold"
-                              onClick={() => setShowAddToCart(false)}
-                            >
-                              Remove
-                            </span>
-                            </div>
-                          </div>
-                        ) : (
-                          ""
-                        )}
-
-                        {addToCartButton ? (
-                          <div className="flex justify-center items-center">
-                            <button
-                              className="bg-[#187EB4] px-16 py-4 mt-5 rounded-full text-[#FFFFFF]"
-                              onClick={showCartDetails}
-                            >
-                              Add to Cart
-                            </button>
-                          </div>
-                        ) : null}
-
-
-{checkoutButton ? (
-                          <div className="flex justify-center">
-                            <div className="flex items-center flex-col space-y-2">
-                                <Link
-                                  className="bg-[#187EB4] px-16 py-4 mt-3 rounded-full text-[#FFFFFF]"
-                                  href="/howToCheckOut"
-                              
-                                >
-                                  Checkout
-                                </Link>
-                                 <span className="text-[#187EB4] text-center">
-                              Add more items
-                            </span>
-                            </div>                           
-                          </div>
-                        ) : null}
-
-        
-        </>
-
-      ) : ""}
-
-
-    </div>
-  )
+                 </div>
+                 <div className="flex justify-between">
+                   <p>Condition:</p>
+                   <div className="text-[gray]">
+                     {iphoneModel.specification.grade}
+                   </div>
+                 </div>
+               </>
+             )}
+           </div>
+         </div>
+       )}
+       {addToCartButton && (
+         <div className="flex justify-center items-center">
+           <Link href="/checkoutPage">
+             <button
+               className="bg-[#187EB4] px-16 py-4 mt-5 rounded-full text-[#FFFFFF]"
+               onClick={() => addToCart(iphoneModel)}
+             >
+               Add to Cart
+             </button>
+           </Link>
+         </div>
+       )}
+     </div>
+   );       
 }
 
 export default BuyAirPods

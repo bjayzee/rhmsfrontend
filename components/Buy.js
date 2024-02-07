@@ -11,6 +11,7 @@ import { TbCurrencyNaira } from 'react-icons/tb';
 import PropagateLoader from "react-spinners/PropagateLoader";
 
 export default function Buy() {
+  
   const [selectedModel, setSelectedModel] = useState(null);
   const [currentPictureIndex, setCurrentPictureIndex] = useState(0);
   const [selectedCondition, setSelectedCondition] = useState(null);
