@@ -69,8 +69,8 @@ const SwapiPhone = () => {
   const handleShowAdditionalOptions = (grade) => {
     if (valueRef.current) {
       valueRef.current.focus();
-      window.scrollTo({
-        bottom: valueRef.current.offsetTop,
+      window.scroll({
+        top: valueRef.current.offsetTop - 80,
         behavior: "smooth",
       });
     }
@@ -84,7 +84,6 @@ const SwapiPhone = () => {
     }
     let gradePriceValue = gradePrice[grade];
     if (gradePriceValue === 0) {
-      // Base price
       setSwapValue(gradePriceValue);
       setShowValue(true);
     } else {
@@ -310,7 +309,6 @@ const SwapiPhone = () => {
         ) : (
           ""
         )}
-
         {showValue ? (
           <>
             <div className="my-5 text-[#187EB4] text-xl" ref={valueRef}>
@@ -325,7 +323,8 @@ const SwapiPhone = () => {
                 </span>
               </div>
             </div>
-            <Link href="/buy" passHref>
+
+            <Link href="/buy-iphone" passHref>
               <button className="hover:text-rh-blue cursor-pointer">
                 Now let's select your new phone
               </button>

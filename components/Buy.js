@@ -191,7 +191,7 @@ export default function Buy() {
       )}
 
       {selectedModel === modelIndex && (
-        < div ref={priceRef}>
+        <div ref={priceRef}>
           <ImageSlider
             images={iphoneModel?.images}
             currentPictureIndex={currentPictureIndex}
