@@ -62,9 +62,9 @@ const SignUp = () => {
         }
     };
 
-    if (sessionStatus !== "loading") {
-        return <h1>Loading...</h1>;
-    }
+    // if (sessionStatus !== "loading") {
+    //     return <h1>Loading...</h1>;
+    // }
 
     return (
         sessionStatus !== "authenticated" && (
