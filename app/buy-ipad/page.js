@@ -1,9 +1,7 @@
 
-import { BuyAirPods } from '@/components'
+import { BuyiPads } from "@/components";
 const MyBuyAirPods = () => {
-  return (
-    <BuyAirPods/>
-  )
+  return <BuyiPads />;
 }
 
 export default MyBuyAirPods

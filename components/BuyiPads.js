@@ -3,43 +3,33 @@
 import Link from 'next/link';
 
 import { useState, useEffect, useRef, useContext } from 'react';
-
-import { GoDot, GoDotFill } from "react-icons/go";
-import { BiRightArrow, BiLeftArrow } from "react-icons/bi";
 import { CartContent } from '@/app/context/AppContext';
+import axios from 'axios';
+import ProductCard from './ProductCard';
+import ImageSlider from './ImageSlider';
+import { TbCurrencyNaira } from 'react-icons/tb';
 
 
 const BuyAirPods = () => {
 
    const [selectedModel, setSelectedModel] = useState(null);
    const [currentPictureIndex, setCurrentPictureIndex] = useState(0);
-   const [selectedCondition, setSelectedCondition] = useState(null);
-   const [lockState, setLockState] = useState(null);
-   const [selectedColor, setSelectedColor] = useState(null);
-   const [selectedStorage, setSelectedStorage] = useState(null);
-   const [showAddToCart, setShowAddToCart] = useState(false);
    const [addToCartButton, setAddToCartButton] = useState(false);
    const [removeItem, setRemoveItem] = useState(true);
-   const [checkoutButton, setCheckoutButton] = useState(false);
    const [modelIndex, setModelIndex] = useState(0);
    const [iphoneModel, setIphoneModel] = useState("");
    const [availableModels, setAvailableModels] = useState([]);
-   const [availableCarrier, setAvailableCarrier] = useState([]);
-   const [phoneBasedOnCarrier, setPhoneBasedOnCarrier] = useState([]);
-   const [storageList, setStorageList] = useState([]);
-   const [phoneBasedOnStorage, setPhoneBasedOnStorage] = useState([]);
-   const [colorList, setColorList] = useState([]);
-   const [phoneBasedOnColor, setPhoneBasedOnColor] = useState([]);
    const [grade, setGrade] = useState([null]);
    const [price, setPrice] = useState(0);
    const [pickItems, setPickItems] = useState([]);
    const priceRef = useRef(null);
 
-   const { cartItems, setCartItems, addToCart } = useContext(CartContent);
-    useEffect(() => {
-      getModelsAvailable();
-   }, []);
+   const { addToCart } = useContext(CartContent);
 
+   
+       useEffect(() => {
+         getModelsAvailable();
+       }, []);
     const getModelsAvailable = async () => {
       setFetchingModel(true);
       try {
@@ -49,80 +39,14 @@ const BuyAirPods = () => {
           })
           .then((res) => res.data);
 
-        const iphoneModels = response.data;
-        setAvailableModels(iphoneModels);
+        const ipadModels = response.data;
+        setAvailableModels(ipadModels);
       } catch (error) {
         console.error("Error fetching available models:", error);
       } finally {
         setFetchingModel(false);
       }
     };
-
-   
-   const handleNewOrUsedChange = (iphoneState) => {
-     const filteredItems = filterItemsBySpec(pickItems, "grade", iphoneState);
-     const carriers = getUniqueValues(filteredItems, "carrier");
-     setPhoneBasedOnCarrier(filteredItems);
-     setAvailableCarrier(carriers);
-     setSelectedCondition(iphoneState);
-     setLockState(null);
-     setSelectedColor(null);
-     setSelectedStorage(null);
-     setShowAddToCart(false);
-   };
-
-   const handleLockedOrUnlockedChange = (iphoneLockState) => {
-     const filteredItems = filterItemsBySpec(
-       phoneBasedOnCarrier,
-       "carrier",
-       iphoneLockState
-     );
-     const capacities = getUniqueValues(filteredItems, "capacity");
-     setPhoneBasedOnStorage(filteredItems);
-     setLockState(iphoneLockState);
-     setStorageList(capacities);
-     setSelectedColor(null);
-     setSelectedStorage(null);
-     setShowAddToCart(false);
-   };
-
-   const handleStorageSelection = (storage) => {
-     const filteredItems = filterItemsBySpec(
-       phoneBasedOnStorage,
-       "capacity",
-       storage
-     );
-     const colors = getUniqueValues(filteredItems, "color");
-     setPhoneBasedOnColor(filteredItems);
-     setColorList(colors);
-     setSelectedStorage(storage);
-     setShowAddToCart(false);
-     setAddToCartButton(false);
-     setSelectedColor(null);
-   };
-
-   const handleColorChange = (iphoneColor) => {
-     const filteredItems = filterItemsBySpec(
-       phoneBasedOnColor,
-       "color",
-       iphoneColor
-     );
-     setSelectedColor(iphoneColor);
-     setPrice(filteredItems[0].price);
-     setIphoneModel(filteredItems[0]);
-
-     if (priceRef.current) {
-       priceRef.current.focus();
-       window.scrollTo({
-         top: priceRef.current.offsetTop,
-         behavior: "smooth",
-       });
-     }
-
-     setCurrentPictureIndex(0);
-     setAddToCartButton(true);
-   };
-
    const showNextImage = () => {
      setCurrentPictureIndex((index) =>
        index === iphoneModel?.images?.length - 1 ? 0 : index + 1
@@ -137,14 +61,6 @@ const BuyAirPods = () => {
 
    const [fetchingModel, setFetchingModel] = useState(true);
   
-
-   const filterItemsBySpec = (items, spec, value) =>
-     items.filter(
-       (iphone) =>
-         iphone.specification[spec].trim().toLowerCase() ===
-         value.trim().toLowerCase()
-     );
-
    const getUniqueValues = (items, spec) =>
      Array.from(new Set(items.map((iphone) => iphone.specification[spec])));
 
@@ -152,32 +68,21 @@ const BuyAirPods = () => {
 
    const models = [
       {
-        name: "iPad",
-        pictures: ["pod.png", "basket.png"],
-        price: "$599",
+        name: "iPad"
       },
       {
-        name: "iPad Pro",
-        pictures: ["pod.png"],
-        price: "$859",
+        name: "iPad Pro"
       },
       {
-        name: "iPad Mini",
-        pictures: ["pod.png"],
-        price: "$1599",
+        name: "iPad Mini"
       },
       {
-        name: "iPad Air",
-        pictures: ["pod.png"],
-        price: "$900",
+        name: "iPad Air"
       },
       {
-        name: "Magic Keyboard - iPad Pro",
-        pictures: ["pod.png"],
-        price: "$900",
+        name: "Magic Keyboard - iPad Pro"
       },
    ];
-   console.log({ availableModels });
 
    return (
      <div className="overflow-x-hidden py-5 px-5">
@@ -189,11 +94,11 @@ const BuyAirPods = () => {
        {fetchingModel && <p>fetching available iPad</p>}
 
        {selectedModel !== modelIndex && !fetchingModel && (
-         <div className="flex flex-wrap shadow-lg border-[#D9D9D9] border-l-8 border-t-8 rounded-[20px]">
+         <div className="flex flex-wrap shadow-lg border-[#D9D9D9] border-t-4 border-l-4 rounded-[20px]">
            {models.map((model, index) => {
              const modelExists = availableModels.some(
-               (iphone) =>
-                 iphone.name.trim().toLowerCase() ===
+               (ipad) =>
+                 ipad.name.trim().toLowerCase() ===
                  model.name.trim().toLowerCase()
              );
 
@@ -202,14 +107,14 @@ const BuyAirPods = () => {
                  key={index}
                  className={`w-1/2 p-4 font-semibold text-xl ${
                    !modelExists
-                     ? "text-[gray] opacity-50 cursor-not-allowed"
+                     ? " opacity-20 cursor-not-allowed"
                      : ""
                  }`}
                  onClick={() => {
                    if (modelExists) {
                      const itemPicked = availableModels.filter(
-                       (iphone) =>
-                         iphone.name.trim().toLowerCase() ===
+                       (ipad) =>
+                         ipad.name.trim().toLowerCase() ===
                          model.name.trim().toLowerCase()
                      );
 

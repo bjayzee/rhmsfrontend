@@ -177,8 +177,8 @@ const SwapiPhone = () => {
             )}
 
             {showDropdown ? (
-              <div className="border-solid rounded-[20px] bg-[white] shadow border-[#D9D9D9] border-x-2 border-y-2">
-                <div className="w-1/2 p-4 font-semibold text-l">
+              <div className="flex flex-wrap shadow-lg border-[#D9D9D9] border-t-4 border-l-4 rounded-[20px]">
+                <div className="w-1/2 p-2 font-semibold text-sm">
                   {dropdownOptions.map((option, key) => (
                     <div key={key}>{renderOption(option)}</div>
                   ))}

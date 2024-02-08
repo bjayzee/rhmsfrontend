@@ -31,7 +31,6 @@ const Cart = () => {
     }
 
     const price = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    console.log({swapValue})
     const totalPrice = price - swapValue;
 
     return (
