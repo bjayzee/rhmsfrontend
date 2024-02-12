@@ -24,34 +24,39 @@ const AdminNav = () => {
       <Link href="/">
         <Image src="/rhmstechlogo.png" alt="logo" width={41} height={40} />
       </Link>
-      <div className="flex items-center gap-6 flex-row">
+      <div className="flex items-center gap-4 flex-row">
         <Link href="/admin/productmanagement"
-         className={`text-${isActive('/admin/productmanagement') ? '[#fff]' : '[#000]'} hover:text-[#fff]`}>
+         className={`text-${isActive('/admin/productmanagement') ? '[#fff]' : '[#000]'} hover:text-[#fff] text-sm`}>
             Product Management
          
         </Link>
         <Link href="/admin/ordermanagement"
-        className={`text-${isActive('/admin/ordermanagement') ? '[#fff]' : '[#000]'} hover:text-[#fff]`}>
+        className={`text-${isActive('/admin/ordermanagement') ? '[#fff]' : '[#000]'} hover:text-[#fff] text-sm`}>
             Order Management
        
         </Link>
         <Link href="/admin/swapmanagement"
-        className={`text-${isActive('/admin/swapmanagement') ? '[#fff]' : '[#000]'} hover:text-[#fff]`}>
+        className={`text-${isActive('/admin/swapmanagement') ? '[#fff]' : '[#000]'} hover:text-[#fff] text-sm`}>
             Swap Management
         
         </Link>
         <Link href="/admin/categorymanagement"
-        className={`text-${isActive('/admin/categorymanagement') ? '[#fff]' : '[#000]'} hover:text-[#fff]`}>
+        className={`text-${isActive('/admin/categorymanagement') ? '[#fff]' : '[#000]'} hover:text-[#fff] text-sm`}>
             Category Management
         
         </Link>
         <Link href="/admin/repairmanager"
-         className={`text-${isActive('/admin/repairmanager') ? '[#fff]' : '[#000]'} hover:text-[#fff]`}>
+         className={`text-${isActive('/admin/repairmanager') ? '[#fff]' : '[#000]'} hover:text-[#fff] text-sm`}>
             Repair Manager
          
         </Link>
+        <Link href="/admin/accessoriesmanagement"
+         className={`text-${isActive('/admin/accessoriesmanagement') ? '[#fff]' : '[#000]'} hover:text-[#fff] text-sm`}>
+            Accessories Management
+         
+        </Link>
         <Link href="/admin/managearticles"
-       className={`text-${isActive('/admin/managearticles') ? '[#fff]' : '[#000]'} hover:text-[#fff]`}>
+       className={`text-${isActive('/admin/managearticles') ? '[#fff]' : '[#000]'} hover:text-[#fff] text-sm`}>
             Manage Article
     
         </Link>

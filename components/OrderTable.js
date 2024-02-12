@@ -27,7 +27,7 @@ const OrderTable = ({ data, loading }) => {
 
   const columns = [
     {
-        title: 'Order ID.',
+        title: 'Order ID',
         dataIndex: 'order_id',
         key: 'order_id',
         ...getColumnSearchProps({

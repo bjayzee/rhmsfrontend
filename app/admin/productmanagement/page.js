@@ -40,7 +40,7 @@ console.log(iphone)
   return (
     <AdminLayout>
       <div className="my-[100px] mx-[50px]">
-        <AdminMetrics />
+        <AdminMetrics products={products?.data}/>
       </div>
       <div className="mx-[50px]">
         <PageHeader title="Products"  extra={[
