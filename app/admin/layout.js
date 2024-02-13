@@ -9,7 +9,7 @@ const nunito = Nunito_Sans({
 });
 
 export const metadata = {
-  title: 'RHMS admin',
+  title: 'RHMS-admin',
   description: 'RHMS admin dashboard',
   keywords:
     'rhms, admin',

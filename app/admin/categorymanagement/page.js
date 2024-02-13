@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { PageHeader, Tabs, Button } from "antd";
+import { PageHeader, Button } from "antd";
 import CreateCategory from "@/components/CreateCategory";
 import CategoryTable from "@/components/CategoryTable";
 
