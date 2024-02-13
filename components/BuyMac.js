@@ -10,7 +10,6 @@ import { CartContent } from "@/app/context/AppContext";
 import { TbCurrencyNaira } from "react-icons/tb";
 import ProductCard from "./ProductCard";
 
-
 export default function Buy() {
   const [selectedModel, setSelectedModel] = useState(null);
   const [currentPictureIndex, setCurrentPictureIndex] = useState(0);
@@ -272,7 +271,10 @@ export default function Buy() {
                   <p>Specification:</p>
                   <div className="flex-column">
                     <span></span>
-                    <span>{iphoneModel.specification.color},{ iphoneModel.specification.batteryHealth}</span>
+                    <span>
+                      {iphoneModel.specification.color},
+                      {iphoneModel.specification.batteryHealth}
+                    </span>
                     <span>{iphoneModel.specification.model}</span>
                   </div>
                 </div>
@@ -300,5 +302,5 @@ export default function Buy() {
         </div>
       )}
     </div>
-  );           
+  );
 }

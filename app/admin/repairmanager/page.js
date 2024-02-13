@@ -1,9 +1,7 @@
-import AdminLayout from "@/app/adminlayout"
+import Layout from "@/app/admin/layout";
 
 const RepairManager = () => {
-  return (
-    <AdminLayout>page</AdminLayout>
-  )
-}
+  return <Layout>page</Layout>;
+};
 
-export default RepairManager
+export default RepairManager;

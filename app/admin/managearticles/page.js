@@ -1,6 +1,5 @@
 "use client";
 
-import AdminLayout from "@/app/adminlayout";
 import { useState, useEffect } from "react";
 import { PageHeader, Tabs, Button } from "antd";
 import CreateArticle from "@/components/CreateArticle";
@@ -33,7 +32,6 @@ const ManageArticles = () => {
   ];
 
   return (
-    <AdminLayout>
       <div className="my-[100px]">
         <div className="mx-[50px]">
           <PageHeader
@@ -43,7 +41,7 @@ const ManageArticles = () => {
                 key="CreateProduct"
                 style={{ color: "#187EB4", border: "1px solid #187EB4" }}
               >
-                <CreateArticle/>
+                <CreateArticle />
               </Button>,
             ]}
           />
@@ -56,14 +54,13 @@ const ManageArticles = () => {
                   <div>Date:&nbsp;&nbsp;{post.date}</div>
                 </div>
                 <div className="flex justify-end items-center my-[5px]">
-                  <Button className="text-[#187EB4] mr-[10px]">Edit</Button>
-                  <Button className="text-[#ff0000]">Delete</Button>
+                  <button className="text-[#187EB4] mr-[15px]">Edit</button>
+                  <button className="text-[#ff0000]">Delete</button>
                 </div>
               </div>
             ))}
         </div>
       </div>
-    </AdminLayout>
   );
 };
 

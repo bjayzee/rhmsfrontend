@@ -1,9 +1,6 @@
-import AdminLayout from "@/app/adminlayout"
 
 const SwapManagement = () => {
-  return (
-    <AdminLayout>page</AdminLayout>
-  )
-}
+  return <div>page</div>;
+};
 
-export default SwapManagement
+export default SwapManagement;

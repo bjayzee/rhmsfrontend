@@ -2,7 +2,6 @@ import { PNav, NavBar, Footer } from '@/components'
 import './globals.css'
 import "antd/dist/antd.variable.min.css";
 import 'bootstrap/dist/css/bootstrap.min.css'
-
 import { Nunito_Sans } from "next/font/google";
 import AppContext from './context/AppContext';
 import SessionProvider from './context/AuthProvider'
@@ -26,10 +25,10 @@ export default async function RootLayout({ children }) {
         
         <SessionProvider session={session}>
           <AppContext>
-            {/* <PNav /> */}
-            {/* <NavBar /> */}
+            <PNav />
+            <NavBar />
             {children}
-            {/* <Footer /> */}
+            <Footer />
           </AppContext>
         </SessionProvider>
 

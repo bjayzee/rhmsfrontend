@@ -1,10 +1,9 @@
 "use client";
-import AdminLayout from "@/app/adminlayout";
+
 import { useState, useEffect } from "react";
 import { PageHeader, Tabs, Button } from "antd";
 import CreateCategory from "@/components/CreateCategory";
 import CategoryTable from "@/components/CategoryTable";
-
 
 const CategoryManagement = () => {
   const [categories, setCategories] = useState([]);
@@ -23,7 +22,6 @@ const CategoryManagement = () => {
   }, [categories?.data?.length]);
 
   return (
-    <AdminLayout>
       <div className="mx-[50px] my-[100px]">
         <PageHeader
           title="Categories"
@@ -32,14 +30,13 @@ const CategoryManagement = () => {
               key="CreateProduct"
               style={{ color: "#187EB4", border: "1px solid #187EB4" }}
             >
-              <CreateCategory  />
+              <CreateCategory />
             </Button>,
           ]}
         />
 
         <CategoryTable data={categories.data} loading={loading} />
       </div>
-    </AdminLayout>
   );
 };
 
