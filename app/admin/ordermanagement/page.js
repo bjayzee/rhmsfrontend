@@ -1,16 +1,13 @@
-'use client'
+"use client";
 
-import AdminNav from "@/components/AdminNav"
-import OrderTable from "@/components/OrderTable"
+import OrderTable from "@/components/OrderTable";
 import { useState, useEffect } from "react";
 import { PageHeader, Tabs, Button } from "antd";
 import styled from "styled-components";
-import AdminLayout from "@/app/adminlayout";
 
 const { TabPane } = Tabs;
 
 const OrderManagement = (props) => {
-
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
@@ -26,52 +23,35 @@ const OrderManagement = (props) => {
   console.log(orders);
 
   return (
-    <AdminLayout>
-        <div className="my-[100px]">
+      <div className="my-[100px]">
         <div className="mx-[50px]">
-        <PageHeader title="Orders" />
+          <PageHeader title="Orders" />
 
-        <StyledDiv {...props}>
-          <Tabs defaultActiveKey="1">
-            <TabPane tab="IPhones" key="1">
-              <OrderTable
-                data={orders.data}
-                loading={orders.loading}
-              />
-            </TabPane>
-            <TabPane tab="IWatches" key="2">
-              <OrderTable
-                data={orders.data}
-                loading={orders.loading}
-              />
-            </TabPane>
-            <TabPane tab="IPads" key="3">
-              <OrderTable
-                data={orders.data}
-                loading={orders.loading}
-              />
-            </TabPane>{" "}
-            <TabPane tab="Mac" key="4">
-              <OrderTable
-                data={orders.data}
-                loading={orders.loading}
-              />
-            </TabPane>
-            <TabPane tab="Airpods" key="5">
-              <OrderTable
-                data={orders.data}
-                loading={orders.loading}
-              />
-            </TabPane>
-          </Tabs>
-        </StyledDiv>
-      </div>
+          <StyledDiv {...props}>
+            <Tabs defaultActiveKey="1">
+              <TabPane tab="IPhones" key="1">
+                <OrderTable data={orders.data} loading={orders.loading} />
+              </TabPane>
+              <TabPane tab="IWatches" key="2">
+                <OrderTable data={orders.data} loading={orders.loading} />
+              </TabPane>
+              <TabPane tab="IPads" key="3">
+                <OrderTable data={orders.data} loading={orders.loading} />
+              </TabPane>{" "}
+              <TabPane tab="Mac" key="4">
+                <OrderTable data={orders.data} loading={orders.loading} />
+              </TabPane>
+              <TabPane tab="Airpods" key="5">
+                <OrderTable data={orders.data} loading={orders.loading} />
+              </TabPane>
+            </Tabs>
+          </StyledDiv>
         </div>
-    </AdminLayout>
-  )
-}
+      </div>
+  );
+};
 
-export default OrderManagement
+export default OrderManagement;
 
 const StyledDiv = styled.div`
   margin-orders: 1rem;

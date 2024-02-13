@@ -1,6 +1,9 @@
 import { Nunito_Sans } from 'next/font/google';
-import "./globals.css";
 import AdminNav from '@/components/AdminNav';
+import '../globals.css'
+import "antd/dist/antd.variable.min.css";
+import 'bootstrap/dist/css/bootstrap.min.css'
+
 const nunito = Nunito_Sans({
   subsets: ['latin'],
 });
@@ -12,14 +15,13 @@ export const metadata = {
     'rhms, admin',
 };
 
-export default function AdminLayout({ children }) {
+export default function Layout({ children }) {
   return (
-    <html lang="en">
       <body className={nunito.className}>
         <AdminNav/>
-      <main>{children}</main>
+      <div>{children}</div>
 
       </body>
-    </html>
+ 
   );
 }
