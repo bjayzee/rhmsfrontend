@@ -19,7 +19,7 @@ const AdminNav = () => {
 
   return (
     <nav
-      className="text-center flex flex-row items-center justify-between px-20 py-8 bg-[#187EB4]"
+      className="text-center flex flex-row items-center justify-between px-[50px] py-8 bg-[#187EB4]"
     >
       <Link href="/">
         <Image src="/rhmstechlogo.png" alt="logo" width={41} height={40} />
