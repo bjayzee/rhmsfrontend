@@ -24,7 +24,7 @@ import BuyiPads from './BuyiPads'
 import BuyAccessories from './BuyAccessories'
 import BuyNowPayLater from './BuyNowPayLater'
 import PickUpStorePage from './PickUpStorePage'
-
+import AccessoryCard from './AccessoryCard'
 
 export {
   Hero,
@@ -52,4 +52,5 @@ export {
   BuyNowPayLater,
   BuyAccessories,
   PickUpStorePage,
+  AccessoryCard,
 };

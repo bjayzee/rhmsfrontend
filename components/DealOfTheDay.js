@@ -30,20 +30,23 @@ const DealOfTheDay = () => {
   }, []);
   return (
     <div className="grid justify-items-center">
-      <h1 className="font-black text-center my-5 text-lg">DEALS OF THE DAY</h1>
-      <div className="grid grid-cols-2 justify-between gap-6">
-        {fetchingModel && (
-          <div className="my-10">fetching deals of the day</div>
-        )}
+      {fetchingModel && <div className="my-10">fetching deals of the day</div>}
 
+      {availableForDeals?.length !== 0 ? (
+        <h1 className="font-black text-center my-5 text-lg">
+          DEALS OF THE DAY
+        </h1>
+      ) : (
+        ""
+      )}
+
+      <div className="grid grid-cols-2 justify-between gap-6">
         {availableForDeals.length !== 0 &&
           availableForDeals.map((deal, index) => (
             <div key={index}>
               <DealODayCard param={deal} />
             </div>
           ))}
-
-        <div></div>
       </div>
     </div>
   );

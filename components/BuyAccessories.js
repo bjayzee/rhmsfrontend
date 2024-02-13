@@ -1,45 +1,141 @@
-'use client';
-import { useState } from "react";
-import { IoIosSearch } from "react-icons/io"
+"use client";
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import { IoIosSearch } from "react-icons/io";
+import ProductCard from "./ProductCard";
+import AccessoryCard from "./AccessoryCard";
+import ImageSlider from "./ImageSlider";
+import { TbCurrencyNaira } from "react-icons/tb";
 
 const BuyAccessories = () => {
+  const [showIphone, setShowIphone] = useState(false);
+  const [showIpad, setShowIpad] = useState(false);
+  const [showMac, setShowMac] = useState(false);
+  const [showIWatch, setShowIWatch] = useState(false);
+  const [showFeature, setShowFeature] = useState(true);
+  const [showSearch, setShowSearch] = useState(false);
+  const [accessories, setAccessories] = useState([]);
+  const [featuredAccessories, setFeaturedAccessories] = useState([]);
+  const [iPadAccessories, setiPadAccessories] = useState([]);
+  const [macAccessories, setMacAccessories] = useState([]);
+  const [iPhoneAccessories, setiPhoneAccessories] = useState([]);
+  const [iwatchAccessories, setiWatchAccessories] = useState([]);
+  const [proceed, setProceed] = useState(0);
+  const [searchData, setSearchData] = useState([]);
+  const [model, setModel] = useState("");
+  const [removeItem, setRemoveItem] = useState(true);
+  const [addToCartButton, setAddToCartButton] = useState(false);
+  const [price, setPrice] = useState(0);
 
-    const [showIphone, setShowIphone] = useState(false);
-    const [showIpad, setShowIpad] = useState(false);
-    const [showMac, setShowMac] = useState(false);
-    const [showIWatch, setShowIWatch] = useState(false);
-    const [showFeature, setShowFeature] = useState(true);
+  const [currentPictureIndex, setCurrentPictureIndex] = useState(0);
 
-    const handleIphoneClick = ()=>{
-        console.log("iphone clicked")
-        setShowFeature(false);
-        setShowIphone(true);
-        setShowIpad(false);
-        setShowIWatch(false);
-        setShowMac(false);
-    }
-    const handleIpadClick = () => {
-        setShowFeature(false);
-        setShowIpad(true);
-        setShowIWatch(false);
-        setShowMac(false);
-        setShowIphone(false);
-    };
-    const handleIWatchClick = () => {
-        setShowFeature(false);
-        setShowIWatch(true);
-        setShowMac(false);
-        setShowIphone(false);
-        setShowIpad(false);
-    };
-    const handleMacClick = () => {
-        setShowFeature(false);
-        setShowMac(true);
-        setShowIphone(false);
-        setShowIpad(false);
-        setShowIWatch(false);
+  const priceRef = useRef(null);
+
+  useEffect(() => {
+    const fetchAccessories = async () => {
+      try {
+        const accessoriesData = await axios
+          .get("/api/accessories", {
+            validateStatus: (status) => status < 400,
+          })
+          .then((res) => res.data)
+          .then((res) => res.data);
+        setAccessories(accessoriesData);
+
+        const iPadData = accessoriesData.filter(
+          (data) => data.category === "ipad"
+        );
+        setiPadAccessories(iPadData);
+
+        const macData = accessoriesData.filter(
+          (data) => data.category === "mac"
+        );
+        setMacAccessories(macData);
+
+        const iWatchData = accessoriesData.filter(
+          (data) => data.category === "iwatch"
+        );
+        setiWatchAccessories(iWatchData);
+
+        const featuredData = accessoriesData.filter(
+          (data) => data.featured === true
+        );
+        setFeaturedAccessories(featuredData);
+        console.log({ featuredData });
+      } catch (error) {
+        console.error("error fetching accessories", error);
+      }
     };
 
+    fetchAccessories();
+  }, []);
+
+
+  const showNextImage = () => {
+    setCurrentPictureIndex((index) =>
+      index === iphoneModel?.images?.length - 1 ? 0 : index + 1
+    );
+  };
+
+  const showPrevImage = () => {
+    setCurrentPictureIndex((index) =>
+      index === 0 ? iphoneModel?.images?.length - 1 : index - 1
+    );
+  };
+
+  const handleIphoneClick = () => {
+    const iPhonedata = accessories.filter((data) => data.category === "iphone");
+    setiPhoneAccessories(iPhonedata);
+
+    setShowFeature(false);
+    setShowIphone(true);
+    setShowIpad(false);
+    setShowIWatch(false);
+    setShowMac(false);
+    setShowSearch(false);
+  };
+  const handleIpadClick = () => {
+    setShowFeature(false);
+    setShowIpad(true);
+    setShowIWatch(false);
+    setShowMac(false);
+    setShowIphone(false);
+    setShowSearch(false);
+  };
+  const handleIWatchClick = () => {
+    setShowFeature(false);
+    setShowIWatch(true);
+    setShowMac(false);
+    setShowIphone(false);
+    setShowIpad(false);
+    setShowSearch(false);
+  };
+  const handleMacClick = () => {
+    setShowFeature(false);
+    setShowMac(true);
+    setShowIphone(false);
+    setShowIpad(false);
+    setShowIWatch(false);
+    setShowSearch(false);
+  };
+  const handleSearchChange = (searchParams) =>{
+      const search = accessories.filter((data) =>
+        data.name
+          .trim()
+          .toLowerCase()
+          .includes(searchParams.trim().toLowerCase())
+      );
+
+      setSearchData(search);
+      setShowSearch(true)
+      setShowFeature(false);
+      setShowMac(false);
+      setShowIphone(false);
+      setShowIpad(false);
+      setShowIWatch(false);
+  } 
+  
+  
   return (
     <div>
       <div>
@@ -49,6 +145,8 @@ const BuyAccessories = () => {
 
         <div className="relative">
           <input
+            type="text"
+            onChange={(e) => handleSearchChange(e.target.value)}
             className="text-xs border h-6 border-rh-blue rounded-xl ml-5 pl-10 py-4 w-[320px]"
             placeholder="Find the accessories you are looking for"
           />
@@ -76,118 +174,204 @@ const BuyAccessories = () => {
           </div>
         </div>
 
-        {showIphone && <div>iPhone Accessories</div>}
-        {showIWatch && <div>iWatch Accessories</div>}
-        {showIpad && <div>iPad Accessories</div>}
-        {showMac && <div>Mac Accessories</div>}
-
-        {showFeature && (
-          <>
-            <p className="font-bold m-5">Featured Accessories</p>
-            <div className="flex ">
-              <div className="m-5 border-color-gray shadow ">
-                <div className="flex justify-center mt-3">
-                  <img src="watch.png" width={100} height={100} />
-                </div>
-
-                <div className="m-5">
-                  <p className="font-bold">Apple Watch</p>
-                  <p className="pl-5">$604</p>
-                  <button
-                    style={{
-                      paddingRight: "5px ",
-                      background: "#187EB4",
-                      color: "white",
-                      borderRadius: "5px",
-                      margin: "6px",
-                      padding: "4px",
-                    }}
-                  >
-                    BUY NOW
-                  </button>
-                  <p className="pl-3">See details</p>
-                </div>
+        <div className="px-3">
+          {showSearch && (
+            <>
+              <p className="font-bold mt-4">Search Results</p>
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4">
+                {searchData?.length !== 0 ? (
+                  searchData.map((model, index) => (
+                    <AccessoryCard
+                      key={index}
+                      onClick={() => {
+                        setProceed(2);
+                        setModel({ ...model });
+                        setAddToCartButton(true);
+                        setPrice(model.price);
+                      }}
+                      model={model}
+                    />
+                  ))
+                ) : (
+                  <div>No iphone accessories at this time</div>
+                )}
               </div>
+            </>
+          )}
 
-              <div className="m-5 border-color-gray shadow ">
-                <div className="flex justify-center mt-3">
-                  <img src="watch.png" width={100} height={100} />
-                </div>
-
-                <div className="m-5">
-                  <p className="font-bold ">Apple Watch</p>
-                  <p className="pl-5">$604</p>
-                  <button
-                    style={{
-                      paddingRight: "5px ",
-                      background: "#187EB4",
-                      color: "white",
-                      borderRadius: "5px",
-                      margin: "6px",
-                      padding: "4px",
-                    }}
-                  >
-                    BUY NOW
-                  </button>
-                  <p className="pl-3">See details</p>
-                </div>
+          {showIphone && (
+            <>
+              <p className="font-bold mt-4">iPhone Accessories</p>
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4">
+                {iPhoneAccessories?.length !== 0 ? (
+                  iPhoneAccessories.map((model, index) => (
+                    <AccessoryCard
+                      key={index}
+                      onClick={() => {
+                        setProceed(2);
+                        setIphoneModel({ ...model });
+                        setAddToCartButton(true);
+                        setPrice(model.price);
+                      }}
+                      model={model}
+                    />
+                  ))
+                ) : (
+                  <div>No iphone accessories at this time</div>
+                )}
               </div>
-            </div>
-
-            <div className="flex ">
-              <div className="m-5 border-color-gray shadow ">
-                <div className="flex justify-center mt-3">
-                  <img src="Mac Card.png" width={100} height={100} />
-                </div>
-
-                <div className="m-5">
-                  <p className="font-bold">Mac mini case</p>
-                  <p className="pl-5">$604</p>
-                  <button
-                    style={{
-                      paddingRight: "5px ",
-                      background: "#187EB4",
-                      color: "white",
-                      borderRadius: "5px",
-                      margin: "6px",
-                      padding: "4px",
-                    }}
-                  >
-                    BUY NOW
-                  </button>
-                  <p className="pl-3">See details</p>
-                </div>
+            </>
+          )}
+          {showIWatch && (
+            <>
+              <p className="font-bold mt-4">iWatch Accessories</p>
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
+                {iwatchAccessories?.length !== 0 ? (
+                  iwatchAccessories.map((model, index) => (
+                    <AccessoryCard
+                      key={index}
+                      onClick={() => {
+                        setProceed(2);
+                        setIphoneModel({ ...model });
+                        setAddToCartButton(true);
+                        setPrice(model.price);
+                      }}
+                      model={model}
+                    />
+                  ))
+                ) : (
+                  <div>No iwatch accessories at this time</div>
+                )}
               </div>
+            </>
+          )}
 
-              <div className="m-5 border-color-gray shadow ">
-                <div className="flex justify-center mt-3">
-                  <img src="iwatchy.png" width={100} height={100} />
-                </div>
-
-                <div className="m-5">
-                  <p className="font-bold">Apple Watch</p>
-                  <p className="pl-5">$604</p>
-                  <button
-                    style={{
-                      paddingRight: "5px ",
-                      background: "#187EB4",
-                      color: "white",
-                      borderRadius: "5px",
-                      margin: "6px",
-                      padding: "4px",
-                    }}
-                  >
-                    BUY NOW
-                  </button>
-                  <p className="pl-3">See details</p>
-                </div>
+          {showIpad && (
+            <>
+              <p className="font-bold mt-4">iPad Accessories</p>
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
+                {iPadAccessories?.length !== 0 ? (
+                  iPadAccessories.map((model, index) => (
+                    <AccessoryCard
+                      key={index}
+                      onClick={() => {
+                        setProceed(2);
+                        setIphoneModel({ ...model });
+                        setAddToCartButton(true);
+                        setPrice(model.price);
+                      }}
+                      model={model}
+                    />
+                  ))
+                ) : (
+                  <div>No ipad accessories at this time</div>
+                )}
               </div>
-            </div>
-          </>
-        )}
+            </>
+          )}
+
+          {showMac && (
+            <>
+              <p className="font-bold mt-4">Mac Accessories</p>
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
+                {macAccessories?.length !== 0 ? (
+                  macAccessories.map((model, index) => (
+                    <AccessoryCard
+                      key={index}
+                      onClick={() => {
+                        setProceed(2);
+                        setIphoneModel({ ...model });
+                        setAddToCartButton(true);
+                        setPrice(model.price);
+                      }}
+                      model={model}
+                    />
+                  ))
+                ) : (
+                  <div>No mac accessories at this time</div>
+                )}
+              </div>
+            </>
+          )}
+
+          {showFeature && (
+            <>
+              <p className="font-bold mt-4">Featured Accessories</p>
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
+                {featuredAccessories?.length !== 0 ? (
+                  featuredAccessories.map((model, index) => (
+                    <AccessoryCard
+                      key={index}
+                      onClick={() => {
+                        setProceed(2);
+                        setIphoneModel({ ...model });
+                        setAddToCartButton(true);
+                        setPrice(model.price);
+                      }}
+                      model={model}
+                    />
+                  ))
+                ) : (
+                  <div>No featured product at this time</div>
+                )}
+              </div>
+            </>
+          )}
+        </div>
       </div>
+
+      {proceed === 2 && (
+        <div ref={priceRef}>
+          <ImageSlider
+            images={model?.images}
+            currentPictureIndex={currentPictureIndex}
+            showPrevImage={showPrevImage}
+            showNextImage={showNextImage}
+          />
+          <div className="px-5">
+            {removeItem !== false && (
+              <>
+                <div className="flex justify-between py-4">
+                  <b>{model?.name}</b>
+                  <b className="flex">
+                    Price: <TbCurrencyNaira className="h-6 mr-1" />
+                    {price}
+                  </b>
+                </div>
+                <div className="flex justify-between">
+                  <p>Specification:</p>
+                  <div className="flex-column">
+                    <span></span>
+                    <span>
+                      {model.color},
+                    </span>
+                  </div>
+                </div>
+                <div className="flex justify-between">
+                  <p>Condition:</p>
+                  <div className="text-[gray]">
+                    New
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+      {addToCartButton && (
+        <div className="flex justify-center items-center">
+          <Link href="/checkoutPage">
+            <button
+              className="bg-[#187EB4] px-16 py-4 mt-5 rounded-full text-[#FFFFFF]"
+              onClick={() => addToCart(model)}
+            >
+              Add to Cart
+            </button>
+          </Link>
+        </div>
+      )}
     </div>
   );
-}
+};
 
-export default BuyAccessories
+export default BuyAccessories;

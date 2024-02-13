@@ -66,7 +66,7 @@ const Cart = () => {
         )}
 
         <p className="flex justify-end pt-3 px-5">
-          <span className="font-bold font pr-3">Total:</span>{" "}
+          <span className="font-bold font pr-3">Total Payable:</span>{" "}
           <TbCurrencyNaira className="w-5 h-6" /> {totalPrice?.toLocaleString()}
         </p>
         <div className="flex justify-center my-4 ">

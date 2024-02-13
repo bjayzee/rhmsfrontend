@@ -6,6 +6,7 @@ import { FaPlay } from "react-icons/fa";
 import axios from "axios";
 import RadioSelection from "./RadioSelectionButton";
 import { CartContent } from "@/app/context/AppContext";
+import { TbCurrencyNaira } from "react-icons/tb";
 
 const SwapiPhone = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -318,8 +319,11 @@ const SwapiPhone = () => {
               </div>
               <div className="flex">
                 <span className="font-bold">Swap value:</span>
-                <span className="pl-2">
-                  {swapValue < 1 ? "Grade not available" : swapValue}
+                <span className="pl-2 flex justify-center">
+                  <TbCurrencyNaira height={20} />
+                  {swapValue < 1
+                    ? "Grade not available"
+                    : swapValue?.toLocaleString()}
                 </span>
               </div>
             </div>

@@ -11,7 +11,7 @@ export async function PUT(request, {params}){
     try {
         const { id } = params;
 
-        const requestObj = request.json();
+        const requestObj = await request.json();
         
         await connectDB();
 
