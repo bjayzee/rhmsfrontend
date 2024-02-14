@@ -15,11 +15,6 @@ const BuyAccessories = () => {
   const [showFeature, setShowFeature] = useState(true);
   const [showSearch, setShowSearch] = useState(false);
   const [accessories, setAccessories] = useState([]);
-  const [featuredAccessories, setFeaturedAccessories] = useState([]);
-  const [iPadAccessories, setiPadAccessories] = useState([]);
-  const [macAccessories, setMacAccessories] = useState([]);
-  const [iPhoneAccessories, setiPhoneAccessories] = useState([]);
-  const [iwatchAccessories, setiWatchAccessories] = useState([]);
   const [proceed, setProceed] = useState(0);
   const [searchData, setSearchData] = useState([]);
   const [model, setModel] = useState("");
@@ -42,26 +37,6 @@ const BuyAccessories = () => {
           .then((res) => res.data);
         setAccessories(accessoriesData);
 
-        const iPadData = accessoriesData.filter(
-          (data) => data.category === "ipad"
-        );
-        setiPadAccessories(iPadData);
-
-        const macData = accessoriesData.filter(
-          (data) => data.category === "mac"
-        );
-        setMacAccessories(macData);
-
-        const iWatchData = accessoriesData.filter(
-          (data) => data.category === "iwatch"
-        );
-        setiWatchAccessories(iWatchData);
-
-        const featuredData = accessoriesData.filter(
-          (data) => data.featured === true
-        );
-        setFeaturedAccessories(featuredData);
-        console.log({ featuredData });
       } catch (error) {
         console.error("error fetching accessories", error);
       }
@@ -83,10 +58,20 @@ const BuyAccessories = () => {
     );
   };
 
-  const handleIphoneClick = () => {
-    const iPhonedata = accessories.filter((data) => data.category === "iphone");
-    setiPhoneAccessories(iPhonedata);
+  const iPadData = accessories?.filter((data) => data.category === "ipad");
 
+  const macData = accessories?.filter((data) => data.category === "mac");
+
+  const iWatchData = accessories?.filter(
+    (data) => data.category === "iwatch"
+  );
+
+  const featuredData = accessories?.filter((data) => data.featured === true);
+  console.log({ featuredData });
+
+   const iPhonedata = accessories?.filter((data) => data.category === "iphone");
+
+  const handleIphoneClick = () => {
     setShowFeature(false);
     setShowIphone(true);
     setShowIpad(false);
@@ -193,7 +178,7 @@ const BuyAccessories = () => {
                     />
                   ))
                 ) : (
-                  <div>No iphone accessories at this time</div>
+                  <div>search accessories not available at this time</div>
                 )}
               </div>
             </>
@@ -203,8 +188,8 @@ const BuyAccessories = () => {
             <>
               <p className="font-bold mt-4">iPhone Accessories</p>
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4">
-                {iPhoneAccessories?.length !== 0 ? (
-                  iPhoneAccessories.map((model, index) => (
+                {iPhonedata?.length !== 0 ? (
+                  iPhonedata.map((model, index) => (
                     <AccessoryCard
                       key={index}
                       onClick={() => {
@@ -226,8 +211,8 @@ const BuyAccessories = () => {
             <>
               <p className="font-bold mt-4">iWatch Accessories</p>
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
-                {iwatchAccessories?.length !== 0 ? (
-                  iwatchAccessories.map((model, index) => (
+                {iWatchData?.length !== 0 ? (
+                  iWatchData?.map((model, index) => (
                     <AccessoryCard
                       key={index}
                       onClick={() => {
@@ -250,8 +235,8 @@ const BuyAccessories = () => {
             <>
               <p className="font-bold mt-4">iPad Accessories</p>
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
-                {iPadAccessories?.length !== 0 ? (
-                  iPadAccessories.map((model, index) => (
+                {iPadData?.length !== 0 ? (
+                  iPadData?.map((model, index) => (
                     <AccessoryCard
                       key={index}
                       onClick={() => {
@@ -274,8 +259,8 @@ const BuyAccessories = () => {
             <>
               <p className="font-bold mt-4">Mac Accessories</p>
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
-                {macAccessories?.length !== 0 ? (
-                  macAccessories.map((model, index) => (
+                {macData?.length !== 0 ? (
+                  macData?.map((model, index) => (
                     <AccessoryCard
                       key={index}
                       onClick={() => {
@@ -298,8 +283,8 @@ const BuyAccessories = () => {
             <>
               <p className="font-bold mt-4">Featured Accessories</p>
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
-                {featuredAccessories?.length !== 0 ? (
-                  featuredAccessories.map((model, index) => (
+                {featuredData?.length !== 0 ? (
+                  featuredData?.map((model, index) => (
                     <AccessoryCard
                       key={index}
                       onClick={() => {

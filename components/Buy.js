@@ -154,23 +154,31 @@ export default function Buy() {
       }
 
       {selectedModel !== modelIndex && !fetchingModel && (
-        <div className="flex flex-wrap shadow-lg border-[#D9D9D9] border-l-8 border-t-8 rounded-[20px]">
+        <div className="flex flex-wrap shadow-lg border-[#D9D9D9] border-t-4 border-l-4 rounded-[20px]">
           {models.map((model, index) => {
             const modelExists = availableModels.some(
-              (iphone) => iphone.name.trim().toLowerCase() === model.name.trim().toLowerCase()
+              (iphone) =>
+                iphone.name.trim().toLowerCase() ===
+                model.name.trim().toLowerCase()
             );
 
             return (
               <div
                 key={index}
-                className={`w-1/2 p-4 font-semibold text-xl ${!modelExists ? 'text-[gray] opacity-50 cursor-not-allowed' : ''}`}
+                className={`w-1/2 p-4 font-semibold text-xl ${
+                  !modelExists
+                    ? "text-[gray] opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
                 onClick={() => {
                   if (modelExists) {
                     const itemPicked = availableModels.filter(
-                      (iphone) => iphone.name.trim().toLowerCase() === model.name.trim().toLowerCase()
+                      (iphone) =>
+                        iphone.name.trim().toLowerCase() ===
+                        model.name.trim().toLowerCase()
                     );
 
-                    const grades = getUniqueValues(itemPicked, 'grade');
+                    const grades = getUniqueValues(itemPicked, "grade");
 
                     setPickItems(itemPicked);
                     setGrade(grades);
@@ -197,22 +205,26 @@ export default function Buy() {
             currentPictureIndex={currentPictureIndex}
             showPrevImage={showPrevImage}
             showNextImage={showNextImage}
-
           />
           <div className="px-5">
             {removeItem !== false && (
               <div className="flex justify-between py-4">
                 <b>{iphoneModel?.name}</b>
-                <b className='flex'>Price: <TbCurrencyNaira className="h-6 mr-1" />{price}</b>
+                <b className="flex">
+                  Price: <TbCurrencyNaira className="h-6 mr-1" />
+                  {price}
+                </b>
               </div>
             )}
 
             {removeItem !== false && (
               <RadioSelection
-                title={'Pick your preference'}
-                name={'preference'}
+                title={"Pick your preference"}
+                name={"preference"}
                 options={grade}
-                onChange={(selectedOption) => handleNewOrUsedChange(selectedOption)}
+                onChange={(selectedOption) =>
+                  handleNewOrUsedChange(selectedOption)
+                }
               />
             )}
 
@@ -220,10 +232,12 @@ export default function Buy() {
               <>
                 {removeItem !== false && (
                   <RadioSelection
-                    title={'Carrier/Lock Status'}
-                    name={'lock'}
+                    title={"Carrier/Lock Status"}
+                    name={"lock"}
                     options={availableCarrier}
-                    onChange={(selectedOption) => handleLockedOrUnlockedChange(selectedOption)}
+                    onChange={(selectedOption) =>
+                      handleLockedOrUnlockedChange(selectedOption)
+                    }
                   />
                 )}
 
@@ -231,10 +245,12 @@ export default function Buy() {
                   <>
                     {removeItem !== false && (
                       <RadioSelection
-                        title={'Select from available storages'}
+                        title={"Select from available storages"}
                         options={storageList}
-                        name={'storage'}
-                        onChange={(selectedOption) => handleStorageSelection(selectedOption)}
+                        name={"storage"}
+                        onChange={(selectedOption) =>
+                          handleStorageSelection(selectedOption)
+                        }
                       />
                     )}
 
@@ -242,10 +258,12 @@ export default function Buy() {
                       <>
                         {removeItem !== false && (
                           <RadioSelection
-                            title={'Select from available colors'}
-                            name={'color'}
+                            title={"Select from available colors"}
+                            name={"color"}
                             options={colorList}
-                            onChange={(selectedOption) => handleColorChange(selectedOption)}
+                            onChange={(selectedOption) =>
+                              handleColorChange(selectedOption)
+                            }
                           />
                         )}
                       </>
@@ -253,16 +271,14 @@ export default function Buy() {
 
                     {addToCartButton && (
                       <div className="flex justify-center items-center">
-
-                        <Link href='/checkoutPage'>
+                        <Link href="/checkoutPage">
                           <button
                             className="bg-[#187EB4] px-16 py-4 mt-5 rounded-full text-[#FFFFFF]"
-                            onClick={()=> addToCart(iphoneModel)}
+                            onClick={() => addToCart(iphoneModel)}
                           >
                             Add to Cart
                           </button>
                         </Link>
-
                       </div>
                     )}
                   </>

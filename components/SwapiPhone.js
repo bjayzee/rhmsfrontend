@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect, useRef, useContext } from "react";
-import { IoIosArrowRoundBack } from "react-icons/io";
+import { IoIosArrowDropdownCircle, IoIosArrowRoundBack } from "react-icons/io";
 import { FaPlay } from "react-icons/fa";
 import axios from "axios";
 import RadioSelection from "./RadioSelectionButton";
@@ -320,17 +320,21 @@ const SwapiPhone = () => {
               <div className="flex">
                 <span className="font-bold">Swap value:</span>
                 <span className="pl-2 flex justify-center">
-                  <TbCurrencyNaira height={20} />
-                  {swapValue < 1
-                    ? "Grade not available"
-                    : swapValue?.toLocaleString()}
+                  {swapValue < 1 ? (
+                    "Grade not available"
+                  ) : (
+                    <>
+                      <TbCurrencyNaira h-7 /> {swapValue?.toLocaleString()}
+                    </>
+                  )}
                 </span>
               </div>
             </div>
 
             <Link href="/buy-iphone" passHref>
-              <button className="hover:text-rh-blue cursor-pointer">
-                Now let's select your new phone
+              <button className="flex items-center">
+                <p className="text-lg">Now let's select your new phone</p>
+                <IoIosArrowDropdownCircle className="text-[20px] text-rh-blue " />
               </button>
             </Link>
             <p></p>
