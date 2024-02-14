@@ -3,12 +3,12 @@
 import { useState, useEffect } from "react";
 import { PageHeader, Button } from "antd";
 
-const SwapManagement = () => {
+const AccessoriesManagement = () => {
   return (
     <div className="mx-[50px] my-[100px]">
-      <PageHeader title="Swap Management" />
+      <PageHeader title="Accessories Management" />
     </div>
   );
 };
 
-export default SwapManagement;
+export default AccessoriesManagement;
