@@ -1,11 +1,12 @@
 "use client";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 import ProductCard from "./ProductCard";
 import AccessoryCard from "./AccessoryCard";
 import ImageSlider from "./ImageSlider";
 import { TbCurrencyNaira } from "react-icons/tb";
+import { CartContent } from "@/app/context/AppContext";
 
 const BuyAccessories = () => {
   const [showIphone, setShowIphone] = useState(false);
@@ -23,6 +24,9 @@ const BuyAccessories = () => {
   const [price, setPrice] = useState(0);
 
   const [currentPictureIndex, setCurrentPictureIndex] = useState(0);
+
+  const { addToCart, cartItems, clearCartAndLocalStorage } =
+    useContext(CartContent);
 
   const priceRef = useRef(null);
 
@@ -72,6 +76,7 @@ const BuyAccessories = () => {
    const iPhonedata = accessories?.filter((data) => data.category === "iphone");
 
   const handleIphoneClick = () => {
+    clearCartAndLocalStorage();
     setShowFeature(false);
     setShowIphone(true);
     setShowIpad(false);
@@ -169,7 +174,15 @@ const BuyAccessories = () => {
                     <AccessoryCard
                       key={index}
                       onClick={() => {
-                        setProceed(2);
+                        addToCart({
+                          ...model,
+                          specification: {
+                            grade: "New",
+                            capacity: "",
+                            color: model.color,
+                          },
+                        });
+                        // setProceed(2);
                         setModel({ ...model });
                         setAddToCartButton(true);
                         setPrice(model.price);
@@ -193,7 +206,8 @@ const BuyAccessories = () => {
                     <AccessoryCard
                       key={index}
                       onClick={() => {
-                        setProceed(2);
+                        addToCart({...model, specification:{grade: "New", capacity: "", color: model.color} });
+                        // setProceed(2);
                         setIphoneModel({ ...model });
                         setAddToCartButton(true);
                         setPrice(model.price);
@@ -216,7 +230,15 @@ const BuyAccessories = () => {
                     <AccessoryCard
                       key={index}
                       onClick={() => {
-                        setProceed(2);
+                        addToCart({
+                          ...model,
+                          specification: {
+                            grade: "New",
+                            capacity: "",
+                            color: model.color,
+                          },
+                        });
+                        // setProceed(2);
                         setIphoneModel({ ...model });
                         setAddToCartButton(true);
                         setPrice(model.price);
@@ -240,7 +262,15 @@ const BuyAccessories = () => {
                     <AccessoryCard
                       key={index}
                       onClick={() => {
-                        setProceed(2);
+                        addToCart({
+                          ...model,
+                          specification: {
+                            grade: "New",
+                            capacity: "",
+                            color: model.color,
+                          },
+                        });
+                        // setProceed(2);
                         setIphoneModel({ ...model });
                         setAddToCartButton(true);
                         setPrice(model.price);
@@ -264,7 +294,15 @@ const BuyAccessories = () => {
                     <AccessoryCard
                       key={index}
                       onClick={() => {
-                        setProceed(2);
+                        addToCart({
+                          ...model,
+                          specification: {
+                            grade: "New",
+                            capacity: "",
+                            color: model.color,
+                          },
+                        });
+                        // setProceed(2);
                         setIphoneModel({ ...model });
                         setAddToCartButton(true);
                         setPrice(model.price);
@@ -288,8 +326,16 @@ const BuyAccessories = () => {
                     <AccessoryCard
                       key={index}
                       onClick={() => {
-                        setProceed(2);
-                        setIphoneModel({ ...model });
+                        addToCart({
+                          ...model,
+                          specification: {
+                            grade: "New",
+                            capacity: "",
+                            color: model.color,
+                          },
+                        });
+                        // setProceed(2);
+                        setModel({ ...model });
                         setAddToCartButton(true);
                         setPrice(model.price);
                       }}
@@ -305,7 +351,7 @@ const BuyAccessories = () => {
         </div>
       </div>
 
-      {proceed === 2 && (
+      {/* {proceed === 2 && (
         <div ref={priceRef}>
           <ImageSlider
             images={model?.images}
@@ -354,7 +400,7 @@ const BuyAccessories = () => {
             </button>
           </Link>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

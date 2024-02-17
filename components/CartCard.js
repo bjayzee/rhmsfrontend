@@ -32,15 +32,15 @@ const CartCard = ({ phone, onRemove }) => {
         <div className="border border-[gray] p-4 m-2 rounded-xl">
             <div className="flex flex-row items-center justify-between mb-2">
                 <img
-                    src={phone.thumbnail}
+                    src={phone.thumbnail || phone.image}
                     alt={phone.name}
                     className="w-20 h-20 object-cover rounded-md mr-4"
                 />
                 <div className="flex flex-col">
                     <p className="text-lg font-bold">{phone.name}</p>
-                    <p className="text-sm text-[gray]"><span>Condition: </span>{phone.specification.grade}</p>
-                    <p className="text-sm text-[gray]"><span>Storage: </span>{phone.specification.capacity}</p>
-                    <p className="text-sm text-[gray]"><span>Color: </span>{phone.specification.color}</p>
+                    <p className="text-sm text-[gray]"><span>Condition: </span>{phone?.specification.grade}</p>
+                    <p className="text-sm text-[gray]"><span>Storage: </span>{phone?.specification.capacity}</p>
+                    <p className="text-sm text-[gray]"><span>Color: </span>{phone?.specification.color}</p>
                 </div>
                 <div className="flex items-center mb-2">
                     <span className="ml-2 font-semibold w-fit flex flex-row"><TbCurrencyNaira className="h-6  " />{(phone.price * phone.quantity)?.toLocaleString()}</span>
