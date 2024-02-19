@@ -40,8 +40,6 @@ const ProductManagement = (props) => {
     (product) => product?.category?.name == "Airpods"
   );
 
-  console.log(iphone);
-
   const handleDelete = () => {};
 
   return (
@@ -61,8 +59,7 @@ const ProductManagement = (props) => {
             </Button>,
           ]}
         />
-
-        <StyledDiv {...props}>
+  <StyledDiv {...props}>
           <Tabs defaultActiveKey="1">
             <TabPane tab="IPhones" key="1">
               <ProductTable
@@ -100,7 +97,8 @@ const ProductManagement = (props) => {
               />
             </TabPane>
           </Tabs>
-        </StyledDiv>
+        </StyledDiv>      
+     
       </div>
     </div>
   );
