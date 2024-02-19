@@ -362,7 +362,7 @@ function EditProduct({ data }) {
         handleClose();
         clearFormData();
         notification.success({
-          message: "Category edited successfully",
+          message: "product edited successfully",
         });
 
         setLoading(false);
@@ -374,7 +374,7 @@ function EditProduct({ data }) {
         setLoading(false);
 
         notification.error({
-          message: "Error editing category, please try again",
+          message: "Error editing product, please try again",
         });
       });
   };

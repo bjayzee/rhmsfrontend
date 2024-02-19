@@ -6,7 +6,7 @@ import React, { useRef, useState } from "react";
 import Link from "next/link";
 import { UserOutlined } from "@ant-design/icons";
 import { getColumnSearchProps } from "@/components/TableColSearch";
-import EditProduct from "./EditProduct";
+import EditAccessory from "./EditAccessory";
 
 const AccessoriesTable = ({ data, loading, handleDelete }) => {
   const [searchText, setSearchText] = useState("");
@@ -151,7 +151,7 @@ const AccessoriesTable = ({ data, loading, handleDelete }) => {
             </Link>
           </Button>
           <Button style={{ marginRight: "5px" }} title="Edit">
-            <EditProduct data={singleData} />
+            <EditAccessory data={singleData} />
           </Button>
           <Button
             danger

@@ -9,36 +9,31 @@ import Link from 'next/link'
 import moment from 'moment'
 import { BsArrowLeft } from 'react-icons/bs'
 
+export default function AccessoryDetails({ params: { _id } }) {
 
-export default function ProductDetails({ params: { _id } }) {
 
-
-  const [product, setProduct] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [accessory, setAccessory] = useState({});
 
   useEffect(() => {
-    setLoading(true);
-    const fetchProduct = async () => {
-      const res = await fetch(`/api/products/${_id}`);
+    const fetchaccessory = async () => {
+      const res = await fetch(`/api/accessories/${_id}`);
       const data = await res.json();
-      setProduct(data);
-      setLoading(false);
+      setAccessory(data);
     };
 
-    fetchProduct();
+    fetchaccessory();
   }, []);
 
-  console.log(product.data)
 
   return (
     <div className='my-[100px] mx-[50px]'>
       <Card>
         <Card.Header className="flex items-center justify-between">
-          <div className=' text-2xl font-bold'>Product Details</div>
+          <div className=' text-2xl font-bold'>Accessory Details</div>
           <div>
             <div className='userInfo__back  '>
              
-                <Link className='no-underline flex items-center gap-[5px]' href="/admin/productmanagement">
+                <Link className='no-underline flex items-center gap-[5px]' href="/admin/accessorymanagement">
                 <BsArrowLeft /> <div>Back</div>
                 </Link>
                
@@ -50,76 +45,53 @@ export default function ProductDetails({ params: { _id } }) {
             <Col>
               <Table striped bordered hover>
                 <tbody>
-                   <tr>
-                    <td>
-                      <strong className='mr-[65px]'>Description:</strong> {product?.data?.description}
-                    </td>
-                  </tr>
+               
                   <tr>
                     <td>
-                      <strong className='mr-[65px]'>Product type:</strong> {product?.data?.productType}
+                      <strong className='mr-[65px]'>Name:</strong> {accessory?.data?.name}
                     </td>
                   </tr>
-                  <tr>
-                    <td>
-                      <strong className='mr-[65px]'>Name:</strong> {product?.data?.name}
-                    </td>
-                  </tr>
+          
                      <tr>
                     <td>
-                      <strong className='mr-[65px]'>Subcategory:</strong> {product?.data?.subCategory}
-                    </td>
-                  </tr>
-                     <tr>
-                    <td>
-                      <strong className='mr-[65px]'>Supplier:</strong> {product?.data?.supplier}
+                      <strong className='mr-[65px]'>Supplier:</strong> {accessory?.data?.supplier}
                     </td>
                   </tr>
 
-                     <tr>
-                    <td>
-                      <strong className='mr-[65px]'>Tag number:</strong> {product?.data?.tagNumber}
-                    </td>
-                  </tr>
                   <tr>
                     <td>
-                      <strong className='mr-[65px]'>Cost Price:</strong>{' '}
-                      ₦{product?.data?.costPrice}
+                      <strong className='mr-[65px]'>Featured:</strong>{' '}
+                      {accessory?.data?.featured === true ? 'Yes': 'No'}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong className='mr-[65px]'>Price:</strong>{' '}
-                      ₦{product?.data?.price}
+                      ₦{accessory?.data?.price}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong className='mr-[65px]'>Quantity in-stock:</strong>{' '}
-                      {product?.data?.numInStock}
+                      {accessory?.data?.numInStock}
                     </td>
                   </tr>
                      <tr>
                     <td>
-                      <strong className='mr-[65px]'>IMEI SN:</strong> {product?.data?.IMEI_SN}
+                      <strong className='mr-[65px]'>IMEI SN:</strong> {accessory?.data?.IMEI_SN}
                     </td>
                   </tr>
-                  {/* <tr>
-                    <td>
-                      <strong className='mr-[65px]'>Product size:</strong>{' '}
-                      {product?.data?.product_size}
-                    </td>
-                  </tr> */}
+          
                   <tr>
                     <td>
                       <strong className='mr-[65px]'>Category:</strong>{' '}
-                      {product?.data?.category?.name}
+                      {accessory?.data?.category}
                     </td>
                   </tr>
                   <tr>
                     <td>
                       <strong className='mr-[65px]'>Created at:</strong>{' '}
-                      {moment(product?.data?.createdAt).format('DD MMM YYYY')}
+                      {moment(accessory?.data?.createdAt).format('DD MMM YYYY')}
                     </td>
                   </tr>
                 </tbody>
@@ -128,8 +100,8 @@ export default function ProductDetails({ params: { _id } }) {
             <Col>
               <h2>Thumbnail</h2>
               <img
-                src={product?.data?.thumbnail}
-                alt={product?.data?.name}
+                src={accessory?.data?.image}
+                alt={accessory?.data?.name}
                 width='{40}'
                 height='{40}'
                 key='{key}'

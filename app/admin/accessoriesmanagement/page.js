@@ -5,6 +5,10 @@ import { PageHeader, Tabs, Button } from "antd";
 import styled from "styled-components";
 import AccessoriesTable from "@/components/AccessoriesTable";
 import CreateAccessory from "@/components/CreateAccessory";
+import { ToastContainer, toast } from "react-toastify";
+import { notification } from "antd";
+import axios from "axios";
+
 
 const { TabPane } = Tabs;
 
@@ -12,13 +16,13 @@ const AccessoriesManagement = (props) => {
   const [accessories, setAccessories] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchAccessories = async () => {
-      const res = await fetch("/api/accessories");
-      const data = await res.json();
-      setAccessories(data);
-    };
+  const fetchAccessories = async () => {
+    const res = await fetch("/api/accessories");
+    const data = await res.json();
+    setAccessories(data);
+  };
 
+  useEffect(() => {
     fetchAccessories();
   }, []);
 
@@ -38,21 +42,37 @@ const AccessoriesManagement = (props) => {
     (accessory) => accessory?.category == "airpods"
   );
 
-
-  const handleDelete = () => {};
+  const handleDelete = async ({_id}) => {
+    try {
+      const response = await axios.delete(
+        `api/accessories/${_id}`
+      );
+      notification.success({
+        message: "accessory deleted successfully",
+      });
+      fetchAccessories();
+    } catch (err) {
+      console.error("Error deleting:", err);
+      notification.error({
+        message: "Error deleting accessory, please try again",
+      });
+    }
+  };
 
   return (
     <div className="my-[100px]">
       <div className="mx-[50px]">
-        <PageHeader title="Accessories"   extra={[
+        <PageHeader
+          title="Accessories"
+          extra={[
             <Button
               key="CreateAccessory"
               style={{ color: "#187EB4", border: "1px solid #187EB4" }}
             >
-             <CreateAccessory/>
+              <CreateAccessory />
             </Button>,
-          ]} />
-
+          ]}
+        />
         <StyledDiv {...props}>
           <Tabs defaultActiveKey="1">
             <TabPane tab="IPhones" key="1">
@@ -93,6 +113,8 @@ const AccessoriesManagement = (props) => {
           </Tabs>
         </StyledDiv>
       </div>
+
+      <ToastContainer />
     </div>
   );
 };

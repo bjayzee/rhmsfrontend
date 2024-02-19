@@ -5,6 +5,9 @@ import { PageHeader, Tabs, Button } from "antd";
 import styled from "styled-components";
 import ProductTable from "@/components/ProductTable";
 import CreateProduct from "@/components/CreateProduct";
+import { ToastContainer, toast } from "react-toastify";
+import { notification } from "antd";
+import axios from "axios";
 
 const { TabPane } = Tabs;
 
@@ -12,15 +15,13 @@ const ProductManagement = (props) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    setLoading(true);
-    const fetchProducts = async () => {
-      const res = await fetch("/api/products");
-      const data = await res.json();
-      setProducts(data);
-      setLoading(false);
-    };
+  const fetchProducts = async () => {
+    const res = await fetch("/api/accessories");
+    const data = await res.json();
+    setProducts(data);
+  };
 
+  useEffect(() => {
     fetchProducts();
   }, []);
 
@@ -40,7 +41,22 @@ const ProductManagement = (props) => {
     (product) => product?.category?.name == "Airpods"
   );
 
-  const handleDelete = () => {};
+  const handleDelete = async ({_id}) => {
+    try {
+      const response = await axios.delete(
+        `api/products/${_id}`
+      );
+      notification.success({
+        message: "product deleted successfully",
+      });
+      fetchProducts();
+    } catch (err) {
+      console.error("Error deleting:", err);
+      notification.error({
+        message: "Error deleting product, please try again",
+      });
+    }
+  };
 
   return (
     <div>
@@ -98,7 +114,7 @@ const ProductManagement = (props) => {
             </TabPane>
           </Tabs>
         </StyledDiv>      
-     
+     <ToastContainer/>
       </div>
     </div>
   );
