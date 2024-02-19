@@ -1,237 +1,74 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { FaPlay } from "react-icons/fa";
 import RadioSelection from "./RadioSelectionButton";
+import { models } from "@/server/utils/iPhonedata";
 
 export default function Repair() {
-  const [selectedOption, setSelectedOption] = useState("");
-  const [showButton, setShowButton] = useState(false);
-  const [showButtons, setShowButtons] = useState(false);
-  const [showBox, setShowBox] = useState(false);
-  const [selectedModel, setSelectedModel] = useState("");
-  //const [selectedRepairType, setSelectedRepairType] = useState(false);
-  const [selectedRepair, setSelectedRepair] = useState(null);
-  const [selectedRepairOption, setSelectedRepairOption] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [showRepairTypes, setShowRepairTypes] = useState(false);
-  const [allchecked, setAllChecked] = React.useState([]);
 
-  function handleChange(e) {
-    if (e.target.checked) {
-      setAllChecked([...allchecked, e.target.value]);
-    } else {
-      setAllChecked(allchecked.filter((item) => item !== e.target.value));
-    }
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false)
+ 
+  const handleOptionSelect = (option) =>{
+      setSelectedOption(option)
+      setShowDropdown(false);
   }
-
-  console.log(allchecked);
-
-  const repairOptions = [
-    { name: "Screen replacement", value: "" },
-    { name: "Back Glass Replacement", value: "" },
-    { name: "Battery Replacement", value: "" },
-    { name: "Bluetooth/Pairing Issue", value: "" },
-    { name: "Data Recovery & Backup", value: "" },
-    { name: "Water Damage", value: "" },
-    { name: "Data Transfer", value: "" },
-    { name: "Wifi Issue", value: "" },
-    { name: "Cleaning", value: "" },
-  ];
-
-  const repairs = {
-    "Screen replacement": {
-      cost: 1500,
-    },
-    "Back glass replacement": {
-      cost: 1000,
-    },
-    "Battery replacement": {
-      cost: 2000,
-    },
+  const handleSelectClick = () => {
+     setShowDropdown(true);
   };
 
-  const handleSelectChange = (event) => {
-    const selectedValue = event.target.value;
-    setSelectedOption(selectedValue);
-    setSelectedRepairOption("");
-    setShowButton(selectedValue !== "option1");
-    setShowBox(false);
-  };
+  const handleChange = () =>{
 
-  const handleButtonClick = () => {
-    setShowBox(!showBox);
-  };
-
-  // const handleSelectClick = () => {
-  //  setShowDropdown(!showDropdown);
-  //};
-
-  const handleTextClick = (model, repairOption) => {
-    setSelectedModel(model);
-    setShowBox(false);
-    setShowButtons(true);
-    setShowButton(false);
-    setSelectedRepairOption(repairOption);
-  };
-
-  // const handleRepairOption = (repairType) => {
-  //   if (selectedModel && repairs[repairType]) {
-  //     const economyCost = repairs[repairType].cost;
-  //     const premiumCost = economyCost * 1.1; // 10% more expensive
-
-  //     setSelectedRepair({
-  //       repairType,
-  //       economyCost,
-  //       premiumCost,
-  //     });
-  //   }
-  // };
-
-  // const handleRepairOption = (repairTypes) => {
-  //   if (selectedModel && repairTypes.length > 0) {
-  //     const repairInfo = {};
-
-  //     repairTypes.forEach((type) => {
-  //       if (repairs[type]) {
-  //         const economyCost = repairs[type].cost;
-  //         const premiumCost = economyCost * 1.1; // 10% more expensive
-
-  //         repairInfo[type] = {
-  //           economyCost,
-  //           premiumCost,
-  //         };
-  //       }
-  //     });
-
-  //     setSelectedRepair(repairInfo);
-  //   }
-  // };
-
-  const handleRepairOption = (selectedRepairTypes) => {
-    if (selectedModel && selectedRepairTypes.length > 0) {
-      const repairInfo = {};
-
-      selectedRepairTypes.forEach((type) => {
-        if (repairs[type]) {
-          const economyCost = repairs[type].cost;
-          const premiumCost = economyCost * 1.1; // 10% more expensive
-
-          repairInfo[type] = {
-            economyCost,
-            premiumCost,
-            // Add other information you want to display, e.g., repair centers, addresses, etc.
-          };
-        }
-      });
-
-      setSelectedRepair(repairInfo);
-    }
-  };
-
+  }
+  const repairOptions = [{name:"Screen Replacement", value: " "}, {name: "Back Glass Replacement", value: ""}, {name: "Battery Replacement", value: ""}];
   return (
-    <div className="px-5 py-10">
-      <p className="text-2xl font-bold mt-10">
-        We fix it right, the Apple way.
-      </p>
-      <p className="text-x font-bold mb-2">Make your iPhone new again.</p>
+    <div className="m-5 px-3">
+      <p className="text-xl font-bold">We fix it right, the Apple way.</p>
+      <p className="text-l font-bold my-2">Make your iPhone new again.</p>
       <div className="flex justify-between">
-        <p className="w-[65%] text-[14px]">
+        <blockquote className="w-[65%] text-xs font-semibold">
           Apple-certified repairs are performed by trusted experts who use
-          genuine Apple parts. We are certified repairers, and you'll get your
+          genuine Apple parts. We are certified repairers. You'll get your
           product back working exactly the way it should.
-        </p>
+        </blockquote>
         <div className="w-[30%]">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcM--txB8ScFUfGtFXBQ6ojoKSp16F1Ciatw&usqp=CAU"
-            alt="Image"
-          />
+          <img src="/repairImg.png" alt="Image" />
         </div>
       </div>
 
-      <div className="flex items-center justify-between my-10">
-        <p className="font-bold">Perform a repair:</p>
-
+      <div className="flex items-center py-5 justify-between text-[16px]">
+        <span className="text-sm font-semibold">Perform a Repair:</span>
         <button
-          className="px-3 py-4 rounded-xl shadow-lg flex items-center border-[#D9D9D9] border-r-8 border-b-8"
-          onClick={handleButtonClick}
+          className="p-3 rounded-xl flex items-center justify-around border-[#D9D9D9] border-2 w-[60%]"
+          onClick={handleSelectClick}
         >
-          {selectedModel ? selectedModel : "Select your phone"}
-          <FaPlay
-            className={`text-[20px] text-[#187EB4] mx-2  ${
-              showBox ? "rotate-90" : ""
-            }`}
-          />
-        </button>
-
-        {/*<select
-          className="p-4 bg-white rounded-xl shadow-2xl border-[#D9D9D9] border-r-8 border-b-8 outline-none"
-          value={selectedOption}
-          onChange={handleSelectChange}
-        >
-          <option className="w-[50px]" value="option1">
-            Select
-          </option>
-          <option className="w-[50px]" value="option2">
-            Screen replacement
-          </option>
-          <option className="w-[50px]" value="option3">
-            Back glass replacement
-          </option>
-          <option className="w-[50px]" value="option4">
-            Battery replacement
-          </option>
-        </select>*/}
-      </div>
-
-      {showButton && (
-        <button
-          className="w-full mt-2 border text-black px-4 py-2 bg-white rounded-xl shadow-2xl border-[#D9D9D9] border-r-8 border-b-8"
-          onClick={handleButtonClick}
-        >
-          Select your phone
-        </button>
-      )}
-
-      {showBox && (
-        <div className="my-3 p-4 border divide-y divide-gray-300 bg-white rounded-2xl shadow-2xl border-[#D9D9D9] border-r-8 border-b-8">
-          <div className="flex justify-between text-lg">
-            <div className="w-full font-bold flex flex-col space-y-2">
-              <p onClick={() => handleTextClick("iPhone 8")}>iPhone 8</p>
-              <p onClick={() => handleTextClick("iPhone 8 plus")}>
-                iPhone 8 plus
-              </p>
-              <p>iPhone x</p>
-              <p>iPhone XR</p>
-              <p>iPhone XS</p>
-              <p>iPhone XS Max</p>
-              <p>iPhone 11</p>
-              <p>iPhone 11 Pro</p>
-              <p>iPhone 11 Pro Max</p>
-              <p>iPhone SE(2nd Gen)</p>
-              <p>iPhone 12 mini</p>
-              <p>iPhone 12 Pro</p>
-              <p>iPhone 12 Pro Max</p>
-            </div>
-            <div className="w-full font-bold flex flex-col space-y-2">
-              <p>iPhone 12 Pro Max</p>
-              <p>iPhone 13 mini</p>
-              <p>iPhone 13</p>
-              <p>iPhone 13 Pro</p>
-              <p>iPhone 13 Pro Max</p>
-              <p>iPhone SE(3rd Gen)</p>
-              <p>iPhone 14</p>
-              <p>iPhone 14 Plus</p>
-              <p>iPhone 14 Pro</p>
-              <p>iPhone 15</p>
-              <p>iPhone 15 plus</p>
-              <p>iPhone 15 Pro Max</p>
-            </div>
+          <div className="leading-5">
+            {selectedOption ? selectedOption.name : "Select your phone"}
           </div>
+
+          <FaPlay className="text-[18px] text-rh-blue ml-1" />
+        </button>
+      </div>
+
+      {showDropdown ? (
+        <div className="p-2 font-semibold text-sm flex flex-wrap shadow-lg border-[#D9D9D9] border-t-4 border-l-4 rounded-[20px]">
+          {models.map((option, key) => (
+            <div
+              key={key}
+              className="w-1/2 cursor-pointer p-2 hover-bg-gray-100"
+              onClick={() => handleOptionSelect(option)}
+            >
+              {option.name}
+            </div>
+          ))}
         </div>
+      ) : (
+        ""
       )}
 
-      {selectedModel && (
+     
+      {selectedOption && (
         <button
           onClick={() => setShowRepairTypes(!showRepairTypes)}
           className="w-full my-3 font-bold text-black px-4 py-2 bg-white rounded-xl shadow-2xl outline-none border-[#D9D9D9] border-r-8 border-b-8 flex justify-center"
@@ -245,7 +82,7 @@ export default function Repair() {
         </button>
       )}
 
-      {showRepairTypes && (
+      {true && (
         <div className="px-3 py-10">
           <div className="flex flex-col items-center justify-center py-3">
             <h4 className="font-semibold text-xl">
@@ -310,7 +147,7 @@ export default function Repair() {
         <input className="outline-none border-2 border-[#187EB4] w-full h-[50px] px-3" />
       </div>
 
-      {showButtons && (
+      {true && (
         <div className="mt-2 flex justify-between">
           {selectedOption !== "option1" && (
             <button
@@ -333,45 +170,7 @@ export default function Repair() {
         </div>
       )}
 
-      {/* {showButtons && (
-  <div className="mt-2 flex justify-between">
-    {selectedOption !== 'option1' &&
-      repairOptions.map((option) => (
-        <button
-          key={option}
-          className="w-full mt-2 border text-black px-4 py-2 shadow-lg rounded-lg my-custom-font text-bold"
-          onClick={() => handleRepairOption(option)}
-        >
-          Premium {option}
-        </button>
-      ))}
-
-      {console.log(repairOptions)}
-  </div>
-)} */}
-
-      {/* {selectedRepair && (
-  <div className="mt-4 p-4 border divide-y divide-gray-300 shadow-lg rounded-lg">
-    <p className="my-custom-font">
-      You have chosen {selectedRepair.repairType} for your {selectedModel}. Visit any of the addresses below to complete your repairs.
-    </p>
-    <p className="my-custom-font font-bold">Cost for the Economy option: {selectedRepair.economyCost}</p>
-    <p className="my-custom-font font-bold">Cost for the Premium option: {selectedRepair.premiumCost}</p>
-    <p className="my-custom-font font-bold">Available repair center:</p>
-    <p className="my-custom-font font-bold">Contact address: {selectedRepair.address}</p>
-    <p className="my-custom-font "> 267 Herbert Macauly way, Sabo,Yaba </p>
-          <div className="flex justify-between ">
-          <p className="my-custom-font font-bold">Email: {selectedRepair.email}</p>
-          <p className="my-custom-font font-bold">Phone Numbers: {selectedRepair.phone}</p>
-          </div>
-          <div className="flex justify-between ">
-          <p className="my-custom-font ">repair@gmail.com</p>
-          <p className="my-custom-font ">09087654321</p>
-          </div>
-  </div>
-)}  */}
-
-      {selectedRepair && (
+      {/* {true && (
         <div className="mt-4 px-4">
           {Object.keys(selectedRepair).map((repairType) => {
             const repairInfo = selectedRepair[repairType];
@@ -379,7 +178,7 @@ export default function Repair() {
               <div key={repairType}>
                 <div className="py-4">
                   <p>
-                    You have chosen {repairType} for your {selectedModel}. Visit
+                    You have chosen {repairType} for your {selectedOption}. Visit
                     any of the addresses below to complete your repairs.
                   </p>
                   <p>Cost for the Economy option: {repairInfo.economyCost}</p>
@@ -405,9 +204,10 @@ export default function Repair() {
                 </div>
               </div>
             );
-          })}
-        </div>
-      )}
-    </div>
-  );
+          })} */}
+        {/* </div> */}
+  {/* // )} */}
+
+  </div>
+  )
 }

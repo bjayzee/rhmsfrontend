@@ -55,20 +55,28 @@ const Cart = () => {
         <TbCurrencyNaira className="w-5 h-6" /> {price?.toLocaleString()}
       </p>
 
-      {swapValue > 1 ? (
-        <p className="flex justify-end pt-3 px-5">
-          <span className="font-bold font pr-3">Swap Item Value:</span>{" "}
-          <TbCurrencyNaira className="w-5 h-6" /> {swapValue?.toLocaleString()}
-        </p>
-      ) : (
-        ""
-      )}
+        {swapValue > 1 ? (
+          <p className="flex justify-end pt-3 px-5">
+            <span className="font-bold font pr-3">Swap Item Value:</span>{" "}
+            <TbCurrencyNaira className="w-5 h-6" />{" "}
+            {swapValue?.toLocaleString()}
+          </p>
+        ) : (
+          ""
+        )}
 
         <p className="flex justify-end pt-3 px-5">
           <span className="font-bold font pr-3">Total:</span>{" "}
           <TbCurrencyNaira className="w-5 h-6" /> {totalPrice?.toLocaleString()}
         </p>
         <div className="flex justify-center my-4 ">
+            <button
+              className="text-[red] text-sm px-4 py-2 mr-2 rounded-md"
+              disabled={cartItems.length === 0}
+              onClick={clearCartAndLocalStorage}
+            >
+              Clear Cart
+            </button>
           <Link href="/" passHref>
             <button
               className="text-rh-blue text-sm px-4 py-2 mr-2 rounded-md"

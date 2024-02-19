@@ -171,7 +171,7 @@ export default function Buy() {
       }
 
       {selectedModel !== modelIndex && !fetchingModel && (
-        <div className="flex flex-wrap shadow-lg border-[#D9D9D9] border-l-8 border-t-8 rounded-[20px]">
+        <div className="flex flex-wrap shadow-lg border-[#D9D9D9] border-t-4 border-l-4 rounded-[20px]">
           {models.map((model, index) => {
             const modelExists = availableModels.some(
               (iphone) =>

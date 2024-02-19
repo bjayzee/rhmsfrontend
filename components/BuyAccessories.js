@@ -1,11 +1,9 @@
 "use client";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
-import ProductCard from "./ProductCard";
 import AccessoryCard from "./AccessoryCard";
-import ImageSlider from "./ImageSlider";
-import { TbCurrencyNaira } from "react-icons/tb";
+import { CartContent } from "@/app/context/AppContext";
 
 const BuyAccessories = () => {
   const [showIphone, setShowIphone] = useState(false);
@@ -15,21 +13,10 @@ const BuyAccessories = () => {
   const [showFeature, setShowFeature] = useState(true);
   const [showSearch, setShowSearch] = useState(false);
   const [accessories, setAccessories] = useState([]);
-  const [featuredAccessories, setFeaturedAccessories] = useState([]);
-  const [iPadAccessories, setiPadAccessories] = useState([]);
-  const [macAccessories, setMacAccessories] = useState([]);
-  const [iPhoneAccessories, setiPhoneAccessories] = useState([]);
-  const [iwatchAccessories, setiWatchAccessories] = useState([]);
-  const [proceed, setProceed] = useState(0);
   const [searchData, setSearchData] = useState([]);
-  const [model, setModel] = useState("");
-  const [removeItem, setRemoveItem] = useState(true);
-  const [addToCartButton, setAddToCartButton] = useState(false);
-  const [price, setPrice] = useState(0);
 
-  const [currentPictureIndex, setCurrentPictureIndex] = useState(0);
+  const { addToCart } = useContext(CartContent);
 
-  const priceRef = useRef(null);
 
   useEffect(() => {
     const fetchAccessories = async () => {
@@ -41,27 +28,6 @@ const BuyAccessories = () => {
           .then((res) => res.data)
           .then((res) => res.data);
         setAccessories(accessoriesData);
-
-        const iPadData = accessoriesData.filter(
-          (data) => data.category === "ipad"
-        );
-        setiPadAccessories(iPadData);
-
-        const macData = accessoriesData.filter(
-          (data) => data.category === "mac"
-        );
-        setMacAccessories(macData);
-
-        const iWatchData = accessoriesData.filter(
-          (data) => data.category === "iwatch"
-        );
-        setiWatchAccessories(iWatchData);
-
-        const featuredData = accessoriesData.filter(
-          (data) => data.featured === true
-        );
-        setFeaturedAccessories(featuredData);
-        console.log({ featuredData });
       } catch (error) {
         console.error("error fetching accessories", error);
       }
@@ -70,23 +36,17 @@ const BuyAccessories = () => {
     fetchAccessories();
   }, []);
 
+  const iPadData = accessories?.filter((data) => data.category === "ipad");
 
-  const showNextImage = () => {
-    setCurrentPictureIndex((index) =>
-      index === iphoneModel?.images?.length - 1 ? 0 : index + 1
-    );
-  };
+  const macData = accessories?.filter((data) => data.category === "mac");
 
-  const showPrevImage = () => {
-    setCurrentPictureIndex((index) =>
-      index === 0 ? iphoneModel?.images?.length - 1 : index - 1
-    );
-  };
+  const iWatchData = accessories?.filter((data) => data.category === "iwatch");
+
+  const featuredData = accessories?.filter((data) => data.featured === true);
+
+  const iPhonedata = accessories?.filter((data) => data.category === "iphone");
 
   const handleIphoneClick = () => {
-    const iPhonedata = accessories.filter((data) => data.category === "iphone");
-    setiPhoneAccessories(iPhonedata);
-
     setShowFeature(false);
     setShowIphone(true);
     setShowIpad(false);
@@ -118,24 +78,20 @@ const BuyAccessories = () => {
     setShowIWatch(false);
     setShowSearch(false);
   };
-  const handleSearchChange = (searchParams) =>{
-      const search = accessories.filter((data) =>
-        data.name
-          .trim()
-          .toLowerCase()
-          .includes(searchParams.trim().toLowerCase())
-      );
+  const handleSearchChange = (searchParams) => {
+    const search = accessories.filter((data) =>
+      data.name.trim().toLowerCase().includes(searchParams.trim().toLowerCase())
+    );
 
-      setSearchData(search);
-      setShowSearch(true)
-      setShowFeature(false);
-      setShowMac(false);
-      setShowIphone(false);
-      setShowIpad(false);
-      setShowIWatch(false);
-  } 
-  
-  
+    setSearchData(search);
+    setShowSearch(true);
+    setShowFeature(false);
+    setShowMac(false);
+    setShowIphone(false);
+    setShowIpad(false);
+    setShowIWatch(false);
+  };
+
   return (
     <div>
       <div>
@@ -184,16 +140,20 @@ const BuyAccessories = () => {
                     <AccessoryCard
                       key={index}
                       onClick={() => {
-                        setProceed(2);
-                        setModel({ ...model });
-                        setAddToCartButton(true);
-                        setPrice(model.price);
+                        addToCart({
+                          ...model,
+                          specification: {
+                            grade: "New",
+                            capacity: "",
+                            color: model.color,
+                          },
+                        });
                       }}
                       model={model}
                     />
                   ))
                 ) : (
-                  <div>No iphone accessories at this time</div>
+                  <div>search accessories not available at this time</div>
                 )}
               </div>
             </>
@@ -203,15 +163,19 @@ const BuyAccessories = () => {
             <>
               <p className="font-bold mt-4">iPhone Accessories</p>
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4">
-                {iPhoneAccessories?.length !== 0 ? (
-                  iPhoneAccessories.map((model, index) => (
+                {iPhonedata?.length !== 0 ? (
+                  iPhonedata.map((model, index) => (
                     <AccessoryCard
                       key={index}
                       onClick={() => {
-                        setProceed(2);
-                        setIphoneModel({ ...model });
-                        setAddToCartButton(true);
-                        setPrice(model.price);
+                        addToCart({
+                          ...model,
+                          specification: {
+                            grade: "New",
+                            capacity: "",
+                            color: model.color,
+                          },
+                        });
                       }}
                       model={model}
                     />
@@ -226,15 +190,19 @@ const BuyAccessories = () => {
             <>
               <p className="font-bold mt-4">iWatch Accessories</p>
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
-                {iwatchAccessories?.length !== 0 ? (
-                  iwatchAccessories.map((model, index) => (
+                {iWatchData?.length !== 0 ? (
+                  iWatchData?.map((model, index) => (
                     <AccessoryCard
                       key={index}
                       onClick={() => {
-                        setProceed(2);
-                        setIphoneModel({ ...model });
-                        setAddToCartButton(true);
-                        setPrice(model.price);
+                        addToCart({
+                          ...model,
+                          specification: {
+                            grade: "New",
+                            capacity: "",
+                            color: model.color,
+                          },
+                        });
                       }}
                       model={model}
                     />
@@ -250,15 +218,19 @@ const BuyAccessories = () => {
             <>
               <p className="font-bold mt-4">iPad Accessories</p>
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
-                {iPadAccessories?.length !== 0 ? (
-                  iPadAccessories.map((model, index) => (
+                {iPadData?.length !== 0 ? (
+                  iPadData?.map((model, index) => (
                     <AccessoryCard
                       key={index}
                       onClick={() => {
-                        setProceed(2);
-                        setIphoneModel({ ...model });
-                        setAddToCartButton(true);
-                        setPrice(model.price);
+                        addToCart({
+                          ...model,
+                          specification: {
+                            grade: "New",
+                            capacity: "",
+                            color: model.color,
+                          },
+                        });
                       }}
                       model={model}
                     />
@@ -274,15 +246,19 @@ const BuyAccessories = () => {
             <>
               <p className="font-bold mt-4">Mac Accessories</p>
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
-                {macAccessories?.length !== 0 ? (
-                  macAccessories.map((model, index) => (
+                {macData?.length !== 0 ? (
+                  macData?.map((model, index) => (
                     <AccessoryCard
                       key={index}
                       onClick={() => {
-                        setProceed(2);
-                        setIphoneModel({ ...model });
-                        setAddToCartButton(true);
-                        setPrice(model.price);
+                        addToCart({
+                          ...model,
+                          specification: {
+                            grade: "New",
+                            capacity: "",
+                            color: model.color,
+                          },
+                        });
                       }}
                       model={model}
                     />
@@ -298,15 +274,19 @@ const BuyAccessories = () => {
             <>
               <p className="font-bold mt-4">Featured Accessories</p>
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
-                {featuredAccessories?.length !== 0 ? (
-                  featuredAccessories.map((model, index) => (
+                {featuredData?.length !== 0 ? (
+                  featuredData?.map((model, index) => (
                     <AccessoryCard
                       key={index}
                       onClick={() => {
-                        setProceed(2);
-                        setIphoneModel({ ...model });
-                        setAddToCartButton(true);
-                        setPrice(model.price);
+                        addToCart({
+                          ...model,
+                          specification: {
+                            grade: "New",
+                            capacity: "",
+                            color: model.color,
+                          },
+                        });
                       }}
                       model={model}
                     />
@@ -319,57 +299,6 @@ const BuyAccessories = () => {
           )}
         </div>
       </div>
-
-      {proceed === 2 && (
-        <div ref={priceRef}>
-          <ImageSlider
-            images={model?.images}
-            currentPictureIndex={currentPictureIndex}
-            showPrevImage={showPrevImage}
-            showNextImage={showNextImage}
-          />
-          <div className="px-5">
-            {removeItem !== false && (
-              <>
-                <div className="flex justify-between py-4">
-                  <b>{model?.name}</b>
-                  <b className="flex">
-                    Price: <TbCurrencyNaira className="h-6 mr-1" />
-                    {price}
-                  </b>
-                </div>
-                <div className="flex justify-between">
-                  <p>Specification:</p>
-                  <div className="flex-column">
-                    <span></span>
-                    <span>
-                      {model.color},
-                    </span>
-                  </div>
-                </div>
-                <div className="flex justify-between">
-                  <p>Condition:</p>
-                  <div className="text-[gray]">
-                    New
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-      {addToCartButton && (
-        <div className="flex justify-center items-center">
-          <Link href="/checkoutPage">
-            <button
-              className="bg-[#187EB4] px-16 py-4 mt-5 rounded-full text-[#FFFFFF]"
-              onClick={() => addToCart(model)}
-            >
-              Add to Cart
-            </button>
-          </Link>
-        </div>
-      )}
     </div>
   );
 };
