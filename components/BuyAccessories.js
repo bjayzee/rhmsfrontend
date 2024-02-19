@@ -2,10 +2,7 @@
 import axios from "axios";
 import { useContext, useEffect, useRef, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
-import ProductCard from "./ProductCard";
 import AccessoryCard from "./AccessoryCard";
-import ImageSlider from "./ImageSlider";
-import { TbCurrencyNaira } from "react-icons/tb";
 import { CartContent } from "@/app/context/AppContext";
 
 const BuyAccessories = () => {
@@ -16,19 +13,10 @@ const BuyAccessories = () => {
   const [showFeature, setShowFeature] = useState(true);
   const [showSearch, setShowSearch] = useState(false);
   const [accessories, setAccessories] = useState([]);
-  const [proceed, setProceed] = useState(0);
   const [searchData, setSearchData] = useState([]);
-  const [model, setModel] = useState("");
-  const [removeItem, setRemoveItem] = useState(true);
-  const [addToCartButton, setAddToCartButton] = useState(false);
-  const [price, setPrice] = useState(0);
 
-  const [currentPictureIndex, setCurrentPictureIndex] = useState(0);
+  const { addToCart } = useContext(CartContent);
 
-  const { addToCart, cartItems, clearCartAndLocalStorage } =
-    useContext(CartContent);
-
-  const priceRef = useRef(null);
 
   useEffect(() => {
     const fetchAccessories = async () => {
@@ -40,7 +28,6 @@ const BuyAccessories = () => {
           .then((res) => res.data)
           .then((res) => res.data);
         setAccessories(accessoriesData);
-
       } catch (error) {
         console.error("error fetching accessories", error);
       }
@@ -49,34 +36,17 @@ const BuyAccessories = () => {
     fetchAccessories();
   }, []);
 
-
-  const showNextImage = () => {
-    setCurrentPictureIndex((index) =>
-      index === iphoneModel?.images?.length - 1 ? 0 : index + 1
-    );
-  };
-
-  const showPrevImage = () => {
-    setCurrentPictureIndex((index) =>
-      index === 0 ? iphoneModel?.images?.length - 1 : index - 1
-    );
-  };
-
   const iPadData = accessories?.filter((data) => data.category === "ipad");
 
   const macData = accessories?.filter((data) => data.category === "mac");
 
-  const iWatchData = accessories?.filter(
-    (data) => data.category === "iwatch"
-  );
+  const iWatchData = accessories?.filter((data) => data.category === "iwatch");
 
   const featuredData = accessories?.filter((data) => data.featured === true);
-  console.log({ featuredData });
 
-   const iPhonedata = accessories?.filter((data) => data.category === "iphone");
+  const iPhonedata = accessories?.filter((data) => data.category === "iphone");
 
   const handleIphoneClick = () => {
-    clearCartAndLocalStorage();
     setShowFeature(false);
     setShowIphone(true);
     setShowIpad(false);
@@ -108,24 +78,20 @@ const BuyAccessories = () => {
     setShowIWatch(false);
     setShowSearch(false);
   };
-  const handleSearchChange = (searchParams) =>{
-      const search = accessories.filter((data) =>
-        data.name
-          .trim()
-          .toLowerCase()
-          .includes(searchParams.trim().toLowerCase())
-      );
+  const handleSearchChange = (searchParams) => {
+    const search = accessories.filter((data) =>
+      data.name.trim().toLowerCase().includes(searchParams.trim().toLowerCase())
+    );
 
-      setSearchData(search);
-      setShowSearch(true)
-      setShowFeature(false);
-      setShowMac(false);
-      setShowIphone(false);
-      setShowIpad(false);
-      setShowIWatch(false);
-  } 
-  
-  
+    setSearchData(search);
+    setShowSearch(true);
+    setShowFeature(false);
+    setShowMac(false);
+    setShowIphone(false);
+    setShowIpad(false);
+    setShowIWatch(false);
+  };
+
   return (
     <div>
       <div>
@@ -182,10 +148,6 @@ const BuyAccessories = () => {
                             color: model.color,
                           },
                         });
-                        // setProceed(2);
-                        setModel({ ...model });
-                        setAddToCartButton(true);
-                        setPrice(model.price);
                       }}
                       model={model}
                     />
@@ -206,11 +168,14 @@ const BuyAccessories = () => {
                     <AccessoryCard
                       key={index}
                       onClick={() => {
-                        addToCart({...model, specification:{grade: "New", capacity: "", color: model.color} });
-                        // setProceed(2);
-                        setIphoneModel({ ...model });
-                        setAddToCartButton(true);
-                        setPrice(model.price);
+                        addToCart({
+                          ...model,
+                          specification: {
+                            grade: "New",
+                            capacity: "",
+                            color: model.color,
+                          },
+                        });
                       }}
                       model={model}
                     />
@@ -238,10 +203,6 @@ const BuyAccessories = () => {
                             color: model.color,
                           },
                         });
-                        // setProceed(2);
-                        setIphoneModel({ ...model });
-                        setAddToCartButton(true);
-                        setPrice(model.price);
                       }}
                       model={model}
                     />
@@ -270,10 +231,6 @@ const BuyAccessories = () => {
                             color: model.color,
                           },
                         });
-                        // setProceed(2);
-                        setIphoneModel({ ...model });
-                        setAddToCartButton(true);
-                        setPrice(model.price);
                       }}
                       model={model}
                     />
@@ -302,10 +259,6 @@ const BuyAccessories = () => {
                             color: model.color,
                           },
                         });
-                        // setProceed(2);
-                        setIphoneModel({ ...model });
-                        setAddToCartButton(true);
-                        setPrice(model.price);
                       }}
                       model={model}
                     />
@@ -334,10 +287,6 @@ const BuyAccessories = () => {
                             color: model.color,
                           },
                         });
-                        // setProceed(2);
-                        setModel({ ...model });
-                        setAddToCartButton(true);
-                        setPrice(model.price);
                       }}
                       model={model}
                     />
@@ -350,57 +299,6 @@ const BuyAccessories = () => {
           )}
         </div>
       </div>
-
-      {/* {proceed === 2 && (
-        <div ref={priceRef}>
-          <ImageSlider
-            images={model?.images}
-            currentPictureIndex={currentPictureIndex}
-            showPrevImage={showPrevImage}
-            showNextImage={showNextImage}
-          />
-          <div className="px-5">
-            {removeItem !== false && (
-              <>
-                <div className="flex justify-between py-4">
-                  <b>{model?.name}</b>
-                  <b className="flex">
-                    Price: <TbCurrencyNaira className="h-6 mr-1" />
-                    {price}
-                  </b>
-                </div>
-                <div className="flex justify-between">
-                  <p>Specification:</p>
-                  <div className="flex-column">
-                    <span></span>
-                    <span>
-                      {model.color},
-                    </span>
-                  </div>
-                </div>
-                <div className="flex justify-between">
-                  <p>Condition:</p>
-                  <div className="text-[gray]">
-                    New
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-      {addToCartButton && (
-        <div className="flex justify-center items-center">
-          <Link href="/checkoutPage">
-            <button
-              className="bg-[#187EB4] px-16 py-4 mt-5 rounded-full text-[#FFFFFF]"
-              onClick={() => addToCart(model)}
-            >
-              Add to Cart
-            </button>
-          </Link>
-        </div>
-      )} */}
     </div>
   );
 };

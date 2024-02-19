@@ -29,7 +29,8 @@ const NavBar = () => {
           />
           <Image
             src="/search-icon.png"
-            width={20} height={5}
+            width={20} 
+            height={20}
             className="absolute right-8 top-3"
             alt="search icon"
           />

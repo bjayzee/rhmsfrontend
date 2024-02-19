@@ -1,8 +1,11 @@
+import Link from "next/link";
 import { TbCurrencyNaira } from "react-icons/tb";
 
 const AccessoryCard = ({ onClick, model }) => {
   return (
-    <section
+    <Link
+      href='/checkoutPage'
+     passHref
       onClick={onClick}
       className="w-full h-[350px] bg-white rounded-xl shadow-2xl border-[#D9D9D9] border-r-8 border-b-8 flex flex-col justify-items-center justify-between p-5"
     >
@@ -22,7 +25,7 @@ const AccessoryCard = ({ onClick, model }) => {
       <button className="w-[120px] h-[26px] bg-rh-blue rounded-[10px] shadow text-white-100 mt-2">
         BUY
       </button>
-    </section>
+    </Link>
   );
 };
 

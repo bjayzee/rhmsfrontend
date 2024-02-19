@@ -324,7 +324,7 @@ const SwapiPhone = () => {
                     "Grade not available"
                   ) : (
                     <>
-                      <TbCurrencyNaira h-7 /> {swapValue?.toLocaleString()}
+                      <TbCurrencyNaira height={7} /> {swapValue?.toLocaleString()}
                     </>
                   )}
                 </span>
