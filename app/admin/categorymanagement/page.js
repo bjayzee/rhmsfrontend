@@ -21,6 +21,8 @@ const CategoryManagement = () => {
     fetchCategories();
   }, [categories?.data?.length]);
 
+
+
   return (
       <div className="mx-[50px] my-[100px]">
         <PageHeader

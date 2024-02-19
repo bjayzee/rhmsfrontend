@@ -12,7 +12,7 @@ const OrderManagement = (props) => {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const res = await fetch("/api/orders/search?name=Iphones");
+      const res = await fetch("/api/accessories");
       const data = await res.json();
       setOrders(data);
     };
@@ -20,7 +20,7 @@ const OrderManagement = (props) => {
     fetchOrders();
   }, []);
 
-  console.log(orders);
+  console.log(accessories);
 
   return (
       <div className="my-[100px]">
