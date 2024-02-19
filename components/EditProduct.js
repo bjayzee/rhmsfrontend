@@ -61,9 +61,6 @@ function EditProduct({ data }) {
   const [categories, setCategories] = useState([]);
 
   
-
-  console.log(data);
-
   useEffect(() => {
     setProductFormData({
       name: data?.name,
@@ -362,7 +359,6 @@ function EditProduct({ data }) {
         },
       })
       .then((response) => {
-        console.log("Response:", response.data);
         handleClose();
         clearFormData();
         notification.success({
