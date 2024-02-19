@@ -59,6 +59,8 @@ function AppContext({ children }) {
     const updatedCart = [...cartItems];
     updatedCart.splice(index, 1);
     setCartItems(updatedCart);
+    ls.setItem("cart", JSON.stringify(updatedCart));
+
   };
 
   return (

@@ -7,6 +7,21 @@ const itemRepairValidation = Joi.object({
     premiumPrice: Joi.number().required(),
 });
 
+const accessoriesSchema = Joi.object({
+  name: Joi.string().required(),
+  image: Joi.string().required(),
+  color: Joi.string().required(),
+  category: Joi.string().valid("iphone", "mac", "iwatch", "ipad").required(),
+  price: Joi.number().required(),
+  costPrice: Joi.number(),
+  featured: Joi.boolean(),
+  numInStock: Joi.number().required(),
+  dateReceived: Joi.date(),
+  IMEI_SN: Joi.string().required(),
+  supplier: Joi.string(),
+});
+
+
 const gradePriceSchema = Joi.object({
   name: Joi.string().required(),
   price: Joi.number().required(),
@@ -70,9 +85,10 @@ const productSchema = Joi.object({
 
 
 export {
-    itemRepairValidation,
-    oldiPhoneSchema,
-    productSchema,
-    specificationSchema,
-    reviewSchema
-}
+  itemRepairValidation,
+  oldiPhoneSchema,
+  productSchema,
+  specificationSchema,
+  reviewSchema,
+  accessoriesSchema,
+};

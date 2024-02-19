@@ -55,9 +55,9 @@ const SignInPage = () => {
     }
   };
 
-  if (sessionStatus === "loading") {
-    return <h1>Loading...</h1>;
-  }
+  // if (sessionStatus === "loading") {
+  //   return <h1>Loading...</h1>;
+  // }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-between">

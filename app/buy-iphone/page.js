@@ -3,7 +3,7 @@ import { Buy } from "@/components"
 
 const BuyPage = () => {
   return (
-    <Buy/>
+    <Buy />
   )
 }
 

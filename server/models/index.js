@@ -6,18 +6,20 @@ import Product from "./products/Product";
 import Specification from "./products/Specification";
 import Review from "./products/Review";
 import Category from "./products/Category";
+import Accessory from "./accessories/Accessory";
 
 
 
 
 
 export {
-    RepairCenter,
-    Repair,
-    ItemRepair,
-    OldiPhones,
-    Specification,
-    Product,
-    Review,
-    Category
-}
+  RepairCenter,
+  Repair,
+  ItemRepair,
+  OldiPhones,
+  Specification,
+  Product,
+  Review,
+  Category,
+  Accessory,
+};

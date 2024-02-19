@@ -31,7 +31,7 @@ const Hero = () => {
         </Link>
 
 
-        <Link href='/buy' className='w-[33%]'>
+        <Link href='/buy-iphone' className='w-[33%]'>
           <div
             className="cursor-pointer flex flex-col items-center justify-center"
           >
@@ -73,7 +73,7 @@ const Hero = () => {
           </div>
         </Link>
 
-        <Link href='/buy-airpods' className='w-[33%]'>
+        <Link href='/buy-ipad' className='w-[33%]'>
           <div
             className="cursor-pointer flex flex-col items-center justify-center"
           >

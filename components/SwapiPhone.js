@@ -1,11 +1,12 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect, useRef, useContext } from "react";
-import { IoIosArrowRoundBack } from "react-icons/io";
+import { IoIosArrowDropdownCircle, IoIosArrowRoundBack } from "react-icons/io";
 import { FaPlay } from "react-icons/fa";
 import axios from "axios";
 import RadioSelection from "./RadioSelectionButton";
 import { CartContent } from "@/app/context/AppContext";
+import { TbCurrencyNaira } from "react-icons/tb";
 
 const SwapiPhone = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -69,8 +70,8 @@ const SwapiPhone = () => {
   const handleShowAdditionalOptions = (grade) => {
     if (valueRef.current) {
       valueRef.current.focus();
-      window.scrollTo({
-        bottom: valueRef.current.offsetTop,
+      window.scroll({
+        top: valueRef.current.offsetTop - 80,
         behavior: "smooth",
       });
     }
@@ -84,7 +85,6 @@ const SwapiPhone = () => {
     }
     let gradePriceValue = gradePrice[grade];
     if (gradePriceValue === 0) {
-      // Base price
       setSwapValue(gradePriceValue);
       setShowValue(true);
     } else {
@@ -178,8 +178,8 @@ const SwapiPhone = () => {
             )}
 
             {showDropdown ? (
-              <div className="border-solid rounded-[20px] bg-[white] shadow border-[#D9D9D9] border-x-2 border-y-2">
-                <div className="w-1/2 p-4 font-semibold text-l">
+              <div className="flex flex-wrap shadow-lg border-[#D9D9D9] border-t-4 border-l-4 rounded-[20px]">
+                <div className="w-1/2 p-2 font-semibold text-sm">
                   {dropdownOptions.map((option, key) => (
                     <div key={key}>{renderOption(option)}</div>
                   ))}
@@ -310,7 +310,6 @@ const SwapiPhone = () => {
         ) : (
           ""
         )}
-
         {showValue ? (
           <>
             <div className="my-5 text-[#187EB4] text-xl" ref={valueRef}>
@@ -320,14 +319,22 @@ const SwapiPhone = () => {
               </div>
               <div className="flex">
                 <span className="font-bold">Swap value:</span>
-                <span className="pl-2">
-                  {swapValue < 1 ? "Grade not available" : swapValue}
+                <span className="pl-2 flex justify-center">
+                  {swapValue < 1 ? (
+                    "Grade not available"
+                  ) : (
+                    <>
+                      <TbCurrencyNaira height={7} /> {swapValue?.toLocaleString()}
+                    </>
+                  )}
                 </span>
               </div>
             </div>
-            <Link href="/buy" passHref>
-              <button className="hover:text-rh-blue cursor-pointer">
-                Now let's select your new phone
+
+            <Link href="/buy-iphone" passHref>
+              <button className="flex items-center">
+                <p className="text-lg">Now let's select your new phone</p>
+                <IoIosArrowDropdownCircle className="text-[20px] text-rh-blue " />
               </button>
             </Link>
             <p></p>
