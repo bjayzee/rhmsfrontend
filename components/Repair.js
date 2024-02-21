@@ -1,27 +1,70 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
+import axios from "axios";
 import { FaPlay } from "react-icons/fa";
 import RadioSelection from "./RadioSelectionButton";
 import { models } from "@/server/utils/iPhonedata";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownSection,
+  DropdownItem,
+  Button
+} from "@nextui-org/react";
+
 
 export default function Repair() {
-
   const [selectedOption, setSelectedOption] = useState(null);
-  const [showDropdown, setShowDropdown] = useState(false)
- 
-  const handleOptionSelect = (option) =>{
-      setSelectedOption(option)
-      setShowDropdown(false);
-  }
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [showContinueButton, setShowContinueButton] = useState(true);
+  const [proceedToOpen, setProceedToOpen] = useState(false);
+  const [proceedToFaceId, setProceedToFaceId] = useState(false);
+  const [proceedToTrueTone, setProceedToTrueTone] = useState(false);
+  const [proceedToAnyOtherIssues, setProceedToAnyOtherIssues] = useState(false);
+  const [repairCenters, setRepairCenters] = useState([]);
+
+
+  const [selectedKeys, setSelectedKeys] = useState(new Set(["text"]));
+
+  const selectedValue = useMemo(
+    () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
+    [selectedKeys]
+  );
+
+  useEffect(() => {
+    const fetchRepairCenters = async () => {
+      try {
+        const centers = await axios
+          .get("/api/accessories", {
+            validateStatus: (status) => status < 400,
+          })
+          .then((res) => res.data)
+          .then((res) => res.data);
+        setRepairCenters(centers);
+      } catch (error) {
+        console.error("error fetching repair centers", error);
+      }
+    };
+
+    fetchRepairCenters();
+  }, []);
+
+  const handleOptionSelect = (option) => {
+    setSelectedOption(option);
+    setShowDropdown(false);
+  };
   const handleSelectClick = () => {
-     setShowDropdown(true);
+    setShowDropdown(true);
   };
 
-  const handleChange = () =>{
-
-  }
-  const repairOptions = [{name:"Screen Replacement", value: " "}, {name: "Back Glass Replacement", value: ""}, {name: "Battery Replacement", value: ""}];
+  const handleChange = () => {};
+  const repairOptions = [
+    { name: "Screen Replacement", value: " " },
+    { name: "Back Glass Replacement", value: "" },
+    { name: "Battery Replacement", value: "" },
+  ];
   return (
     <div className="m-5 px-3">
       <p className="text-xl font-bold">We fix it right, the Apple way.</p>
@@ -67,107 +110,118 @@ export default function Repair() {
         ""
       )}
 
-     
       {selectedOption && (
-        <button
-          onClick={() => setShowRepairTypes(!showRepairTypes)}
-          className="w-full my-3 font-bold text-black px-4 py-2 bg-white rounded-xl shadow-2xl outline-none border-[#D9D9D9] border-r-8 border-b-8 flex justify-center"
-        >
-          Select the repair type{" "}
-          <FaPlay
-            className={`text-[20px] text-[#187EB4] mx-2 ${
-              showRepairTypes ? "rotate-90" : ""
-            }`}
-          />
-        </button>
-      )}
-
-      {true && (
-        <div className="px-3 py-10">
-          <div className="flex flex-col items-center justify-center py-3">
-            <h4 className="font-semibold text-xl">
+        <div className="">
+          <div className="flex flex-col justify-center">
+            <h4 className="font-semibold text-lg">
               What's wrong with your iPhone?
             </h4>
             <span>You can select multiple if applicable</span>
           </div>
 
-          <div className="py-4 flex flex-col space-y-5">
+          <div className="py-4 flex flex-col">
             {repairOptions.map((item, index) => (
-              <div key={index} className="flex justify-between items-center">
-                <span className="font-semibold text-lg">{item.name}</span>
-                <input
-                  value={item.name}
-                  className="w-6 h-6 border border-gray-300 checked:bg-indigo-600 checked:border-indigo-600 transition duration-150 ease-in-out text-green-700"
-                  type="checkbox"
-                  onChange={handleChange}
-                />
-              </div>
+              <RadioSelection
+                title={item.name}
+                name={item.name}
+                options={["Premium", "Economy"]}
+                onChange={() => {}}
+              />
+             
             ))}
           </div>
-
-          <div className="flex justify-center">
-            <button
-              onClick={() => setShowRepairTypes(!showRepairTypes)}
-              className="bg-[#187EB4] px-16 py-4 mt-5 rounded-full text-[#FFFFFF]"
-            >
-              Continue
-            </button>
-          </div>
+          {showContinueButton ? (
+            <div className="flex justify-center">
+              <button
+                onClick={() => {
+                  setShowContinueButton(false);
+                  setProceedToOpen(true);
+                }}
+                className="bg-rh-blue px-16 py-2 rounded-full text-[#FFFFFF]"
+              >
+                Continue
+              </button>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       )}
+      {proceedToOpen ? (
+        <RadioSelection
+          title={"Has your phone been opened before?"}
+          name={"lock"}
+          options={["Yes", "No", "I don't know"]}
+          onChange={(option) => {
+            setProceedToFaceId(true);
+          }}
+        />
+      ) : (
+        ""
+      )}
 
-      <RadioSelection
-        title={"Has your phone been opened before?"}
-        name={"lock"}
-        options={["Yes", "No"]}
-        //onChange={(selectedOption) => handleLockedOrUnlockedChange(selectedOption)}
-      />
+      {proceedToFaceId ? (
+        <RadioSelection
+          title={"Face ID"}
+          name={"face"}
+          options={["Yes", "No", "I don't know"]}
+          onChange={(option) => {
+            setProceedToTrueTone(true);
+          }}
+        />
+      ) : (
+        ""
+      )}
 
-      <RadioSelection
-        title={"Face ID"}
-        name={"lock"}
-        options={["Yes", "No"]}
-        //onChange={(selectedOption) => handleLockedOrUnlockedChange(selectedOption)}
-      />
+      {proceedToTrueTone ? (
+        <RadioSelection
+          title={"True Tone"}
+          name={"tone"}
+          options={["Yes", "No", "I don't know"]}
+          onChange={(option) => {
+            setProceedToAnyOtherIssues(true);
+          }}
+        />
+      ) : (
+        ""
+      )}
 
-      <RadioSelection
-        title={"True Tone"}
-        name={"lock"}
-        options={["Yes", "No"]}
-        //onChange={(selectedOption) => handleLockedOrUnlockedChange(selectedOption)}
-      />
+      {proceedToAnyOtherIssues ? (
+        <div>
+          <div className="flex flex-col justify-center">
+            <h4 className="font-semibold text-xl">
+              Any other issues with the phone?
+            </h4>
+            <span className="text-sm opacity-[50]">
+              Write in the box below or put ‘Nil’ if there is none.
+            </span>
+          </div>
+          <input className="text-xs outline-none border-2 border-rh-blue w-full h-[50px] px-3 mt-3" />
 
-      <div>
-        <div className="flex flex-col items-center justify-center py-3">
-          <h4 className="font-semibold text-xl">
-            Any other issues with the phone?
-          </h4>
-          <span>Write in the box below or put ‘Nil’ if there is non.</span>
-        </div>
-        <input className="outline-none border-2 border-[#187EB4] w-full h-[50px] px-3" />
-      </div>
-
-      {true && (
-        <div className="mt-2 flex justify-between">
-          {selectedOption !== "option1" && (
-            <button
-              className="mt-2 text-black px-14 py-2 bg-white rounded-xl shadow-2xl border-[#D9D9D9] border-r-8 border-b-8 text-bold"
-              onClick={() => handleRepairOption(repairOptions)}
-              // onClick={() => handleRepairOption('Screen replacement')}
+          <Dropdown>
+            <DropdownTrigger>
+              <Button variant="bordered" className="capitalize">
+                {selectedValue}
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label="Single selection example"
+              variant="flat"
+              disallowEmptySelection
+              selectionMode="single"
+              selectedKeys={selectedKeys}
+              onSelectionChange={setSelectedKeys}
             >
-              Premium
-            </button>
-          )}
-          {selectedOption !== "option1" && (
-            <button
-              className="mt-2 border text-black px-14 py-2 bg-white rounded-xl shadow-2xl border-[#D9D9D9] border-r-8 border-b-8 text-bold"
-              onClick={() => handleRepairOption(repairOptions)}
-              // onClick={() => handleRepairOption('Screen replacement')}
-            >
-              Economy
-            </button>
-          )}
+              <DropdownItem key="text">Text</DropdownItem>
+              <DropdownItem key="number">Number</DropdownItem>
+              <DropdownItem key="date">Date</DropdownItem>
+              <DropdownItem key="single_date">Single Date</DropdownItem>
+              <DropdownItem key="iteration">Iteration</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </div>
+      ) : (
+        ""
       )}
 
       {/* {true && (
@@ -205,9 +259,8 @@ export default function Repair() {
               </div>
             );
           })} */}
-        {/* </div> */}
-  {/* // )} */}
-
-  </div>
-  )
+      {/* </div> */}
+      {/* // )} */}
+    </div>
+  );
 }
