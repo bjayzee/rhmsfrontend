@@ -18,8 +18,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import { CloudinaryContext, Image } from "cloudinary-react";
 
-function EditAccessory({ data }) {
-
+function EditAccessory({ data, fetchAccessories }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -28,7 +27,7 @@ function EditAccessory({ data }) {
     name: "",
     description: "",
     category: "",
-    color:"",
+    color: "",
     images: [],
     tagNumber: "",
     price: "",
@@ -133,9 +132,6 @@ function EditAccessory({ data }) {
     });
   };
 
-
-
-
   const handleCategoryChange = (event) => {
     const selectedValue = event.target.value;
     setAccessoryFormData({
@@ -144,7 +140,6 @@ function EditAccessory({ data }) {
     });
   };
 
-
   const handleColorChange = (event) => {
     const selectedValue = event.target.value;
     setAccessoryFormData({
@@ -152,10 +147,6 @@ function EditAccessory({ data }) {
       color: selectedValue,
     });
   };
-
-
-
-
 
   const clearFormData = () => {
     setAccessoryFormData(initialFormState);
@@ -208,24 +199,23 @@ function EditAccessory({ data }) {
     const formDataForBackend = new FormData();
 
     formDataForBackend.append("name", accessoryFormData.name);
-    formDataForBackend.append("category", accessoryFormData.category.toLowerCase());
+    formDataForBackend.append(
+      "category",
+      accessoryFormData.category.toLowerCase()
+    );
     formDataForBackend.append("color", accessoryFormData.color);
     formDataForBackend.append("price", accessoryFormData.price);
     formDataForBackend.append("costPrice", accessoryFormData.costPrice);
     formDataForBackend.append("numInStock", accessoryFormData.numInStock);
-   
 
-    formDataForBackend.append(
-      "featured",
-      featuredChecked ? "true" : "false"
-    );
+    formDataForBackend.append("featured", featuredChecked ? "true" : "false");
     formDataForBackend.append("IMEI_SN", accessoryFormData.imei);
     formDataForBackend.append("supplier", accessoryFormData.supplier);
     formDataForBackend.append("dateReceived", formatDate(selectedDate));
     formDataForBackend.append("image", imageUrl);
 
     axios
-      .put(`/api/accessories/?id=${data?._id}`, formDataForBackend, {
+      .put(`/api/accessories/${data?._id}`, formDataForBackend, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -234,11 +224,11 @@ function EditAccessory({ data }) {
         console.log("Response:", response.data);
         handleClose();
         clearFormData();
+        setLoading(false);
+        fetchAccessories();
         notification.success({
           message: "accessory edited successfully",
         });
-
-        setLoading(false);
       })
       .catch((error) => {
         // Handle error
@@ -269,7 +259,6 @@ function EditAccessory({ data }) {
         <Modal.Body className="px-[50px]">
           <Form className="grid grid-cols-2 gap-[100px] overflow-y-scroll">
             <div>
-           
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Name</Form.Label>
                 <Form.Control
@@ -280,7 +269,6 @@ function EditAccessory({ data }) {
                   defaultValue={accessoryFormData.name}
                 />
               </Form.Group>
-           
 
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Number in stock</Form.Label>
@@ -290,11 +278,8 @@ function EditAccessory({ data }) {
                   placeholder="Enter number"
                   onChange={(evt) => handleInputChange(evt)}
                   defaultValue={accessoryFormData.numInStock}
-
                 />
               </Form.Group>
-
-
 
               <Row>
                 <Col>
@@ -307,7 +292,6 @@ function EditAccessory({ data }) {
                       onChange={handleCategoryChange} // Add onChange handler
                       value={accessoryFormData.category} // Set the selected value
                       defaultValue={accessoryFormData.category}
-
                     >
                       <option>------</option>
                       {category_list}
@@ -315,19 +299,18 @@ function EditAccessory({ data }) {
                   </Form.Group>
                 </Col>
                 <Col>
-                <Col>
-                  <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>IMEI</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="imei"
-                      placeholder="Enter IMEI"
-                      onChange={(evt) => handleInputChange(evt)}
-                      defaultValue={accessoryFormData.IMEI_SN}
-
-                    />
-                  </Form.Group>
-                </Col>
+                  <Col>
+                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                      <Form.Label>IMEI</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="imei"
+                        placeholder="Enter IMEI"
+                        onChange={(evt) => handleInputChange(evt)}
+                        defaultValue={accessoryFormData.IMEI_SN}
+                      />
+                    </Form.Group>
+                  </Col>
                 </Col>
               </Row>
               <Row>
@@ -340,7 +323,6 @@ function EditAccessory({ data }) {
                       placeholder="Enter Regular price"
                       onChange={(evt) => handleInputChange(evt)}
                       defaultValue={accessoryFormData.price}
-
                     />
                   </Form.Group>
                 </Col>
@@ -360,7 +342,7 @@ function EditAccessory({ data }) {
               </Row>
               <Row>
                 <Col>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Cost Price</Form.Label>
                     <Form.Control
                       type="text"
@@ -368,7 +350,6 @@ function EditAccessory({ data }) {
                       placeholder="Enter cost price"
                       onChange={(evt) => handleInputChange(evt)}
                       defaultValue={accessoryFormData.costPrice}
-
                     />
                   </Form.Group>
                 </Col>
@@ -382,7 +363,6 @@ function EditAccessory({ data }) {
                       onChange={handleColorChange} // Add onChange handler
                       value={accessoryFormData.color} // Set the selected value
                       defaultValue={accessoryFormData.color}
-
                     >
                       <option>------</option>
                       <option value="black">Black</option>
@@ -412,7 +392,6 @@ function EditAccessory({ data }) {
                   name="supplier"
                   onChange={(evt) => handleInputChange(evt)}
                   defaultValue={accessoryFormData.supplier}
-
                 />
               </Form.Group>
 
@@ -431,19 +410,13 @@ function EditAccessory({ data }) {
                   </Form.Group>
                 </Col>
               </Row>
-
-
-           
             </div>
             <div className="flex flex-col justify-between">
               <div>
                 <div className="image-uploader">
                   <label htmlFor="imageInput" className="upload-box">
                     {image ? (
-                      <img
-                        src={data?.image}
-                        alt="Selected image"
-                      />
+                      <img src={data?.image} alt="Selected image" />
                     ) : (
                       <div className="placeholder text-[#fff]">
                         Click to upload
@@ -458,8 +431,6 @@ function EditAccessory({ data }) {
                     />
                   </label>
                 </div>
-
-            
               </div>
 
               <div className="flex items-center justify-center gap-[30px] mt-[60px]">

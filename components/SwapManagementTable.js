@@ -8,7 +8,7 @@ import { UserOutlined } from "@ant-design/icons";
 import { getColumnSearchProps } from "@/components/TableColSearch";
 import EditAccessory from "./EditAccessory";
 
-const AccessoriesTable = ({ data, loading, handleDelete, fetchAccessories }) => {
+const SwapManagementTable = ({ data, loading, handleDelete }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
@@ -42,11 +42,11 @@ const AccessoriesTable = ({ data, loading, handleDelete, fetchAccessories }) => 
     },
 
     {
-      title: "Color",
-      dataIndex: "color",
-      key: "color",
+      title: "Base storage",
+      dataIndex: "baseStorage",
+      key: "baseStorage",
       ...getColumnSearchProps({
-        dataIndex: "color",
+        dataIndex: "baseStorage",
         handleReset,
         searchInput,
         handleSearch,
@@ -58,34 +58,11 @@ const AccessoriesTable = ({ data, loading, handleDelete, fetchAccessories }) => 
     },
 
     {
-      title: "Price",
-      dataIndex: "price",
-      key: "price",
-      render: (price) => `₦${Number(price).toLocaleString()}` || "Null",
-    },
-
-    {
-      title: "Number",
-      dataIndex: "numInStock",
-      key: "numInStock",
-      ...getColumnSearchProps({
-        dataIndex: "numInStock",
-        handleReset,
-        searchInput,
-        handleSearch,
-        setSearchedColumn,
-        searchText,
-        setSearchText,
-        searchedColumn,
-      }),
-    },
-
-    {
-        title: "Supplier",
-        dataIndex: "supplier",
-        key: "supplier",
+        title: "Lock status",
+        dataIndex: "lockStatus",
+        key: "lockStatus",
         ...getColumnSearchProps({
-          dataIndex: "supplier",
+          dataIndex: "lockStatus",
           handleReset,
           searchInput,
           handleSearch,
@@ -97,45 +74,15 @@ const AccessoriesTable = ({ data, loading, handleDelete, fetchAccessories }) => 
       },
 
     {
-      title: "Date Created",
-      dataIndex: "createdAt",
-      key: "createdAt",
-      render: (createdAt) => (
-        <span style={{ whiteSpace: "nowrap" }}>
-          {" "}
-          {moment(createdAt).format("DD MMM YYYY")}
-        </span>
-      ),
+      title: "Storage price",
+      dataIndex: "storagePrice",
+      key: "storagePrice",
+      render: (storagePrice) => `₦${Number(storagePrice).toLocaleString()}` || "Null",
     },
-    {
-      title: "Image",
-      key: "id",
-      align: "center",
-      render: (singleData) => (
-        <div>
-          {singleData?.image ? (
-            <img
-              style={{
-                width: "60px",
-                height: "60px",
-                borderRadius: "50%",
-                objectFit: "cover",
-              }}
-              src={singleData?.image}
-              height={60}
-              width={60}
-              alt="avatar"
-            />
-          ) : (
-            <Avatar
-              style={{ backgroundColor: "#3f8bcaa1" }}
-              icon={<UserOutlined />}
-              size={50}
-            />
-          )}
-        </div>
-      ),
-    },
+
+
+
+
     {
       title: "Actions",
       key: "id",
@@ -145,19 +92,19 @@ const AccessoriesTable = ({ data, loading, handleDelete, fetchAccessories }) => 
           <Button style={{ marginRight: "5px" }} title="View product details">
             <Link
               className="no-underline"
-              href={`/admin/accessoriesmanagement/${singleData?._id}`}
+              href={`/admin/swapmanagement/${singleData?._id}`}
             >
               {"View"}
             </Link>
           </Button>
-          <Button style={{ marginRight: "5px" }} title="Edit">
+          {/* <Button style={{ marginRight: "5px" }} title="Edit">
             <EditAccessory data={singleData} fetchAccessories={fetchAccessories}
  />
-          </Button>
+          </Button> */}
           <Button
             danger
             onClick={() => handleDelete(singleData)}
-            title="Delete accessory"
+            title="Delete swap item"
           >
             delete
           </Button>
@@ -180,4 +127,4 @@ const AccessoriesTable = ({ data, loading, handleDelete, fetchAccessories }) => 
   );
 };
 
-export default AccessoriesTable;
+export default SwapManagementTable;

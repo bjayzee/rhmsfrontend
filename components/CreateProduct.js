@@ -438,8 +438,7 @@ function CreateProduct() {
                       <option>------</option>
                       <option value="locked">Locked</option>
                       <option value="unlocked">Unlocked</option>
-                      <option value="wifi + cellular">Wifi + Cellular</option>
-                      <option value="wifi">Wifi</option>
+          
                     </Form.Select>
                   </Form.Group>
                 </Col>

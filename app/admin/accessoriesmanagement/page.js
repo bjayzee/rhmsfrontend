@@ -45,7 +45,7 @@ const AccessoriesManagement = (props) => {
   const handleDelete = async ({_id}) => {
     try {
       const response = await axios.delete(
-        `api/accessories/${_id}`
+        `/api/accessories/?id=${_id}`
       );
       notification.success({
         message: "accessory deleted successfully",
@@ -80,6 +80,7 @@ const AccessoriesManagement = (props) => {
                 data={iphone}
                 loading={loading}
                 handleDelete={handleDelete}
+                fetchAccessories={fetchAccessories}
               />
             </TabPane>
             <TabPane tab="IWatches" key="2">
@@ -87,6 +88,8 @@ const AccessoriesManagement = (props) => {
                 data={iwatch}
                 loading={loading}
                 handleDelete={handleDelete}
+                fetchAccessories={fetchAccessories}
+
               />
             </TabPane>
             <TabPane tab="IPads" key="3">
@@ -94,6 +97,8 @@ const AccessoriesManagement = (props) => {
                 data={ipad}
                 loading={loading}
                 handleDelete={handleDelete}
+                fetchAccessories={fetchAccessories}
+
               />
             </TabPane>{" "}
             <TabPane tab="Mac" key="4">
@@ -101,6 +106,8 @@ const AccessoriesManagement = (props) => {
                 data={mac}
                 loading={loading}
                 handleDelete={handleDelete}
+                fetchAccessories={fetchAccessories}
+
               />
             </TabPane>
             <TabPane tab="Airpods" key="5">
@@ -108,6 +115,8 @@ const AccessoriesManagement = (props) => {
                 data={airpods}
                 loading={loading}
                 handleDelete={handleDelete}
+                fetchAccessories={fetchAccessories}
+
               />
             </TabPane>
           </Tabs>

@@ -33,7 +33,7 @@ export default function AccessoryDetails({ params: { _id } }) {
           <div>
             <div className='userInfo__back  '>
              
-                <Link className='no-underline flex items-center gap-[5px]' href="/admin/accessorymanagement">
+                <Link className='no-underline flex items-center gap-[5px]' href="/admin/accessoriesmanagement">
                 <BsArrowLeft /> <div>Back</div>
                 </Link>
                

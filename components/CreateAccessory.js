@@ -216,7 +216,7 @@ function CreateAccessory() {
         handleClose();
         clearFormData();
         notification.success({
-          message: "Category created successfully",
+          message: "Accessory created successfully",
         });
 
         setLoading(false);
@@ -228,7 +228,7 @@ function CreateAccessory() {
         setLoading(false);
 
         notification.error({
-          message: "Error creating category, please try again",
+          message: "Error creating Accessory, please try again",
         });
       });
   };

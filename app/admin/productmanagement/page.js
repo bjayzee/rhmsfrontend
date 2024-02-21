@@ -16,7 +16,7 @@ const ProductManagement = (props) => {
   const [loading, setLoading] = useState(false);
 
   const fetchProducts = async () => {
-    const res = await fetch("/api/accessories");
+    const res = await fetch("/api/products");
     const data = await res.json();
     setProducts(data);
   };
@@ -24,6 +24,8 @@ const ProductManagement = (props) => {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  console.log(products)
 
   const iphone = products?.data?.filter(
     (product) => product?.category?.name == "iPhone"
@@ -44,7 +46,7 @@ const ProductManagement = (props) => {
   const handleDelete = async ({_id}) => {
     try {
       const response = await axios.delete(
-        `api/products/${_id}`
+        `/api/products/?id=${_id}`
       );
       notification.success({
         message: "product deleted successfully",
