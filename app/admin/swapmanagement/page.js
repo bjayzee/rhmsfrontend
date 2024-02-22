@@ -57,6 +57,7 @@ console.log(swapItems.data)
         data={swapItems?.data}
         loading={loading}
         handleDelete={handleDelete}
+        fetchSwapItems={fetchSwapItems}
       />
     </div>
   );

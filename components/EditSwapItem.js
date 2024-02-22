@@ -19,7 +19,7 @@ import axios from "axios";
 import { CloudinaryContext, Image } from "cloudinary-react";
 import { FaCheckCircle } from "react-icons/fa";
 
-function CreateSwapItem({fetchSwapItems}) {
+function EditSwapItem({ data, fetchSwapItems }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -36,18 +36,36 @@ function CreateSwapItem({fetchSwapItems}) {
       { GradeA: "" },
       { GradeB: "" },
       { GradeC: "" },
-      { GradeD: "" },
-
     ],
   };
 
   const [loading, setLoading] = useState(false);
   const [swapItemFormData, setSwapItemFormData] = useState(initialFormState);
 
+  useEffect(() => {
+    setSwapItemFormData({
+      name: data?.name || "",
+      baseStorage: data?.baseStorage || "",
+      storagePrice: data.storagePrice || "",
+      storageVariance: data?.storageVariance || "", // Set default value based on data
+      lockStatus: data.lockStatus || "",
+      pricePerGrade: [
+        { New: data?.pricePerGrade[0]?.New || "" },
+        { GradeA: data?.pricePerGrade[0]?.GradeA || "" },
+        { GradeB: data?.pricePerGrade[0]?.GradeB || "" },
+        { GradeC: data?.pricePerGrade[0]?.GradeC || "" },
+        { GradeD: data?.pricePerGrade[0]?.GradeD || "" },
+      ],
+    });
+  }, [data]);
+  
+
+  console.log(data)
+
   const handleInputChange = (event) => {
     event.preventDefault();
     const { name, value } = event.target;
-  
+
     if (name.startsWith("pricePerGrade")) {
       const gradeKey = name.split("[")[1].split("]")[0];
       setSwapItemFormData((prevState) => ({
@@ -63,10 +81,9 @@ function CreateSwapItem({fetchSwapItems}) {
       });
     }
   };
-  
-  
 
   const storage = ["32GB", "64GB", "128GB", "256GB", "512GB", "1TB"];
+
 
   const storage_list = storage.map((s, key) => {
     return (
@@ -83,6 +100,7 @@ function CreateSwapItem({fetchSwapItems}) {
       </label>
     );
   });
+  
 
   const handleChange = (e, i) => {
     if (e.target.checked) {
@@ -104,7 +122,7 @@ function CreateSwapItem({fetchSwapItems}) {
     setSwapItemFormData(initialFormState);
   };
 
-  const handleCreateSwapItem = async (e) => {
+  const handleEditSwapItem = async (e) => {
     e.preventDefault();
 
     setLoading(true);
@@ -118,12 +136,15 @@ function CreateSwapItem({fetchSwapItems}) {
       formDataForBackend.append(`storageVariance[${index}]`, variant);
     });
     formDataForBackend.append("lockStatus", swapItemFormData.lockStatus);
-    const pricePerGradeArray = swapItemFormData.pricePerGrade.reduce((acc, grade, index) => {
-      const key = Object.keys(grade)[0];
-      acc[`pricePerGrade[${index}][${key}]`] = grade[key];
-      return acc;
-    }, {});
-  
+    const pricePerGradeArray = swapItemFormData.pricePerGrade.reduce(
+      (acc, grade, index) => {
+        const key = Object.keys(grade)[0];
+        acc[`pricePerGrade[${index}][${key}]`] = grade[key];
+        return acc;
+      },
+      {}
+    );
+
     // Append each item in pricePerGradeArray to formDataForBackend
     Object.entries(pricePerGradeArray).forEach(([key, value]) => {
       formDataForBackend.append(key, value);
@@ -138,7 +159,7 @@ function CreateSwapItem({fetchSwapItems}) {
     }
 
     axios
-      .post("/api/old-phones", formDataForBackend, {
+      .put(`/api/old-phones/${data._id}`, formDataForBackend, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -146,10 +167,10 @@ function CreateSwapItem({fetchSwapItems}) {
       .then((response) => {
         console.log("Response:", response.data);
         handleClose();
-        clearFormData()
+        clearFormData();
         fetchSwapItems();
         notification.success({
-          message: "Swap item created successfully",
+          message: "Swap item edited successfully",
         });
 
         setLoading(false);
@@ -161,18 +182,18 @@ function CreateSwapItem({fetchSwapItems}) {
         setLoading(false);
 
         notification.error({
-          message: "Error creating swap item, please try again",
+          message: "Error editing swap item, please try again",
         });
       });
   };
 
   return (
     <>
-      <span onClick={handleShow}>Create swap item</span>
+      <span onClick={handleShow}>Edit</span>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header className="flex justify-between items-center px-[50px]">
-          <Modal.Title>Create swap item</Modal.Title>
+          <Modal.Title>Edit swap item</Modal.Title>
           <button
             onClick={handleClose}
             className="border-none px-2 py-1 bg-none rounded text-[#e94d4d] hover:bg-[#e94d4d] hover:text-[#fff]"
@@ -190,6 +211,7 @@ function CreateSwapItem({fetchSwapItems}) {
                   name="name"
                   placeholder="Enter item name"
                   onChange={(evt) => handleInputChange(evt)}
+                  defaultValue={swapItemFormData.name}
                 />
               </Form.Group>
 
@@ -203,6 +225,7 @@ function CreateSwapItem({fetchSwapItems}) {
                       required
                       onChange={handleCarrierChange} // Add onChange handler
                       value={swapItemFormData.lockStatus} // Set the selected value
+                      defaultValue={swapItemFormData.lockStatus}
                     >
                       <option>------</option>
                       <option value="locked">Locked</option>
@@ -218,6 +241,7 @@ function CreateSwapItem({fetchSwapItems}) {
                       name="baseStorage"
                       placeholder="Enter base storage"
                       onChange={(evt) => handleInputChange(evt)}
+                      defaultValue={swapItemFormData.baseStorage}
                     />
                   </Form.Group>
                 </Col>
@@ -232,6 +256,7 @@ function CreateSwapItem({fetchSwapItems}) {
                       name="storagePrice"
                       placeholder="Enter storage price"
                       onChange={(evt) => handleInputChange(evt)}
+                      defaultValue={swapItemFormData.storagePrice}
                     />
                   </Form.Group>
                 </Col>
@@ -254,6 +279,7 @@ function CreateSwapItem({fetchSwapItems}) {
                       name="pricePerGrade[New]"
                       placeholder="Enter price for new"
                       onChange={(evt) => handleInputChange(evt)}
+                      defaultValue={swapItemFormData.pricePerGrade[0].New}
                     />
                   </Form.Group>
                 </Col>
@@ -265,6 +291,7 @@ function CreateSwapItem({fetchSwapItems}) {
                       name="pricePerGrade[GradeA]"
                       placeholder="Enter grade A price"
                       onChange={(evt) => handleInputChange(evt)}
+                      defaultValue={swapItemFormData.pricePerGrade[0].GradeA}
                     />
                   </Form.Group>
                 </Col>
@@ -278,6 +305,7 @@ function CreateSwapItem({fetchSwapItems}) {
                       name="pricePerGrade[GradeB]"
                       placeholder="Enter grade B price"
                       onChange={(evt) => handleInputChange(evt)}
+                      defaultValue={swapItemFormData.pricePerGrade[0].GradeB}
                     />
                   </Form.Group>
                 </Col>
@@ -289,6 +317,7 @@ function CreateSwapItem({fetchSwapItems}) {
                       name="pricePerGrade[GradeC]"
                       placeholder="Enter grade C price"
                       onChange={(evt) => handleInputChange(evt)}
+                      defaultValue={swapItemFormData.pricePerGrade[0].GradeC}
                     />
                   </Form.Group>
                 </Col>
@@ -302,6 +331,7 @@ function CreateSwapItem({fetchSwapItems}) {
                       name="pricePerGrade[GradeD]"
                       placeholder="Enter grade D price"
                       onChange={(evt) => handleInputChange(evt)}
+                      defaultValue={swapItemFormData.pricePerGrade[0].GradeD}
                     />
                   </Form.Group>
                 </Col>
@@ -310,10 +340,10 @@ function CreateSwapItem({fetchSwapItems}) {
             <div className="flex items-center justify-end gap-[30px] mt-[60px]">
               <button
                 className="bg-[#187EB4] text-[#fff] border-none px-[20px] py-[10px] w-1/3 rounded"
-                onClick={handleCreateSwapItem}
+                onClick={handleEditSwapItem}
                 disabled={loading ? true : false}
               >
-                {loading ? "Please wait..." : "Add swap item"}
+                {loading ? "Please wait..." : "Edit swap item"}
               </button>
               <button
                 onClick={handleClose}
@@ -330,4 +360,4 @@ function CreateSwapItem({fetchSwapItems}) {
   );
 }
 
-export default CreateSwapItem;
+export default EditSwapItem;

@@ -6,9 +6,9 @@ import React, { useRef, useState } from "react";
 import Link from "next/link";
 import { UserOutlined } from "@ant-design/icons";
 import { getColumnSearchProps } from "@/components/TableColSearch";
-import EditAccessory from "./EditAccessory";
+import EditSwapItem from "./EditSwapItem";
 
-const SwapManagementTable = ({ data, loading, handleDelete }) => {
+const SwapManagementTable = ({ data, loading, handleDelete, fetchSwapItems }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
@@ -89,18 +89,18 @@ const SwapManagementTable = ({ data, loading, handleDelete }) => {
       align: "center",
       render: (singleData) => (
         <>
-          <Button style={{ marginRight: "5px" }} title="View product details">
+          {/* <Button style={{ marginRight: "5px" }} title="View product details">
             <Link
               className="no-underline"
               href={`/admin/swapmanagement/${singleData?._id}`}
             >
               {"View"}
             </Link>
-          </Button>
-          {/* <Button style={{ marginRight: "5px" }} title="Edit">
-            <EditAccessory data={singleData} fetchAccessories={fetchAccessories}
- />
           </Button> */}
+          <Button style={{ marginRight: "5px" }} title="Edit">
+            <EditSwapItem data={singleData} fetchSwapItems={fetchSwapItems}
+ />
+          </Button>
           <Button
             danger
             onClick={() => handleDelete(singleData)}
