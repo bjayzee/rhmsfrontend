@@ -30,7 +30,7 @@ export async function GET(request, { params }) {
         const { id } = params;
         await connectDB();
 
-        return NextResponse.json({ success: true, message: "Product found successfully", data: await Product.findById(id) }, { status: httpStatus.FOUND })
+        return NextResponse.json({ success: true, message: "Product found successfully", data: await Product.findById(id).populate(["specification"]) }, { status: httpStatus.FOUND })
     } catch (error) {
         return NextResponse.json({ success: false, message: "Product retrieval failed", data: error.message }, { status: httpStatus.NOT_FOUND })
     }

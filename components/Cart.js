@@ -3,7 +3,6 @@ import { useContext } from "react";
 import { CartContent } from "@/app/context/AppContext";
 import CartCard from "./CartCard";
 import Link from "next/link";
-import { TbCurrencyNaira } from "react-icons/tb";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -11,8 +10,13 @@ const Cart = () => {
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter();
 
-  const { cartItems, removeFromCart, swapValue, clearCartAndLocalStorage } =
-    useContext(CartContent);
+  const {
+    cartItems,
+    removeFromCart,
+    swapValue,
+    setSwapValue,
+    clearCartAndLocalStorage,
+  } = useContext(CartContent);
 
   const handleCheckout = (e) => {
     e.preventDefault();
@@ -29,7 +33,6 @@ const Cart = () => {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
-  console.log({ swapValue });
   const totalPrice = price - swapValue;
 
   return (
@@ -51,40 +54,52 @@ const Cart = () => {
       )}
 
       <p className="flex justify-end pt-3 px-5">
-        <span className="font-bold font pr-3">Subtotal:</span>{" "}
-        <TbCurrencyNaira className="w-5 h-6" /> {price?.toLocaleString()}
+        <span className="font-bold font pr-3">Subtotal:</span>₦
+        {price?.toLocaleString()}
       </p>
 
-        {swapValue > 1 ? (
-          <p className="flex justify-end pt-3 px-5">
-            <span className="font-bold font pr-3">Swap Item Value:</span>{" "}
-            <TbCurrencyNaira className="w-5 h-6" />{" "}
-            {swapValue?.toLocaleString()}
-          </p>
-        ) : (
-          ""
-        )}
-
+      {swapValue > 1 ? (
         <p className="flex justify-end pt-3 px-5">
-          <span className="font-bold font pr-3">Total:</span>{" "}
-          <TbCurrencyNaira className="w-5 h-6" /> {totalPrice?.toLocaleString()}
+          <span className="font-bold font pr-3">Swap Item Value:</span>₦
+          {swapValue?.toLocaleString()}
         </p>
-        <div className="flex justify-center my-4 ">
-            <button
-              className="text-[red] text-sm px-4 py-2 mr-2 rounded-md"
-              disabled={cartItems.length === 0}
-              onClick={clearCartAndLocalStorage}
-            >
-              Clear Cart
-            </button>
-          <Link href="/" passHref>
-            <button
-              className="text-rh-blue text-sm px-4 py-2 mr-2 rounded-md"
-              disabled={cartItems.length === 0}
-            >
-              Add More Items
-            </button>
-          </Link>
+      ) : (
+        ""
+      )}
+
+      {totalPrice > 0 && (
+        <p className="flex justify-end pt-3 px-5">
+          <span className="font-bold font pr-3">Total Payable:</span>₦
+          {totalPrice?.toLocaleString()}
+        </p>
+      )}
+
+      {totalPrice < 0 && (
+        <p className="flex justify-end pt-3 px-5">
+          <span className="font-bold font pr-3">Cash Back:</span>₦
+          {Math.abs(totalPrice)?.toLocaleString()}
+        </p>
+      )}
+
+      <div className="flex justify-center my-4 ">
+        <button
+          className="text-[red] text-sm px-4 py-2 mr-2 rounded-md"
+          disabled={cartItems.length === 0}
+          onClick={() => {
+            clearCartAndLocalStorage()
+            setSwapValue(0);
+          }}
+        >
+          Clear Cart
+        </button>
+        <Link href="/" passHref>
+          <button
+            className="text-rh-blue text-sm px-4 py-2 mr-2 rounded-md"
+            disabled={cartItems.length === 0}
+          >
+            Add More Items
+          </button>
+        </Link>
 
         <button
           className={`bg-rh-blue text-[white] px-4 py-2 rounded-md ${

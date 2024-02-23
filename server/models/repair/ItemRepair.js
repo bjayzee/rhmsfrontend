@@ -4,7 +4,7 @@ import { model, Schema, models } from "mongoose";
 const itemRepairSchema = new Schema({
     type: {
         type: String,
-        enum: ['screen', 'battery', 'backGlass'],
+        enum: ['screen replacement', 'battery replacement', 'back glass replacement'],
         required: true
     },
     itemName: {

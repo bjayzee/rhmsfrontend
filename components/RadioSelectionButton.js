@@ -1,6 +1,3 @@
-
-import React from 'react';
-
 const RadioSelection = ({ title, name, options, onChange }) => {
     return (
         <div className="flex flex-col text-lg my-2">

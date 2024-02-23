@@ -31,7 +31,7 @@ export async function GET(request, { params }) {
     await connectDB();
 
     return successMessage(
-      "Updated successfully",
+      "Accessory fetched successfully",
       await Accessory.findById(id),
       httpStatus.FOUND
     );
