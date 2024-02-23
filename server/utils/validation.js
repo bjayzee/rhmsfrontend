@@ -1,5 +1,13 @@
 import Joi from 'joi';
 
+const articleSchema = Joi.object({
+  title: Joi.string().required(),
+  author: Joi.string().required(),
+  body: Joi.string().required(),
+  category: Joi.string().required,
+  tags: Joi.array().items(Joi.string()),
+});
+
 const itemRepairValidation = Joi.object({
     type: Joi.string().valid('screen', 'battery', 'backGlass').required(),
     itemName: Joi.string().required(),
@@ -91,4 +99,5 @@ export {
   specificationSchema,
   reviewSchema,
   accessoriesSchema,
+  articleSchema,
 };

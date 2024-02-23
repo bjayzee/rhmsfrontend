@@ -7,6 +7,7 @@ import Specification from "./products/Specification";
 import Review from "./products/Review";
 import Category from "./products/Category";
 import Accessory from "./accessories/Accessory";
+import Article from "./blog/Article";
 
 
 
@@ -22,4 +23,5 @@ export {
   Review,
   Category,
   Accessory,
+  Article,
 };
