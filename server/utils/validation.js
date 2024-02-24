@@ -4,7 +4,7 @@ const articleSchema = Joi.object({
   title: Joi.string().required(),
   author: Joi.string().required(),
   body: Joi.string().required(),
-  category: Joi.string().required,
+  category: Joi.string().required(),
   tags: Joi.array().items(Joi.string()),
 });
 
