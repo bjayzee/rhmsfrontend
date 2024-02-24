@@ -1,19 +1,11 @@
 "use client";
 import { useEffect, useState, useMemo } from "react";
-import Link from "next/link";
 import axios from "axios";
 import { FaPlay } from "react-icons/fa";
+import { IoIosArrowDropdownCircle } from "react-icons/io";
 import RadioSelection from "./RadioSelectionButton";
 import { models } from "@/server/utils/iPhonedata";
-import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownSection,
-  DropdownItem,
-  Button
-} from "@nextui-org/react";
-
+import { InlineWidget } from "react-calendly";
 
 export default function Repair() {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -24,20 +16,17 @@ export default function Repair() {
   const [proceedToTrueTone, setProceedToTrueTone] = useState(false);
   const [proceedToAnyOtherIssues, setProceedToAnyOtherIssues] = useState(false);
   const [repairCenters, setRepairCenters] = useState([]);
-
-
-  const [selectedKeys, setSelectedKeys] = useState(new Set(["text"]));
-
-  const selectedValue = useMemo(
-    () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
-    [selectedKeys]
-  );
+  const [selectedRepairCenter, setSelectedRepairCenter] = useState(null);
+  const [showSelectedRepairCenter, setShowSelectedRepairCenter] =
+    useState(false);
+  const [showSelectCenterButton, setShowSelectCenterButton] = useState(true);
+  const [showCalendar, setShowCalendar] = useState(false);
 
   useEffect(() => {
     const fetchRepairCenters = async () => {
       try {
         const centers = await axios
-          .get("/api/accessories", {
+          .get("/api/repair-center", {
             validateStatus: (status) => status < 400,
           })
           .then((res) => res.data)
@@ -55,8 +44,21 @@ export default function Repair() {
     setSelectedOption(option);
     setShowDropdown(false);
   };
+
+  const handleCenterOptionSelect = (option) => {
+    setSelectedRepairCenter(option);
+    setShowSelectedRepairCenter(false);
+    setShowSelectCenterButton(false);
+  };
+
+  const handleAppointmentClick = ()=>{}
+
+
   const handleSelectClick = () => {
     setShowDropdown(true);
+  };
+  const handleSelectCenter = () => {
+    setShowSelectedRepairCenter((prevState) => !prevState);
   };
 
   const handleChange = () => {};
@@ -122,12 +124,12 @@ export default function Repair() {
           <div className="py-4 flex flex-col">
             {repairOptions.map((item, index) => (
               <RadioSelection
+                key={index}
                 title={item.name}
                 name={item.name}
                 options={["Premium", "Economy"]}
                 onChange={() => {}}
               />
-             
             ))}
           </div>
           {showContinueButton ? (
@@ -198,30 +200,81 @@ export default function Repair() {
           </div>
           <input className="text-xs outline-none border-2 border-rh-blue w-full h-[50px] px-3 mt-3" />
 
-          <Dropdown>
-            <DropdownTrigger>
-              <Button variant="bordered" className="capitalize">
-                {selectedValue}
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              aria-label="Single selection example"
-              variant="flat"
-              disallowEmptySelection
-              selectionMode="single"
-              selectedKeys={selectedKeys}
-              onSelectionChange={setSelectedKeys}
+          {showSelectCenterButton && (
+            <button
+              className="p-3 rounded-xl flex items-center justify-around border-[#D9D9D9] border-2 w-full my-3"
+              onClick={handleSelectCenter}
             >
-              <DropdownItem key="text">Text</DropdownItem>
-              <DropdownItem key="number">Number</DropdownItem>
-              <DropdownItem key="date">Date</DropdownItem>
-              <DropdownItem key="single_date">Single Date</DropdownItem>
-              <DropdownItem key="iteration">Iteration</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+              <div className="leading-5">Select a Repair Center</div>
+              <IoIosArrowDropdownCircle className="text-[18px] text-rh-blue ml-1" />
+            </button>
+          )}
+
+          {showSelectedRepairCenter ? (
+            <div className="p-2 font-semibold text-sm flex flex-wrap shadow-lg border-[#D9D9D9] border-t-4 border-l-4 rounded-[20px]">
+              {repairCenters.map((option, key) => (
+                <div
+                  key={key}
+                  className="cursor-pointer p-2 hover-bg-gray-100"
+                  onClick={() => handleCenterOptionSelect(option)}
+                >
+                  <div className="flex flex- gap-2">
+                    <p>{option.address}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       ) : (
         ""
+      )}
+
+      {showSelectCenterButton ? (
+        " "
+      ) : (
+        <div className="py-4">
+          <h1 className="font-bold">Nearest Center</h1>
+          <div className="my-2">
+            <span className="font-bold">Contact Address:</span>
+            {"   "}
+            {selectedRepairCenter.address}
+          </div>
+          <div className="my-2">
+            <span className="font-bold">Email:</span>{" "}
+            {selectedRepairCenter.email}
+          </div>
+          <div className="my-2">
+            <span className="font-bold">Phone Numbers:</span>
+            {"   "}
+            <div>
+              {selectedRepairCenter.phoneNumbers.map((phoneNumber, index) => (
+                <div key={index}>{phoneNumber}</div>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex justify-between">
+            <button
+              className="p-3 rounded-xl border-[#D9D9D9] border-2"
+              onClick={()=> setShowCalendar(true)}
+            >
+              Book Appointment
+            </button>
+            <button
+              className="p-3 rounded-xl border-[#D9D9D9] border-2"
+              onClick={() => {}}
+            >
+              Walk in
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showCalendar && (
+        <InlineWidget url="https://calendly.com/bjayzee/book-repair-visit" />
       )}
 
       {/* {true && (

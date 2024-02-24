@@ -6,7 +6,6 @@ import { FaPlay } from "react-icons/fa";
 import axios from "axios";
 import RadioSelection from "./RadioSelectionButton";
 import { CartContent } from "@/app/context/AppContext";
-import { TbCurrencyNaira } from "react-icons/tb";
 
 const SwapiPhone = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -323,9 +322,7 @@ const SwapiPhone = () => {
                   {swapValue < 1 ? (
                     "Grade not available"
                   ) : (
-                    <>
-                      <TbCurrencyNaira height={7} /> {swapValue?.toLocaleString()}
-                    </>
+                    <>₦{swapValue?.toLocaleString()}</>
                   )}
                 </span>
               </div>
