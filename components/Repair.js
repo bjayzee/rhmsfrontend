@@ -1,7 +1,9 @@
 "use client";
 import { useEffect, useState, useMemo } from "react";
+import Link from "next/link";
 import axios from "axios";
 import { FaPlay } from "react-icons/fa";
+import { IoIosArrowDropdownCircle } from "react-icons/io";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
 import RadioSelection from "./RadioSelectionButton";
 import { models } from "@/server/utils/iPhonedata";
@@ -21,11 +23,17 @@ export default function Repair() {
     useState(false);
   const [showSelectCenterButton, setShowSelectCenterButton] = useState(true);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [selectedRepairCenter, setSelectedRepairCenter] = useState(null);
+  const [showSelectedRepairCenter, setShowSelectedRepairCenter] =
+    useState(false);
+  const [showSelectCenterButton, setShowSelectCenterButton] = useState(true);
+  const [showCalendar, setShowCalendar] = useState(false);
 
   useEffect(() => {
     const fetchRepairCenters = async () => {
       try {
         const centers = await axios
+          .get("/api/repair-center", {
           .get("/api/repair-center", {
             validateStatus: (status) => status < 400,
           })
@@ -268,6 +276,96 @@ export default function Repair() {
           <div className="flex justify-between">
             <button
               className="p-3 rounded-xl border-[#D9D9D9] border-2"
+              onClick={()=> setShowCalendar(true)}
+            >
+              Book Appointment
+            </button>
+            <button
+              className="p-3 rounded-xl border-[#D9D9D9] border-2"
+              onClick={() => {}}
+            >
+              Walk in
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showCalendar && (
+        <InlineWidget url="https://calendly.com/bjayzee/book-repair-visit" />
+      )}
+
+      {showSelectCenterButton ? (
+        " "
+      ) : (
+        <div className="py-4">
+          <h1 className="font-bold">Nearest Center</h1>
+          <div className="my-2">
+            <span className="font-bold">Contact Address:</span>
+            {"   "}
+            {selectedRepairCenter.address}
+          </div>
+          <div className="my-2">
+            <span className="font-bold">Email:</span>{" "}
+            {selectedRepairCenter.email}
+          </div>
+          <div className="my-2">
+            <span className="font-bold">Phone Numbers:</span>
+            {"   "}
+            <div>
+              {selectedRepairCenter.phoneNumbers.map((phoneNumber, index) => (
+                <div key={index}>{phoneNumber}</div>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex justify-between">
+            <button
+              className="p-3 rounded-xl border-[#D9D9D9] border-2"
+              onClick={() => setShowCalendar(true)}
+            >
+              Book Appointment
+            </button>
+            <button
+              className="p-3 rounded-xl border-[#D9D9D9] border-2"
+              onClick={() => {}}
+            >
+              Walk in
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showCalendar && (
+        <InlineWidget url="https://calendly.com/bjayzee/book-repair-visit" />
+      )}
+
+      {showSelectCenterButton ? (
+        " "
+      ) : (
+        <div className="py-4">
+          <h1 className="font-bold">Nearest Center</h1>
+          <div className="my-2">
+            <span className="font-bold">Contact Address:</span>
+            {"   "}
+            {selectedRepairCenter.address}
+          </div>
+          <div className="my-2">
+            <span className="font-bold">Email:</span>{" "}
+            {selectedRepairCenter.email}
+          </div>
+          <div className="my-2">
+            <span className="font-bold">Phone Numbers:</span>
+            {"   "}
+            <div>
+              {selectedRepairCenter.phoneNumbers.map((phoneNumber, index) => (
+                <div key={index}>{phoneNumber}</div>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex justify-between">
+            <button
+              className="p-3 rounded-xl border-[#D9D9D9] border-2"
               onClick={() => setShowCalendar(true)}
             >
               Book Appointment
@@ -321,7 +419,7 @@ export default function Repair() {
             );
           })}
         </div>
-      )}
+      )} */}
     </div>
   );
 }
