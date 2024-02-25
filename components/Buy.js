@@ -21,7 +21,6 @@ export default function Buy() {
   const [showAddToCart, setShowAddToCart] = useState(false);
   const [addToCartButton, setAddToCartButton] = useState(false);
   const [removeItem, setRemoveItem] = useState(true);
-  const [checkoutButton, setCheckoutButton] = useState(false);
   const [modelIndex, setModelIndex] = useState(0);
   const [iphoneModel, setIphoneModel] = useState("");
   const [availableModels, setAvailableModels] = useState([]);
