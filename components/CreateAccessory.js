@@ -186,6 +186,7 @@ function CreateAccessory() {
       // Handle error if needed
     }
 
+    
     const formDataForBackend = new FormData();
 
     formDataForBackend.append("name", accessoryFormData.name);

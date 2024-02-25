@@ -8,10 +8,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { notification } from "antd";
 import { IoMdClose } from "react-icons/io";
-import { FaRegImage } from "react-icons/fa6";
-import { useDropzone } from "react-dropzone";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
+import axios from "axios";
+
+import Badge from "react-bootstrap/Badge";
 
 function CreateArticle() {
   const [show, setShow] = useState(false);
@@ -19,139 +18,197 @@ function CreateArticle() {
   const handleShow = () => setShow(true);
 
   const initialFormState = {
-    name: "",
-    thumbnail: "",
+    author: "",
+    tag: "",
+    title: "",
+    category: "",
+    images: "",
+    image: "",
+    body: "",
   };
 
   const [loading, setLoading] = useState(false);
-  const [productFormData, setProductFormData] = useState(initialFormState);
+  const [articleFormData, setArticleFormData] = useState(initialFormState);
 
-  const [image, setImage] = useState(null);
-
-  const onChangeImage = (e) => {
-    setImage(e.target.files[0]);
-  };
-
-  const [selectedImages, setSelectedImages] = useState([]);
-
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/*",
-    onDrop: (acceptedFiles) => {
-      // Handle dropped files here
-      setSelectedImages((prevImages) => [...prevImages, ...acceptedFiles]);
-    },
-  });
+  const [tagArray, setTagArray] = useState([]);
 
   const handleInputChange = (event) => {
     event.preventDefault();
     const { name, value } = event.target;
-    setProductFormData({
-      ...productFormData,
+    setArticleFormData({
+      ...articleFormData,
       [name]: value,
     });
   };
 
-
-
-  const clearFormData = () => {
-    // Add any logic you need to clear form data
+  const handleTagInputChange = (event) => {
+    event.preventDefault();
+    const { value } = event.target;
+    setArticleFormData({
+      ...articleFormData,
+      tag: value,
+    });
   };
 
-  const handleCreateProduct = () => {};
+  const handleAddTag = () => {
+    if (articleFormData.tag.trim() !== "") {
+      setTagArray([...tagArray, articleFormData.tag]);
+      setArticleFormData({
+        ...articleFormData,
+        tag: "",
+      });
+    }
+  };
+
+  const clearFormData = () => {
+    setArticleFormData(initialFormState);
+  };
+
+  const handleCreateArticle = async (e) => {
+    e.preventDefault();
+
+    setLoading(true);
+
+    const formDataForBackend = new FormData();
+
+    formDataForBackend.append("author", articleFormData.author);
+    formDataForBackend.append("category", articleFormData.category);
+    formDataForBackend.append("title", articleFormData.title);
+    formDataForBackend.append("body", articleFormData.body);
+    tagArray.forEach((tag, index) => {
+      formDataForBackend.append(`tags[${index}]`, tag);
+    });
+
+    axios
+      .post("/api/blog", formDataForBackend, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log("Response:", response.data);
+        handleClose();
+        clearFormData();
+        notification.success({
+          message: "Category created successfully",
+        });
+
+        setLoading(false);
+      })
+      .catch((error) => {
+        // Handle error
+        console.error("Error:", error);
+
+        setLoading(false);
+
+        notification.error({
+          message: "Error creating category, please try again",
+        });
+      });
+  };
 
   return (
     <>
       <span onClick={handleShow}>New Post</span>
 
-      <Modal show={show} onHide={handleClose} size="xl">
+      <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header className="flex justify-between items-center px-[50px]">
           <Modal.Title>New Post</Modal.Title>
-          <Button
+          <button
             onClick={handleClose}
-            className="border-none bg-none text-[#e94d4d] hover:bg-[#e94d4d] hover:text-[#fff]"
+            className="border-none px-2 py-1 bg-none rounded text-[#e94d4d] hover:bg-[#e94d4d] hover:text-[#fff]"
           >
             <IoMdClose className="text-lg" />
-          </Button>
+          </button>
         </Modal.Header>
         <Modal.Body className="px-[50px]">
-          <Form
-            onSubmit={handleCreateProduct}
-            className="overflow-y-scroll"
-          >
-            <div className="grid grid-cols-2 gap-[100px] ">
+          <Form onSubmit={handleCreateArticle} className="overflow-y-scroll">
             <div>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Title</Form.Label>
+              <div>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Author</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="author"
+                    placeholder="Enter author name "
+                    onChange={(evt) => handleInputChange(evt)}
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="title"
+                    placeholder="Enter Title "
+                    onChange={(evt) => handleInputChange(evt)}
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Category</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="category"
+                    placeholder="Enter category "
+                    onChange={(evt) => handleInputChange(evt)}
+                  />
+                </Form.Group>
+              </div>
+            </div>
+
+            <Form.Group
+              className="mb-3"
+              controlId="exampleForm.ControlTextarea1"
+              style={{ marginBottom: "10px" }}
+            >
+              <Form.Label>Article Body </Form.Label>
+              <Form.Control
+                as="textarea"
+                style={{ height: "500px" }}
+                name="body"
+                onChange={(evt) => handleInputChange(evt)}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Tags</Form.Label>
+              <div className="flex items-center gap-[10px]">
                 <Form.Control
                   type="text"
-                  name="title"
-                  placeholder="Enter Title "
-                  onChange={(evt) => handleInputChange(evt)}
+                  name="tags"
+                  placeholder="Enter tag"
+                  value={articleFormData.tag}
+                  onChange={(evt) => handleTagInputChange(evt)}
                 />
-              </Form.Group>
-            
-
-              <div>
-                <div className="text-lg py-[20px]">Article Images</div>
-                <div {...getRootProps()} className="dropzone border border-dotted border-slate-800 p-[20px] my-[20px]">
-                  <input {...getInputProps()} />
-                  <div className="flex flex-col items-center justify-center ">
-                    <FaRegImage className="text-8xl text-[#187EB4]"/>
-                    <p>Drop your images here, or click to select</p>
-
-                  </div>
-                </div>
-                <div>
-                  {/* Display selected images */}
-                  {selectedImages.map((file) => (
-                    <div key={file.name}>
-                      {file.name} - {file.size} bytes
-                    </div>
-                  ))}
-                </div>
+                <Button variant="secondary" onClick={handleAddTag}>
+                  Add
+                </Button>
               </div>
-           
-
-           
-            </div>
-
-              <div className="image-uploader">
-                <label htmlFor="imageInput" className="upload-box">
-                  {image ? (
-                    <img src={URL.createObjectURL(image)} alt="Selected image" />
-                  ) : (
-                    <div className="placeholder text-[#fff]">
-                      Click to upload
-                    </div>
-                  )}
-                  <input
-                    type="file"
-                    id="imageInput"
-                    accept="image/*"
-                    onChange={(evnt) => onChangeImage(evnt)}
-                    style={{ display: "none" }}
-                  />
-                </label>
+              <div className="pt-[5px]">
+                {tagArray.map((tag, index) => (
+                  <Badge key={index} variant="primary" className="mr-[5px]">
+                    {tag}
+                  </Badge>
+                ))}
               </div>
-        
-            </div>
-         
-            <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlTextarea1"
-                style={{ marginBottom: "10px" }}
+            </Form.Group>
+
+            <div className="flex items-center justify-end gap-[30px] mt-[60px]">
+              <button
+                className="bg-[#187EB4] text-[#fff] border-none px-[20px] py-[10px] w-1/6 rounded"
+                onClick={handleCreateArticle}
+                disabled={loading ? true : false}
               >
-                <Form.Label>Article Body </Form.Label>
-                <Form.Control
-                  as="textarea"
-                  style={{ height: "500px" }}
-                  name="body"
-                  onChange={(evt) => handleInputChange(evt)}
-                />
-              </Form.Group>
-          
-          
-            
+                {loading ? "Please wait..." : "Add article"}
+              </button>
+              <button
+                onClick={handleClose}
+                className="bg-[#fff] border border-[#187eb4] px-[20px] py-[10px] w-1/6 rounded"
+              >
+                Cancel
+              </button>
+            </div>
           </Form>
         </Modal.Body>
       </Modal>

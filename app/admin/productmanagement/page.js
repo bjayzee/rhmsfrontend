@@ -10,7 +10,6 @@ import { notification } from "antd";
 import axios from "axios";
 
 const { TabPane } = Tabs;
-
 const ProductManagement = (props) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
