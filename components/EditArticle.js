@@ -12,7 +12,7 @@ import axios from "axios";
 
 import Badge from "react-bootstrap/Badge";
 
-function CreateArticle({fetchArticles}) {
+function EditArticle({post, fetchArticles}) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -22,15 +22,25 @@ function CreateArticle({fetchArticles}) {
     tag: "",
     title: "",
     category: "",
-    images: "",
-    image: "",
     body: "",
   };
+
+
 
   const [loading, setLoading] = useState(false);
   const [articleFormData, setArticleFormData] = useState(initialFormState);
 
   const [tagArray, setTagArray] = useState([]);
+
+  useEffect(()=> {
+    setArticleFormData({
+      author: post?.author  ,
+      tag: post?.tag,
+      title: post?.title,
+      category: post?.category,
+      body: post?.body,
+    })
+  }, [post])
 
   const handleInputChange = (event) => {
     event.preventDefault();
@@ -79,8 +89,7 @@ function CreateArticle({fetchArticles}) {
       formDataForBackend.append(`tags[${index}]`, tag);
     });
 
-    axios
-      .post("/api/blog", formDataForBackend, {
+    axios.put(`/api/blog/${post?._id}`, formDataForBackend, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -90,7 +99,7 @@ function CreateArticle({fetchArticles}) {
         handleClose();
         clearFormData();
         notification.success({
-          message: "Category created successfully",
+          message: "article edited successfully",
         });
         fetchArticles()
 
@@ -103,18 +112,18 @@ function CreateArticle({fetchArticles}) {
         setLoading(false);
 
         notification.error({
-          message: "Error creating category, please try again",
+          message: "Error editing article, please try again",
         });
       });
   };
 
   return (
     <>
-      <span onClick={handleShow}>New post</span>
+      <span onClick={handleShow}>Edit</span>
 
       <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header className="flex justify-between items-center px-[50px]">
-          <Modal.Title>New Post</Modal.Title>
+          <Modal.Title>Edit Post</Modal.Title>
           <button
             onClick={handleClose}
             className="border-none px-2 py-1 bg-none rounded text-[#e94d4d] hover:bg-[#e94d4d] hover:text-[#fff]"
@@ -133,6 +142,7 @@ function CreateArticle({fetchArticles}) {
                     name="author"
                     placeholder="Enter author name "
                     onChange={(evt) => handleInputChange(evt)}
+                    defaultValue={articleFormData.author}
                   />
                 </Form.Group>
 
@@ -143,6 +153,8 @@ function CreateArticle({fetchArticles}) {
                     name="title"
                     placeholder="Enter Title "
                     onChange={(evt) => handleInputChange(evt)}
+                    defaultValue={articleFormData.title}
+
                   />
                 </Form.Group>
 
@@ -153,6 +165,8 @@ function CreateArticle({fetchArticles}) {
                     name="category"
                     placeholder="Enter category "
                     onChange={(evt) => handleInputChange(evt)}
+                    defaultValue={articleFormData.category}
+
                   />
                 </Form.Group>
               </div>
@@ -169,6 +183,8 @@ function CreateArticle({fetchArticles}) {
                 style={{ height: "500px" }}
                 name="body"
                 onChange={(evt) => handleInputChange(evt)}
+                defaultValue={articleFormData.body}
+
               />
             </Form.Group>
 
@@ -181,6 +197,7 @@ function CreateArticle({fetchArticles}) {
                   placeholder="Enter tag"
                   value={articleFormData.tag}
                   onChange={(evt) => handleTagInputChange(evt)}
+
                 />
                 <Button variant="secondary" onClick={handleAddTag}>
                   Add
@@ -201,7 +218,7 @@ function CreateArticle({fetchArticles}) {
                 onClick={handleCreateArticle}
                 disabled={loading ? true : false}
               >
-                {loading ? "creating..." : "Add article"}
+                {loading ? "editing..." : "Edit article"}
               </button>
               <button
                 onClick={handleClose}
@@ -218,4 +235,4 @@ function CreateArticle({fetchArticles}) {
   );
 }
 
-export default CreateArticle;
+export default EditArticle;
