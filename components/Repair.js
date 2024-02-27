@@ -4,23 +4,24 @@ import axios from "axios";
 import { FaPlay } from "react-icons/fa";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
 import RadioSelection from "./RadioSelectionButton";
-import { models } from "@/server/utils/iPhonedata";
 import { InlineWidget, useCalendlyEventListener } from "react-calendly";
 
 export default function Repair() {
   const [selectedOption, setSelectedOption] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [showContinueButton, setShowContinueButton] = useState(true);
+  const [showContinueButton, setShowContinueButton] = useState(false);
   const [proceedToOpen, setProceedToOpen] = useState(false);
   const [proceedToFaceId, setProceedToFaceId] = useState(false);
   const [proceedToTrueTone, setProceedToTrueTone] = useState(false);
   const [proceedToAnyOtherIssues, setProceedToAnyOtherIssues] = useState(false);
   const [repairCenters, setRepairCenters] = useState([]);
+  const [repairItems, setRepairItems] = useState([]);
   const [selectedRepairCenter, setSelectedRepairCenter] = useState(null);
   const [showSelectedRepairCenter, setShowSelectedRepairCenter] =
     useState(false);
   const [showSelectCenterButton, setShowSelectCenterButton] = useState(true);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [showSummary, setShowSummary] = useState(true);
 
   useEffect(() => {
     const fetchRepairCenters = async () => {
@@ -37,9 +38,27 @@ export default function Repair() {
       }
     };
 
+    const fetchRepairItems = async () => {
+      try {
+        const items = await axios
+          .get("/api/repair-items", {
+            validateStatus: (status) => status < 400,
+          })
+          .then((res) => res.data)
+          .then((res) => res.data);
+        setRepairItems(items);
+      } catch (error) {
+        console.error("error fetching repair items", error);
+      }
+    };
+
     fetchRepairCenters();
+    fetchRepairItems();
   }, []);
 
+  let [values, setValues] = useState([]);
+  console.log({ selectedOption });
+  console.log({ values });
 
   useCalendlyEventListener({
     onProfilePageViewed: () => console.log("onProfilePageViewed"),
@@ -48,7 +67,6 @@ export default function Repair() {
     onEventScheduled: (e) => console.log(e.data.payload),
   });
 
-
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
     setShowDropdown(false);
@@ -56,11 +74,10 @@ export default function Repair() {
 
   const handleCenterOptionSelect = (option) => {
     setSelectedRepairCenter(option);
-    setShowSelectedRepairCenter(false);
-    setShowSelectCenterButton(false);
+    setShowSelectedRepairCenter(false);   
+    setShowSummary((prevState) => !prevState);
+ 
   };
-
-  const handleAppointmentClick = ()=>{}
 
 
   const handleSelectClick = () => {
@@ -68,6 +85,8 @@ export default function Repair() {
   };
   const handleSelectCenter = () => {
     setShowSelectedRepairCenter((prevState) => !prevState);
+    setShowSummary((prevState) => !prevState);
+
   };
 
   const handleChange = () => {};
@@ -107,7 +126,7 @@ export default function Repair() {
 
       {showDropdown ? (
         <div className="p-2 font-semibold text-sm flex flex-wrap shadow-lg border-[#D9D9D9] border-t-4 border-l-4 rounded-[20px]">
-          {models.map((option, key) => (
+          {repairItems?.map((option, key) => (
             <div
               key={key}
               className="w-1/2 cursor-pointer p-2 hover-bg-gray-100"
@@ -137,7 +156,13 @@ export default function Repair() {
                 title={item.name}
                 name={item.name}
                 options={["Premium", "Economy"]}
-                onChange={() => {}}
+                onChange={(option) => {
+                  setShowContinueButton(true);
+                  const temp = values;
+
+                  temp.push({ name: item.name, value: option });
+                  setValues(temp);
+                }}
               />
             ))}
           </div>
@@ -241,70 +266,66 @@ export default function Repair() {
         ""
       )}
 
-      {showSelectCenterButton ? (
+      {showSummary ? (
         " "
       ) : (
         <div className="py-4">
-          <h1 className="font-bold">Nearest Center</h1>
-          <div className="my-2">
-            <span className="font-bold">Contact Address:</span>
-            {"   "}
-            {selectedRepairCenter.address}
-          </div>
-          <div className="my-2">
-            <span className="font-bold">Email:</span>{" "}
-            {selectedRepairCenter.email}
-          </div>
-          <div className="my-2">
-            <span className="font-bold">Phone Numbers:</span>
-            {"   "}
+          <h1 className="font-bold">Summary: </h1>
+
+          <div>
             <div>
-              {selectedRepairCenter.phoneNumbers.map((phoneNumber, index) => (
-                <div key={index}>{phoneNumber}</div>
-              ))}
+              <h2 className="font-bold">Phone Detail:</h2>
+              <p>{selectedOption?.name}</p>
             </div>
           </div>
 
-          <div className="flex justify-between">
-            <button
-              className="p-3 rounded-xl border-[#D9D9D9] border-2"
-              onClick={()=> setShowCalendar(true)}
-            >
-              Book Appointment
-            </button>
-            <button
-              className="p-3 rounded-xl border-[#D9D9D9] border-2"
-              onClick={() => {}}
-            >
-              Walk in
-            </button>
+          <div>
+            <div className="flex justify-between mr-10 font-bold">
+              <h2>Repair Detail:</h2>
+              <p>Cost</p>
+            </div>
+
+            <div>
+              {/* {values?.map((item, index) => { 
+                <>
+                  <h2>{item.name}</h2>
+                  <p>{item.value === "Premium" ? }</p>
+                </>;
+              })} */}
+
+              {values.find((item) => item.name === "Screen Replacement")
+                ? values.find((item) => item.name === "Screen Replacement")
+                    ?.value === "Economy"
+                  ? selectedOption.screenReplacement.economyCost
+                  : selectedOption.screenReplacement.premiumCost
+                : ""}
+            </div>
+
+            <p>Total: </p>
           </div>
-        </div>
-      )}
 
-      {showCalendar && (
-        <InlineWidget url="https://calendly.com/bjayzee/book-repair-visit" />
-      )}
+          <div>
+            <div>
+              <h2 className="font-bold">Other issues with the phone:</h2>
+              <p>Name</p>
+            </div>
+          </div>
 
-      {showSelectCenterButton ? (
-        " "
-      ) : (
-        <div className="py-4">
-          <h1 className="font-bold">Nearest Center</h1>
           <div className="my-2">
+            <h1 className="font-bold">Repair Center Information: </h1>
             <span className="font-bold">Contact Address:</span>
             {"   "}
-            {selectedRepairCenter.address}
+            {selectedRepairCenter?.address}
           </div>
           <div className="my-2">
             <span className="font-bold">Email:</span>{" "}
-            {selectedRepairCenter.email}
+            {selectedRepairCenter?.email}
           </div>
           <div className="my-2">
             <span className="font-bold">Phone Numbers:</span>
             {"   "}
             <div>
-              {selectedRepairCenter.phoneNumbers.map((phoneNumber, index) => (
+              {selectedRepairCenter?.phoneNumbers.map((phoneNumber, index) => (
                 <div key={index}>{phoneNumber}</div>
               ))}
             </div>
@@ -330,43 +351,6 @@ export default function Repair() {
       {showCalendar && (
         <InlineWidget url="https://calendly.com/bjayzee/book-repair-visit" />
       )}
-
-      {/* {true && (
-        <div className="mt-4 px-4">
-          {repairOptions?.map((repairType) => {
-            return (
-              <div key={repairType}>
-                <div className="py-4">
-                  <p>
-                    You have chosen {repairType} for your {selectedOption}.
-                    Visit any of the addresses below to complete your repairs.
-                  </p>
-                  <p>Cost for the Economy option: {repairInfo.economyCost}</p>
-                  <p>Cost for the Premium option: {repairInfo.premiumCost}</p>
-                </div>
-
-                <b className="my-10 text-xl">Available repair center:</b>
-
-                <div className="flex flex-col space-y-2">
-                  <b>Contact address:</b>
-                  <p>
-                    {repairInfo.address ||
-                      "267 Herbert Macaulay way, Sabo, Yaba"}
-                  </p>
-                </div>
-                <div className="flex justify-between py-3">
-                  <b>Email:</b>
-                  <b>Phone Numbers:</b>
-                </div>
-                <div className="flex justify-between">
-                  <p>{repairInfo.email || "repair@gmail.com"}</p>
-                  <p> {repairInfo.phone || "09087654321"}</p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )} */} 
     </div>
   );
 }
