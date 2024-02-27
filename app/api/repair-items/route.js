@@ -1,45 +1,55 @@
-import { ItemRepair } from "@/server/models";
+import { RepairItem } from "@/server/models";
+import { failMessage, successMessage } from "@/server/utils/apiResponse";
 import connectDB from "@/server/utils/db";
-import { itemRepairValidation } from "@/server/utils/validation";
+import { repairItemSchema } from "@/server/utils/validation";
 import httpStatus from "http-status";
-import { NextResponse } from "next/server";
-
-
 
 export async function POST(request){
     try {
-        request = await request.json()
+        const requestObj = await request.json();
         await connectDB();
-        const { error } = await itemRepairValidation.validateAsync(request);
-        if (error) {
-            throw new ApiError(httpStatus.BAD_REQUEST, "input validation failed");
+
+        const { error } = await repairItemSchema.validateAsync(requestObj);
+
+        if(error){
+            return failMessage(error, httpStatus.BAD_REQUEST, "Bad payload")
         }
-        const repair_item = await ItemRepair.create(request);
-        return NextResponse.json({success: true, message: "Repair item created successfully", data: repair_item}, {status: httpStatus.CREATED})
+
+        const repairItem = await RepairItem.create(requestObj);
+
+        return successMessage("Item created successfully", repairItem, httpStatus.CREATED);
+        
     } catch (error) {
-        return NextResponse.json({ success: false, message: "Repair item creation failed", data: error.message }, {status: httpStatus.BAD_REQUEST})
+
+        console.error("An error has occured with the repair item creation", error);
+        return failMessage(error, httpStatus.INTERNAL_SERVER_ERROR, error.message)        
     }
 }
 
 export async function GET(){
     try {
         await connectDB();
-        const resObj = await ItemRepair.find();
-        return NextResponse.json({status: true, message: "Repair items fetched successfully", data: resObj}, {status: httpStatus.FOUND})
+        const res = await RepairItem.find();
+        return successMessage('Repair Items fetched successfully', res, httpStatus.FOUND);
     } catch (error) {
-        return NextResponse.json({ status: false, message: "error fetching items", data: resObj }, { status: httpStatus.BAD_REQUEST })
+        console.error('error fetching data', error);
+        return failMessage(error, httpStatus.INTERNAL_SERVER_ERROR, error.message)
     }
 }
 
-
-
-export async function DELETE(request) {
+export async function DELETE(request){
     try {
         const id = request.nextUrl.searchParams.get("id");
+
         await connectDB();
-        await ItemRepair.findByIdAndDelete(id);
-        return NextResponse.json({ status: httpStatus.DELETE }, { message: "Repair center deleted successfully" });
+        await RepairItem.findByIdAndDelete(id);
+        return successMessage(
+          "Item deleted successfully",
+          null,
+          httpStatus.DELETE
+        );
     } catch (error) {
-        return NextResponse.json({ status: httpStatus.BAD_REQUEST }, { message: error.message });
-    }
+        console.error('Problem deleting item', error);
+        return failMessage(error, httpStatus.INTERNAL_SERVER_ERROR, error.message);
+    }    
 }

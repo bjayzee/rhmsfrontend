@@ -8,6 +8,22 @@ const articleSchema = Joi.object({
   tags: Joi.array().items(Joi.string()),
 });
 
+const repairItemSchema = Joi.object({
+  name: Joi.string().required(),
+  screenReplacement: Joi.object({
+    economyCost: Joi.number().required(),
+    premiumCost: Joi.number().required(),
+  }),
+  backGlassReplacement: Joi.object({
+    economyCost: Joi.number().required(),
+    premiumCost: Joi.number().required(),
+  }),
+  batteryReplacement: Joi.object({
+    economyCost: Joi.number().required(),
+    premiumCost: Joi.number().required(),
+  }),
+});
+
 const itemRepairValidation = Joi.object({
     type: Joi.string().valid('screen', 'battery', 'backGlass').required(),
     itemName: Joi.string().required(),
@@ -29,11 +45,6 @@ const accessoriesSchema = Joi.object({
   supplier: Joi.string(),
 });
 
-
-const gradePriceSchema = Joi.object({
-  name: Joi.string().required(),
-  price: Joi.number().required(),
-});
 const oldiPhoneSchema = Joi.object({
   name: Joi.string().required(),
   storagePrice: Joi.number().required(),
@@ -89,6 +100,20 @@ const productSchema = Joi.object({
     dealOfTheDay: Joi.boolean().default(false),
 });
 
+const repairSchema = Joi.object({
+  repairItem: Joi.string().required(),
+  repairType: Joi.string().required(),
+  otherIssues: Joi.string().required(),
+  repairCenter: Joi.string().required(), 
+  status: Joi.string().default("pending"),
+  customerDetail: Joi.object().required(),
+  faceId: Joi.string().required(),
+  trueTone: Joi.string().required(),
+  phoneOpenedBefore: Joi.string().required(),
+  repairReport: Joi.string(),
+  repairClinicTagNum: Joi.string(),
+}).options({ stripUnknown: true });
+
 
 
 
@@ -100,4 +125,6 @@ export {
   reviewSchema,
   accessoriesSchema,
   articleSchema,
+  repairItemSchema,
+  repairSchema
 };

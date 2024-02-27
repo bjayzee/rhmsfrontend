@@ -40,7 +40,7 @@ export async function GET(){
 
 export async function DELETE(request){
     try {
-        const id = request.nextURL.searchParams.get("id");
+        const id = request.nextUrl.searchParams.get("id");
         await connectDB();
         await Article.findByIdAndDelete(id);
         return successMessage(
