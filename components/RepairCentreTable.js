@@ -3,10 +3,8 @@
 import { Avatar, Button, Table } from "antd";
 import moment from "moment";
 import React, { useRef, useState } from "react";
-import Link from "next/link";
-import { UserOutlined } from "@ant-design/icons";
 import { getColumnSearchProps } from "@/components/TableColSearch";
-import EditSwapItem from "./EditSwapItem";
+import EditRepairCentre from "./EditRepairCentre";
 
 const RepairCentreTable = ({ data, loading, handleDelete, fetchRepairCentres }) => {
   const [searchText, setSearchText] = useState("");
@@ -92,10 +90,10 @@ const RepairCentreTable = ({ data, loading, handleDelete, fetchRepairCentres }) 
       render: (singleData) => (
         <>
       
-          {/* <Button style={{ marginRight: "5px" }} title="Edit">
-            <EditSwapItem data={singleData} fetchRepairCentres={fetchRepairCentres}
+          <Button style={{ marginRight: "5px" }} title="Edit">
+            <EditRepairCentre repairCentre={singleData} fetchRepairCentres={fetchRepairCentres}
  />
-          </Button> */}
+          </Button>
           <Button
             danger
             onClick={() => handleDelete(singleData)}

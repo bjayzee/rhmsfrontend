@@ -12,75 +12,79 @@ import axios from "axios";
 
 import Badge from "react-bootstrap/Badge";
 
-function CreateArticle({fetchArticles}) {
+function EditRepairCentre({repairCentre, fetchRepairCentres}) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const initialFormState = {
-    author: "",
-    tag: "",
-    title: "",
-    category: "",
-    images: "",
-    image: "",
-    body: "",
+    email: "",
+    number: "",
+    address: "",
   };
 
-  const [loading, setLoading] = useState(false);
-  const [articleFormData, setArticleFormData] = useState(initialFormState);
 
-  const [tagArray, setTagArray] = useState([]);
+
+  const [loading, setLoading] = useState(false);
+  const [repairCentreFormData, setrepairCentreFormData] = useState(initialFormState);
+
+  const [numberArray, setnumberArray] = useState([]);
+
+  useEffect(()=> {
+    setrepairCentreFormData({
+      email: repairCentre?.email  ,
+      address: repairCentre?.address,
+    
+
+    })
+  }, [repairCentre])
 
   const handleInputChange = (event) => {
     event.preventDefault();
     const { name, value } = event.target;
-    setArticleFormData({
-      ...articleFormData,
+    setrepairCentreFormData({
+      ...repairCentreFormData,
       [name]: value,
     });
   };
 
-  const handleTagInputChange = (event) => {
+  const handlenumberInputChange = (event) => {
     event.preventDefault();
     const { value } = event.target;
-    setArticleFormData({
-      ...articleFormData,
-      tag: value,
+    setrepairCentreFormData({
+      ...repairCentreFormData,
+      number: value,
     });
   };
 
-  const handleAddTag = () => {
-    if (articleFormData.tag.trim() !== "") {
-      setTagArray([...tagArray, articleFormData.tag]);
-      setArticleFormData({
-        ...articleFormData,
-        tag: "",
+  const handleAddnumber = () => {
+    if (repairCentreFormData.number.trim() !== "") {
+      setnumberArray([...numberArray, repairCentreFormData.number]);
+      setrepairCentreFormData({
+        ...repairCentreFormData,
+        number: "",
       });
     }
   };
 
   const clearFormData = () => {
-    setArticleFormData(initialFormState);
+    setrepairCentreFormData(initialFormState);
   };
 
-  const handleCreateArticle = async (e) => {
+  const handleEditRepairCentre = async (e) => {
     e.preventDefault();
 
     setLoading(true);
 
     const formDataForBackend = new FormData();
 
-    formDataForBackend.append("author", articleFormData.author);
-    formDataForBackend.append("category", articleFormData.category);
-    formDataForBackend.append("title", articleFormData.title);
-    formDataForBackend.append("body", articleFormData.body);
-    tagArray.forEach((tag, index) => {
-      formDataForBackend.append(`tags[${index}]`, tag);
+    formDataForBackend.append("email", repairCentreFormData.email);
+    formDataForBackend.append("address", repairCentreFormData.address);
+    numberArray.forEach((number, index) => {
+      formDataForBackend.append(`numbers[${index}]`, number);
     });
 
-    axios
-      .post("/api/blog", formDataForBackend, {
+    axios.put(`/api/repair-center/${repairCentre?._id}`, formDataForBackend, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -90,9 +94,9 @@ function CreateArticle({fetchArticles}) {
         handleClose();
         clearFormData();
         notification.success({
-          message: "Article created successfully",
+          message: "repair centre edited successfully",
         });
-        fetchArticles()
+        fetchRepairCentres()
 
         setLoading(false);
       })
@@ -103,18 +107,18 @@ function CreateArticle({fetchArticles}) {
         setLoading(false);
 
         notification.error({
-          message: "Error creating article, please try again",
+          message: "Error editing repair centre, please try again",
         });
       });
   };
 
   return (
     <>
-      <span onClick={handleShow}>New post</span>
+      <span onClick={handleShow}>Edit</span>
 
       <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header className="flex justify-between items-center px-[50px]">
-          <Modal.Title>New Post</Modal.Title>
+          <Modal.Title>Edit repair centre</Modal.Title>
           <button
             onClick={handleClose}
             className="border-none px-2 py-1 bg-none rounded text-[#e94d4d] hover:bg-[#e94d4d] hover:text-[#fff]"
@@ -123,73 +127,56 @@ function CreateArticle({fetchArticles}) {
           </button>
         </Modal.Header>
         <Modal.Body className="px-[50px]">
-          <Form onSubmit={handleCreateArticle} className="overflow-y-scroll">
+          <Form onSubmit={handleEditRepairCentre} className="overflow-y-scroll">
             <div>
               <div>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label>Author</Form.Label>
+                  <Form.Label>Email</Form.Label>
                   <Form.Control
                     type="text"
                     name="author"
-                    placeholder="Enter author name "
+                    placeholder="Enter email "
                     onChange={(evt) => handleInputChange(evt)}
+                    defaultValue={repairCentreFormData.email}
                   />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label>Title</Form.Label>
+                  <Form.Label>Address</Form.Label>
                   <Form.Control
                     type="text"
                     name="title"
-                    placeholder="Enter Title "
+                    placeholder="Enter address "
                     onChange={(evt) => handleInputChange(evt)}
+                    defaultValue={repairCentreFormData.address}
+
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label>Category</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="category"
-                    placeholder="Enter category "
-                    onChange={(evt) => handleInputChange(evt)}
-                  />
-                </Form.Group>
+            
               </div>
             </div>
 
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
-              style={{ marginBottom: "10px" }}
-            >
-              <Form.Label>Article Body </Form.Label>
-              <Form.Control
-                as="textarea"
-                style={{ height: "500px" }}
-                name="body"
-                onChange={(evt) => handleInputChange(evt)}
-              />
-            </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Tags</Form.Label>
+              <Form.Label>numbers</Form.Label>
               <div className="flex items-center gap-[10px]">
                 <Form.Control
                   type="text"
-                  name="tags"
-                  placeholder="Enter tag"
-                  value={articleFormData.tag}
-                  onChange={(evt) => handleTagInputChange(evt)}
+                  name="numbers"
+                  placeholder="Enter number"
+                  value={repairCentreFormData.number}
+                  onChange={(evt) => handlenumberInputChange(evt)}
+
                 />
-                <Button variant="secondary" onClick={handleAddTag}>
+                <Button variant="secondary" onClick={handleAddnumber}>
                   Add
                 </Button>
               </div>
               <div className="pt-[5px]">
-                {tagArray.map((tag, index) => (
+                {numberArray.map((number, index) => (
                   <Badge key={index} variant="primary" className="mr-[5px]">
-                    {tag}
+                    {number}
                   </Badge>
                 ))}
               </div>
@@ -198,10 +185,10 @@ function CreateArticle({fetchArticles}) {
             <div className="flex items-center justify-end gap-[30px] mt-[60px]">
               <button
                 className="bg-[#187EB4] text-[#fff] border-none px-[20px] py-[10px] w-1/6 rounded"
-                onClick={handleCreateArticle}
+                onClick={handleEditRepairCentre}
                 disabled={loading ? true : false}
               >
-                {loading ? "creating..." : "Add article"}
+                {loading ? "editing..." : "Edit"}
               </button>
               <button
                 onClick={handleClose}
@@ -218,4 +205,4 @@ function CreateArticle({fetchArticles}) {
   );
 }
 
-export default CreateArticle;
+export default EditRepairCentre;

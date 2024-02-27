@@ -35,7 +35,7 @@ function EditArticle({post, fetchArticles}) {
   useEffect(()=> {
     setArticleFormData({
       author: post?.author  ,
-      tag: post?.tag,
+      tag: post?.tags,
       title: post?.title,
       category: post?.category,
       body: post?.body,
@@ -74,7 +74,7 @@ function EditArticle({post, fetchArticles}) {
     setArticleFormData(initialFormState);
   };
 
-  const handleCreateArticle = async (e) => {
+  const handleEditArticle = async (e) => {
     e.preventDefault();
 
     setLoading(true);
@@ -132,7 +132,7 @@ function EditArticle({post, fetchArticles}) {
           </button>
         </Modal.Header>
         <Modal.Body className="px-[50px]">
-          <Form onSubmit={handleCreateArticle} className="overflow-y-scroll">
+          <Form onSubmit={handleEditArticle} className="overflow-y-scroll">
             <div>
               <div>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -215,7 +215,7 @@ function EditArticle({post, fetchArticles}) {
             <div className="flex items-center justify-end gap-[30px] mt-[60px]">
               <button
                 className="bg-[#187EB4] text-[#fff] border-none px-[20px] py-[10px] w-1/6 rounded"
-                onClick={handleCreateArticle}
+                onClick={handleEditArticle}
                 disabled={loading ? true : false}
               >
                 {loading ? "editing..." : "Edit article"}
