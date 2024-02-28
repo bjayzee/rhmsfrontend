@@ -4,13 +4,13 @@ import { Avatar, Button, Table } from "antd";
 import moment from "moment";
 import React, { useRef, useState } from "react";
 import { getColumnSearchProps } from "@/components/TableColSearch";
-import EditRepairCentre from "./EditRepairCentre";
+import EditRepairItem from "./EditRepairItem";
 
 const RepairItemTable = ({
   data,
   loading,
   handleDelete,
-  fetchRepairCentres,
+  fetchRepairItems,
 }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -99,15 +99,15 @@ const RepairItemTable = ({
       render: (singleData) => (
         <>
           <Button style={{ marginRight: "5px" }} title="Edit">
-            <EditRepairCentre
-              repairCentre={singleData}
-              fetchRepairCentres={fetchRepairCentres}
+            <EditRepairItem
+              repairItem={singleData}
+              fetchRepairItems={fetchRepairItems}
             />
           </Button>
           <Button
             danger
             onClick={() => handleDelete(singleData)}
-            title="Delete repair centre"
+            title="Delete repair item"
           >
             delete
           </Button>

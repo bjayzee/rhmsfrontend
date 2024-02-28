@@ -61,7 +61,7 @@ const RepairCentreTable = ({ data, loading, handleDelete, fetchRepairCentres }) 
         key: "phoneNumbers",
         render: (phoneNumbers) => {
           return phoneNumbers?.map((phoneNumber, i) => (
-            <span key={i} className="pr-[5px]">
+            <span key={i} className="pr-[10px]">
               {phoneNumber}
             </span>
           ));
