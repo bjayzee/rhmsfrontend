@@ -102,7 +102,7 @@ const productSchema = Joi.object({
 
 const repairSchema = Joi.object({
   repairItem: Joi.string().required(),
-  repairType: Joi.string().required(),
+  repairType: Joi.array().items(Joi.object().unknown(true)).required(),
   otherIssues: Joi.string().required(),
   repairCenter: Joi.string().required(), 
   status: Joi.string().default("pending"),

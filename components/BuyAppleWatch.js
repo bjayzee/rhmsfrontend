@@ -115,6 +115,14 @@ const BuyAppleWatch = () => {
    console.log({availableAirpods})
    console.log({ availableWatches });
 
+   const uniqueWatchValues = Array.from(new Set(availableWatches?.map(item => item.name)));
+   console.log({uniqueWatchValues})
+
+   const uniqueAirpodsValues = Array.from(new Set(availableAirpods?.map(item => item.name)));
+
+   console.log({uniqueAirpodsValues})
+
+
   const showNextImage = () => {
     setCurrentPictureIndex((index) => {
       if (index === iwatchModel?.pictures?.length - 1) return 0;
@@ -200,22 +208,22 @@ const BuyAppleWatch = () => {
       {showDropdown && (
         <div className="p-2 font-semibold text-sm flex flex-wrap shadow-lg border-[#D9D9D9] border-t-4 border-l-4 rounded-[20px]">
           {selectedOption === "Airpods"
-            ? availableAirpods?.map((option, key) => (
+            ? Array.from(uniqueAirpodsValues)?.map((option, key) => (
                 <div
                   key={key}
                   className="w-1/2 cursor-pointer p-2 hover-bg-gray-100"
                   onClick={() => {}}
                 >
-                  {option.name}
+                  {option}
                 </div>
               ))
-            : availableWatches?.map((option, key) => (
+            : uniqueWatchValues?.map((option, key) => (
                 <div
                   key={key}
                   className="w-1/2 cursor-pointer p-2 hover-bg-gray-100"
                   onClick={() => {}}
                 >
-                  {option.name}
+                  {option}
                 </div>
               ))}
         </div>
