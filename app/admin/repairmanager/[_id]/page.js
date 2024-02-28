@@ -33,7 +33,6 @@ const RepairRequestDetails = ({ params: { _id } }) => {
   const [loading, setLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
 
-
   const fetchRepairRequest = async () => {
     const res = await fetch(`/api/repair/${_id}`);
     const data = await res.json();
@@ -46,14 +45,16 @@ const RepairRequestDetails = ({ params: { _id } }) => {
   }, []);
 
   useEffect(() => {
-    setRepairRequestFormData({
-      status: repairRequest?.data?.status,
-      repairClinicTagNum: repairRequest?.data?.repairClinicTagNum,
-      repairReport: repairRequest?.data?.repairReport,
-    });
-  }, []);
-
-
+    if (repairRequest?.data?.status) {
+      setRepairRequestFormData((prevState) => ({
+        ...prevState,
+        status: repairRequest.data.status,
+        repairClinicTagNum: repairRequest.data.repairClinicTagNum,
+        repairReport: repairRequest.data.repairReport,
+      }));
+    }
+  }, [repairRequest]);  // Add repairRequest as a dependency
+  
 
   const fetchRepairCentres = async () => {
     const res = await fetch("/api/repair-center");
@@ -65,17 +66,18 @@ const RepairRequestDetails = ({ params: { _id } }) => {
     fetchRepairCentres();
   }, []);
 
-
-  const thisRepairCentre = repairCentres?.data?.find((centre)=> centre._id === repairRequest?.data?.repairCenter)
+  const thisRepairCentre = repairCentres?.data?.find(
+    (centre) => centre._id === repairRequest?.data?.repairCenter
+  );
 
   const handleInputChange = (event) => {
     event.preventDefault();
     const { name, value } = event.target;
-  
+
     // If the input field has a dot notation (e.g., screenReplacement.economyCost),
     // we need to handle the nested structure
-    if (name.includes('.')) {
-      const [parentKey, childKey] = name.split('.');
+    if (name.includes(".")) {
+      const [parentKey, childKey] = name.split(".");
       setRepairRequestFormData((prevState) => ({
         ...prevState,
         [parentKey]: {
@@ -114,13 +116,11 @@ const RepairRequestDetails = ({ params: { _id } }) => {
       otherIssues: repairRequest?.data?.otherIssues,
       status: repairRequestFormData.status,
       repairCenter: repairRequest?.data?.repairCenter,
-    faceId: repairRequest?.data?.faceId,
-    trueTone: repairRequest?.data?.trueTone,
-    phoneOpenedBefore: repairRequest?.data?.phoneOpenedBefore,
-    repairReport: repairRequestFormData.repairReport,
-    repairClinicTagNum:  repairRequestFormData.repairClinicTagNum,
-
-
+      faceId: repairRequest?.data?.faceId,
+      trueTone: repairRequest?.data?.trueTone,
+      phoneOpenedBefore: repairRequest?.data?.phoneOpenedBefore,
+      repairReport: repairRequestFormData.repairReport,
+      repairClinicTagNum: repairRequestFormData.repairClinicTagNum,
     };
 
     axios
@@ -135,7 +135,7 @@ const RepairRequestDetails = ({ params: { _id } }) => {
         notification.success({
           message: "request updated successfully",
         });
-        fetchRepairRequest()
+        fetchRepairRequest();
 
         setEditLoading(false);
       })
@@ -185,8 +185,11 @@ const RepairRequestDetails = ({ params: { _id } }) => {
                     <strong>True tone:</strong>{" "}
                     {repairRequest?.data?.trueTone || "N/A"}
                   </div>
-
-                    <div className="flex align-middle items-center gap-4 flex-wrap ">
+                  <div className="flex align-middle items-center gap-4 flex-wrap ">
+                    <strong>Other issues:</strong>{" "}
+                    {repairRequest?.data?.otherIssues || "N/A"}
+                  </div>
+                  <div className="flex align-middle items-center gap-4 flex-wrap ">
                     <strong>Repair centre:</strong>{" "}
                     {thisRepairCentre?.address || "N/A"}
                   </div>
@@ -202,7 +205,10 @@ const RepairRequestDetails = ({ params: { _id } }) => {
                     ) || ""}
                   </div>
                   <Form>
-                    <Form.Group className="mb-3 w-1/3" controlId="formBasicPassword">
+                    <Form.Group
+                      className="mb-3 w-1/3"
+                      controlId="formBasicPassword"
+                    >
                       <Form.Label>Status</Form.Label>
                       <Form.Select
                         name="status"
@@ -210,7 +216,6 @@ const RepairRequestDetails = ({ params: { _id } }) => {
                         required
                         onChange={handleStatusChange}
                         value={repairRequestFormData.status}
-                        defaultValue={repairRequestFormData.status}
                       >
                         <option value="pending">Pending</option>
                         <option value="completed">Completed</option>
