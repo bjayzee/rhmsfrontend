@@ -1,84 +1,88 @@
 import { Schema, models, model } from "mongoose";
 
-
-const productSchema = new Schema({
+const productSchema = new Schema(
+  {
     name: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     description: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     productType: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
-    subCategory:{
-        type: String
+    subCategory: {
+      type: String,
     },
-    reviews: [{
+    reviews: [
+      {
         type: Schema.Types.ObjectId,
-        ref: 'Review'
-    }],
+        ref: "Review",
+      },
+    ],
     specification: {
-        type: Schema.Types.ObjectId,
-        ref: 'Specification'
+      type: Schema.Types.ObjectId,
+      ref: "Specification",
     },
     thumbnail: {
-        type: String
+      type: String,
     },
-    images: [{
-        type: String
-    }],
+    images: [
+      {
+        type: String,
+      },
+    ],
     tagNumber: {
-        type: String
+      type: String,
     },
-    price : {
-        type: Number,
-        default:0.0,
-        min:[0, 'Price can not be less than 0.0']
+    price: {
+      type: Number,
+      default: 0.0,
+      min: [0, "Price can not be less than 0.0"],
     },
     costPrice: {
-        type: Number,
-        default: 0.0,
-        min: [0, 'Cost Price can not be less than 0.0']
+      type: Number,
+      default: 0.0,
+      min: [0, "Cost Price can not be less than 0.0"],
     },
     priceRange: {
-        type: String,
+      type: String,
     },
     category: {
-        type: Schema.Types.ObjectId,
-        ref: 'Category',
-        required:true
+      type: Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
     },
     numInStock: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
     isFeatured: {
-        type: Boolean,
-        default: false,
+      type: Boolean,
+      default: false,
     },
     IMEI_SN: {
-        type: String,
-        required: true
-    },  
+      type: String,
+      required: true,
+    },
     supplier: {
-        type: String,
+      type: String,
     },
     dateReceived: {
-        type: Date,
-       required: true
+      type: Date,
+      required: true,
     },
     dealOftheday: {
-        type: Boolean,
-        default: false
-    }
-}, 
-{ timestamps: true })
+      type: Boolean,
+      default: false,
+    },
+  },
+  { timestamps: true }
+);
 
-
-const Product = models.Product || model('Product', productSchema);
+const Product = models.Product || model("Product", productSchema);
 
 export default Product;

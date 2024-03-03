@@ -108,13 +108,8 @@ export default function Repair() {
           console.log("Response data:", response.data);
         })
         .catch((error) => {
-          // Handle error: log the error message
           console.error("Error:", error.message);
         });
-
-      toast.success({
-        message: "accessory deleted successfully",
-      });
     },
   });
 
@@ -298,7 +293,7 @@ export default function Repair() {
             </span>
           </div>
           <input
-            className="text-xs outline-none border-2 border-rh-blue w-full h-[50px] px-3 mt-3"
+            className="text-sm outline-none border border-rh-blue w-full h-[50px] px-3 my-3"
             onChange={(e) => {
               setOtherIssues(e.target.value);
             }}
@@ -308,7 +303,7 @@ export default function Repair() {
             <h4 className="font-semibold text-xl">Name:</h4>
           </div>
           <input
-            className="text-xs outline-none border-2 border-rh-blue w-full h-[50px] px-3 mt-3"
+            className="text-xs outline-none border border-rh-blue w-full h-[50px] px-3 my-3"
             onChange={(e) => {
               setName(e.target.value);
             }}
@@ -318,7 +313,7 @@ export default function Repair() {
             <h4 className="font-semibold text-xl">Email:</h4>
           </div>
           <input
-            className="text-xs outline-none border-2 border-rh-blue w-full h-[50px] px-3 mt-3"
+            className="text-xs outline-none border border-rh-blue w-full h-[50px] px-3 my-3"
             onChange={(e) => {
               setEmail(e.target.value);
             }}
@@ -328,7 +323,7 @@ export default function Repair() {
             <h4 className="font-semibold text-xl">How do you know about us:</h4>
           </div>
           <input
-            className="text-xs outline-none border-2 border-rh-blue w-full h-[50px] px-3 mt-3"
+            className="text-xs outline-none border border-rh-blue w-full h-[50px] px-3 my-3"
             onChange={(e) => {
               setFoundUs(e.target.value);
             }}

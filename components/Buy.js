@@ -7,7 +7,6 @@ import RadioSelection from './RadioSelectionButton';
 import { models } from '@/server/utils/iPhonedata';
 import ImageSlider from './ImageSlider';
 import { CartContent } from '@/app/context/AppContext';
-import { TbCurrencyNaira } from 'react-icons/tb';
 import PropagateLoader from "react-spinners/PropagateLoader";
 
 export default function Buy() {
@@ -35,7 +34,7 @@ export default function Buy() {
   const [pickItems, setPickItems] = useState([]);
   const priceRef = useRef(null)
 
-  const { cartItems, setCartItems, addToCart } = useContext(CartContent);
+  const { addToCart } = useContext(CartContent);
 
    useEffect(() => {
      getModelsAvailable();
@@ -209,13 +208,10 @@ export default function Buy() {
             {removeItem !== false && (
               <div className="flex justify-between py-4">
                 <b>{iphoneModel?.name}</b>
-                <b className="flex">
-                  Price: <TbCurrencyNaira className="h-6 mr-1" />
-                  {price}
-                </b>
+                <b className="flex">Price: ₦{price}</b>
               </div>
             )}
-
+            
             {removeItem !== false && (
               <RadioSelection
                 title={"Pick your preference"}

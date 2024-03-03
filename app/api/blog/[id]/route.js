@@ -11,7 +11,7 @@ export async function PUT(request, { params }){
         const updatedArticle = await Article.findByIdAndUpdate(id, req, {new: true});
         return successMessage(
           "Article Updated successfully",
-          req,
+          updatedArticle,
           httpStatus.OK
         );
     } catch (error) {
