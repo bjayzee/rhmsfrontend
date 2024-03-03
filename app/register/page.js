@@ -1,11 +1,11 @@
-import SignUp from '@/components/SignUp'
+import SignUp from "@/components/SignUp";
 
 function Register() {
   return (
-    <div>
-        <SignUp />
+    <div className="lg:mt-10">
+      <SignUp />
     </div>
-  )
+  );
 }
 
-export default Register
+export default Register;

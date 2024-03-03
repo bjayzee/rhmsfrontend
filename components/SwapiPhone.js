@@ -6,6 +6,8 @@ import { FaPlay } from "react-icons/fa";
 import axios from "axios";
 import RadioSelection from "./RadioSelectionButton";
 import { CartContent } from "@/app/context/AppContext";
+import SwapImg from "../assets/svgs/swap.svg";
+import Image from "next/image";
 
 const SwapiPhone = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -136,58 +138,68 @@ const SwapiPhone = () => {
   };
 
   return (
-    <div className="overflow-x-hidden py-5 px-8">
+    <div className="overflow-x-hidden py-5 px-8 lg:w-[80%] lg:mt-10 mx-auto w-full">
       <div className="text-xl">
-        <IoIosArrowRoundBack className="text-2xl text-rh-blue mb-4 ml-[-11px]" />
+        <IoIosArrowRoundBack className="text-2xl text-rh-blue mb-4 ml-[-11px] flex lg:hidden" />
 
-        <div className="font-semibold text-xl">
+        <div className="font-semibold text-xl mt-0 lg:mt-5">
           {createSpace ? (
             <>
-              <p>Give and get:</p>
-              <p>The swap-way is the best way.</p>
+              <p className="lg:text-[40px] text-md mb-5">Give and get:</p>
+              <p className="lg:text-[40px] text-md mb-5">
+                The swap-way is the best way.
+              </p>
             </>
           ) : (
             " "
           )}
         </div>
-        <p className="py-2 font-semibold text-sm">
+        <p className="py-2 font-semibold text-sm flex lg:hidden">
           Browse through the phones below and make your selection.
         </p>
         {createSpace ? (
-          <>
-            <div className="flex items-center py-5 justify-between text-[16px]">
-              <span className="font-bold">Let's value your iPhone</span>
-              <button
-                className="p-3 rounded-xl flex items-center justify-around border-[#D9D9D9] border-2 w-full"
-                onClick={handleSelectClick}
-              >
-                <div className="leading-5">
-                  {selectedOption ? selectedOption : "Select your phone"}
-                </div>
+          <div className="flex justify-between lg:my-[5rem] items-center">
+            <Image src={SwapImg} alt="swap-img" />
+            <div className="flex flex-col lg:w-1/2">
+              <p className="py-2 font-semibold text-sm lg:text-lg">
+                Browse through the phones below and make your selection.
+              </p>
+              <div className="flex items-center py-5 justify-between text-[16px]">
+                <span className="font-bold lg:w-1/2">
+                  Let's value your iPhone
+                </span>
+                <button
+                  className="p-3 rounded-xl flex items-center justify-around border-[#D9D9D9] border-2 w-full"
+                  onClick={handleSelectClick}
+                >
+                  <div className="leading-5">
+                    {selectedOption ? selectedOption : "Select your phone"}
+                  </div>
 
-                <FaPlay className="text-[30px] text-rh-blue ml-1" />
-              </button>
+                  <FaPlay className="text-[30px] text-rh-blue ml-1" />
+                </button>
+              </div>
+              {showLearnHowItWorks ? (
+                <div className="flex justify-end lg:justify-center mt-1">
+                  <p className="text-rh-blue text-sm">Learn how it works</p>
+                </div>
+              ) : (
+                ""
+              )}
+
+              {showDropdown ? (
+                <div className="flex flex-wrap shadow-lg border-[#D9D9D9] border-t-4 border-l-4 rounded-[20px]">
+                  <div className="w-1/2 p-2 font-semibold text-sm">
+                    {dropdownOptions.map((option, key) => (
+                      <div key={key}>{renderOption(option)}</div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
-            {showLearnHowItWorks ? (
-              <div className="flex justify-end mt-1">
-                <p className="text-rh-blue text-sm">Learn how it works</p>
-              </div>
-            ) : (
-              ""
-            )}
-
-            {showDropdown ? (
-              <div className="flex flex-wrap shadow-lg border-[#D9D9D9] border-t-4 border-l-4 rounded-[20px]">
-                <div className="w-1/2 p-2 font-semibold text-sm">
-                  {dropdownOptions.map((option, key) => (
-                    <div key={key}>{renderOption(option)}</div>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
-          </>
+          </div>
         ) : null}
 
         {/* // other options */}

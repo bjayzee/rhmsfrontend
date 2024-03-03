@@ -3,6 +3,7 @@ import Image from "next/image";
 import DealODayCard from "./DealODayCard";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import MoonLoader from "react-spinners/MoonLoader";
 
 const DealOfTheDay = () => {
   const [availableForDeals, setAvailableForDeals] = useState([]);
@@ -29,21 +30,21 @@ const DealOfTheDay = () => {
     getModelsAvailable();
   }, []);
   return (
-    <div className="grid justify-items-center">
+    <div className=" justify-items-center">
       <h1 className="font-black text-center my-5 text-lg">DEALS OF THE DAY</h1>
       <div className="grid grid-cols-2 justify-between gap-6">
         {fetchingModel && (
-          <div className="my-10">fetching deals of the day</div>
+          <div className="my-10 flex flex-col items-center gap-3">
+            <MoonLoader />
+            Fetching deals of the day
+          </div>
         )}
+      </div>
 
-        {availableForDeals.length !== 0 &&
-          availableForDeals.map((deal, index) => (
-            <div key={index}>
-              <DealODayCard param={deal} />
-            </div>
-          ))}
-
-        <div></div>
+      <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 lg:w-[70%] mx-auto gap-10">
+        {!fetchingModel &&
+          availableForDeals.length !== 0 &&
+          availableForDeals.map((deal, index) => <DealODayCard param={deal} />)}
       </div>
     </div>
   );
