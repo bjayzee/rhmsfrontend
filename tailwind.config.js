@@ -7,13 +7,10 @@ module.exports = {
   ],
   mode: "jit",
   theme: {
-    colors:{
+    colors: {
       "rh-blue": "#187EB4",
-
     },
-    extend: {
-      
-    },
+    extend: {},
   },
   plugins: [],
 };

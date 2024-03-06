@@ -2,6 +2,7 @@ import connectDB from "@/server/utils/db";
 import { NextResponse } from "next/server";
 import httpStatus from "http-status";
 import { RepairCenter } from "@/server/models";
+import { failMessage, successMessage } from "@/server/utils/apiResponse";
 
 
 export async function POST(request) {
@@ -16,9 +17,10 @@ export async function POST(request) {
             phoneNumbers: req.phoneNumbers
         });
 
-        return NextResponse.json({repairCenter}, {status: httpStatus.CREATED});
+        return successMessage("Repair center created successfuly", repairCenter, httpStatus.CREATED);
     } catch (error) {
         console.log(error.message)
+        return failMessage()
     }
 }
 

@@ -7,8 +7,8 @@ import RadioSelection from "./RadioSelectionButton";
 import { models } from "@/server/utils/iPhonedata";
 import ImageSlider from "./ImageSlider";
 import { CartContent } from "@/app/context/AppContext";
-import { TbCurrencyNaira } from "react-icons/tb";
 import PropagateLoader from "react-spinners/PropagateLoader";
+import { TbCurrencyNaira } from "react-icons/tb";
 
 export default function Buy() {
   const [selectedModel, setSelectedModel] = useState(null);
@@ -20,7 +20,6 @@ export default function Buy() {
   const [showAddToCart, setShowAddToCart] = useState(false);
   const [addToCartButton, setAddToCartButton] = useState(false);
   const [removeItem, setRemoveItem] = useState(true);
-  const [checkoutButton, setCheckoutButton] = useState(false);
   const [modelIndex, setModelIndex] = useState(0);
   const [iphoneModel, setIphoneModel] = useState("");
   const [availableModels, setAvailableModels] = useState([]);
@@ -35,7 +34,7 @@ export default function Buy() {
   const [pickItems, setPickItems] = useState([]);
   const priceRef = useRef(null);
 
-  const { cartItems, setCartItems, addToCart } = useContext(CartContent);
+  const { addToCart } = useContext(CartContent);
 
   useEffect(() => {
     getModelsAvailable();
@@ -170,7 +169,7 @@ export default function Buy() {
       }
 
       {selectedModel !== modelIndex && !fetchingModel && (
-        <div className="flex flex-wrap shadow-lg border-[#D9D9D9] border-l-8 border-t-8 rounded-[20px]">
+        <div className="flex flex-wrap shadow-lg border-[#D9D9D9] border-t-4 border-l-4 rounded-[20px]">
           {models.map((model, index) => {
             const modelExists = availableModels.some(
               (iphone) =>

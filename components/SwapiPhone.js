@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect, useRef, useContext } from "react";
-import { IoIosArrowRoundBack } from "react-icons/io";
+import { IoIosArrowDropdownCircle, IoIosArrowRoundBack } from "react-icons/io";
 import { FaPlay } from "react-icons/fa";
 import axios from "axios";
 import RadioSelection from "./RadioSelectionButton";
@@ -158,10 +158,12 @@ const SwapiPhone = () => {
           Browse through the phones below and make your selection.
         </p>
         {createSpace ? (
-          <div className="flex justify-between lg:my-[5rem] items-center">
-            <Image src={SwapImg} alt="swap-img" />
+          <div className="flex justify-between lg:mt-[5rem] ">
+            <div className="w-1/2 lg:flex hidden">
+              <Image src={SwapImg} alt="swap-img" className="h-fit" />
+            </div>
             <div className="flex flex-col lg:w-1/2">
-              <p className="py-2 font-semibold text-sm lg:text-lg">
+              <p className="py-2 font-semibold text-sm lg:text-lg hidden lg:flex">
                 Browse through the phones below and make your selection.
               </p>
               <div className="flex items-center py-5 justify-between text-[16px]">
@@ -198,154 +200,195 @@ const SwapiPhone = () => {
               ) : (
                 ""
               )}
+
+              <div className="">
+                {selectedOption ? (
+                  <>
+                    <RadioSelection
+                      title={"Select Carrier"}
+                      name={"lock"}
+                      options={["Locked", "Unlocked"]}
+                      onChange={(selectedOption) =>
+                        handleConditionSelect(selectedOption)
+                      }
+                    />
+                  </>
+                ) : (
+                  ""
+                )}
+
+                {showStorageOptions ? (
+                  <RadioSelection
+                    title={"Select Storage Capacity"}
+                    name={"storage"}
+                    options={storageList}
+                    onChange={(selectedOption) =>
+                      handleStorageSelect(selectedOption)
+                    }
+                  />
+                ) : (
+                  ""
+                )}
+                {showCondtion ? (
+                  <div className="mt-1 text-xl">
+                    <p className="font-bold py-3">
+                      What is the condition of the phone?
+                    </p>
+
+                    <div className="border border-[#187EB4] px-8 rounded-xl w-full">
+                      <div className="grid grid-cols-1">
+                        <div
+                          className="flex items-center"
+                          onClick={() => handleShowAdditionalOptions("New")}
+                        >
+                          <input
+                            type="radio"
+                            name="radio1"
+                            className="w-4 h-8 mt-1"
+                          />
+                          <span className="p-2 ml-2 font-semibold">
+                            Brand New
+                          </span>
+                        </div>
+                        <div className="pl-4 ml-4">
+                          <p className="pb-3 text-[16px]">
+                            Phone still in factory original packaging, Must come
+                            with box and all accessories sealed/untounched
+                          </p>
+                        </div>
+
+                        <hr />
+
+                        <div
+                          className="flex items-center"
+                          onClick={() => handleShowAdditionalOptions("Grade A")}
+                        >
+                          <input
+                            type="radio"
+                            name="radio1"
+                            className="w-4 h-8 mt-1"
+                          />
+                          <span className="p-2  ml-2 font-semibold">
+                            Flawless
+                          </span>
+                        </div>
+                        <div className="pl-4 ml-4">
+                          <p className="pb-3 text-[16px]">
+                            Has absolutely no scratches, scuffs or other marks
+                            looks brand new
+                          </p>
+                        </div>
+
+                        <hr />
+
+                        <div
+                          className="flex items-center"
+                          onClick={() => handleShowAdditionalOptions("Grade B")}
+                        >
+                          <input
+                            type="radio"
+                            name="radio1"
+                            className=" w-4 h-8 mt-1"
+                          />
+                          <span className="p-2 ml-2 font-semibold">Good</span>
+                        </div>
+                        <div className="pl-4 ml-4">
+                          <p className="pb-3 text-[16px]">
+                            Shows light to moderate sign of wear. Contatains few
+                            light scratches and/or dents.
+                          </p>
+                        </div>
+
+                        <hr />
+
+                        <div
+                          className="flex items-center"
+                          onClick={() => handleShowAdditionalOptions("Grade C")}
+                        >
+                          <input
+                            type="radio"
+                            name="radio1"
+                            className="w-4 h-8 mt-1"
+                          />
+                          <span className="p-2 ml-2 font-semibold">Fair</span>
+                        </div>
+                        <div className="pl-4 ml-4">
+                          <p className="pb-3 text-[16px]">
+                            Shows moderate to excessive signs of wear. Contains
+                            excessive scratching, major dents, and/or mild
+                            housing damage such as a slightly bent frame.
+                          </p>
+                        </div>
+
+                        <hr />
+
+                        <div
+                          className="flex items-center"
+                          onClick={() => handleShowAdditionalOptions("Grade D")}
+                        >
+                          <input
+                            type="radio"
+                            name="radio1"
+                            className="w-4 h-8 mt-1"
+                          />
+                          <span className="p-2 ml-2 font-semibold">
+                            Broken{" "}
+                          </span>
+                        </div>
+                        <div className="pl-4 ml-4">
+                          <p className="pb-3 text-[16px]">
+                            Cracks (regardless of size) or broken parts on
+                            either screen or body the item.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  ""
+                )}
+                {showValue ? (
+                  <>
+                    <div className="my-5 text-[#187EB4] text-xl" ref={valueRef}>
+                      <div className="flex">
+                        <span className="font-bold">Swap item: </span>
+                        <span className="pl-2 ">{selectedOption}</span>
+                      </div>
+                      <div className="flex">
+                        <span className="font-bold">Swap value:</span>
+                        <span className="pl-2 flex justify-center">
+                          {swapValue < 1 ? (
+                            "Grade not available"
+                          ) : (
+                            <>₦{swapValue?.toLocaleString()}</>
+                          )}
+                        </span>
+                      </div>
+                    </div>
+
+                    <Link href="/buy-iphone" passHref>
+                      <button className="flex items-center">
+                        <p className="text-lg">
+                          Now let's select your new phone
+                        </p>
+                        <IoIosArrowDropdownCircle className="text-[20px] text-rh-blue " />
+                      </button>
+                    </Link>
+                    <p></p>
+                  </>
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
           </div>
         ) : null}
 
         {/* // other options */}
 
-        {selectedOption ? (
-          <>
-            <RadioSelection
-              title={"Select Carrier"}
-              name={"lock"}
-              options={["Locked", "Unlocked"]}
-              onChange={(selectedOption) =>
-                handleConditionSelect(selectedOption)
-              }
-            />
-          </>
-        ) : (
-          ""
-        )}
-
-        {showStorageOptions ? (
-          <RadioSelection
-            title={"Select Storage Capacity"}
-            name={"storage"}
-            options={storageList}
-            onChange={(selectedOption) => handleStorageSelect(selectedOption)}
-          />
-        ) : (
-          ""
-        )}
-        {showCondtion ? (
-          <div className="mt-1 text-xl">
-            <p className="font-bold py-3">
-              What is the condition of the phone?
-            </p>
-
-            <div className="border border-[#187EB4] px-8 rounded-xl">
-              <div className="grid grid-cols-1">
-                <div
-                  className="flex items-center"
-                  onClick={() => handleShowAdditionalOptions("New")}
-                >
-                  <input type="radio" name="radio1" className="w-4 h-8 mt-1" />
-                  <span className="p-2 ml-2 font-semibold">Brand New</span>
-                </div>
-                <div className="pl-4 ml-4">
-                  <p className="pb-3 text-[16px]">
-                    Phone still in factory original packaging, Must come with
-                    box and all accessories sealed/untounched
-                  </p>
-                </div>
-
-                <hr />
-
-                <div
-                  className="flex items-center"
-                  onClick={() => handleShowAdditionalOptions("Grade A")}
-                >
-                  <input type="radio" name="radio1" className="w-4 h-8 mt-1" />
-                  <span className="p-2  ml-2 font-semibold">Flawless</span>
-                </div>
-                <div className="pl-4 ml-4">
-                  <p className="pb-3 text-[16px]">
-                    Has absolutely no scratches, scuffs or other marks looks
-                    brand new
-                  </p>
-                </div>
-
-                <hr />
-
-                <div
-                  className="flex items-center"
-                  onClick={() => handleShowAdditionalOptions("Grade B")}
-                >
-                  <input type="radio" name="radio1" className=" w-4 h-8 mt-1" />
-                  <span className="p-2 ml-2 font-semibold">Good</span>
-                </div>
-                <div className="pl-4 ml-4">
-                  <p className="pb-3 text-[16px]">
-                    Shows light to moderate sign of wear. Contatains few light
-                    scratches and/or dents.
-                  </p>
-                </div>
-
-                <hr />
-
-                <div
-                  className="flex items-center"
-                  onClick={() => handleShowAdditionalOptions("Grade C")}
-                >
-                  <input type="radio" name="radio1" className="w-4 h-8 mt-1" />
-                  <span className="p-2 ml-2 font-semibold">Fair</span>
-                </div>
-                <div className="pl-4 ml-4">
-                  <p className="pb-3 text-[16px]">
-                    Shows moderate to excessive signs of wear. Contains
-                    excessive scratching, major dents, and/or mild housing
-                    damage such as a slightly bent frame.
-                  </p>
-                </div>
-
-                <hr />
-
-                <div
-                  className="flex items-center"
-                  onClick={() => handleShowAdditionalOptions("Grade D")}
-                >
-                  <input type="radio" name="radio1" className="w-4 h-8 mt-1" />
-                  <span className="p-2 ml-2 font-semibold">Broken </span>
-                </div>
-                <div className="pl-4 ml-4">
-                  <p className="pb-3 text-[16px]">
-                    Cracks (regardless of size) or broken parts on either screen
-                    or body the item.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : (
-          ""
-        )}
-        {showValue ? (
-          <>
-            <div className="my-5 text-[#187EB4] text-xl" ref={valueRef}>
-              <div className="flex">
-                <span className="font-bold">Swap item: </span>
-                <span className="pl-2 ">{selectedOption}</span>
-              </div>
-              <div className="flex">
-                <span className="font-bold">Swap value:</span>
-                <span className="pl-2">
-                  {swapValue < 1 ? "Grade not available" : swapValue}
-                </span>
-              </div>
-            </div>
-
-            <Link href="/buy-iphone" passHref>
-              <button className="hover:text-rh-blue cursor-pointer">
-                Now let's select your new phone
-              </button>
-            </Link>
-            <p></p>
-          </>
-        ) : (
-          ""
-        )}
+        <div className="flex">
+          <div className="hidden lg:flex w-1/2" />
+        </div>
       </div>
     </div>
   );

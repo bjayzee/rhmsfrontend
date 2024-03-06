@@ -1,412 +1,477 @@
 "use client";
-import React, { useState } from "react";
-import Link from "next/link";
+import { useEffect, useState, useMemo } from "react";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 import { FaPlay } from "react-icons/fa";
+import { IoIosArrowDropdownCircle } from "react-icons/io";
 import RadioSelection from "./RadioSelectionButton";
+import { InlineWidget, useCalendlyEventListener } from "react-calendly";
+import { useRouter } from "next/navigation";
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 export default function Repair() {
-  const [selectedOption, setSelectedOption] = useState("");
-  const [showButton, setShowButton] = useState(false);
-  const [showButtons, setShowButtons] = useState(false);
-  const [showBox, setShowBox] = useState(false);
-  const [selectedModel, setSelectedModel] = useState("");
-  //const [selectedRepairType, setSelectedRepairType] = useState(false);
-  const [selectedRepair, setSelectedRepair] = useState(null);
-  const [selectedRepairOption, setSelectedRepairOption] = useState("");
+
+  const router = useRouter();
+
+  const [selectedOption, setSelectedOption] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [showRepairTypes, setShowRepairTypes] = useState(false);
-  const [allchecked, setAllChecked] = React.useState([]);
+  const [showContinueButton, setShowContinueButton] = useState(false);
+  const [proceedToOpen, setProceedToOpen] = useState(false);
+  const [proceedToFaceId, setProceedToFaceId] = useState(false);
+  const [proceedToTrueTone, setProceedToTrueTone] = useState(false);
+  const [proceedToAnyOtherIssues, setProceedToAnyOtherIssues] = useState(false);
+  const [repairCenters, setRepairCenters] = useState([]);
+  const [repairItems, setRepairItems] = useState([]);
+  const [selectedRepairCenter, setSelectedRepairCenter] = useState(null);
+  const [showSelectedRepairCenter, setShowSelectedRepairCenter] =
+    useState(false);
+  const [showSelectCenterButton, setShowSelectCenterButton] = useState(true);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [showSummary, setShowSummary] = useState(false);
+  const [otherIssues, setOtherIssues] = useState("");
+  const [faceId, setFaceId] = useState("");
+  const [trueTone, setTrueTone] = useState("");
+  const [phoneOpenedBefore, setPhoneOpenedBefore] = useState("");
+  const[name, setName] = useState("");
+  const[email, setEmail] = useState("");
+  const[foundUs, setFoundUs] = useState("");
+  const [total, setTotal] = useState(0);
 
-  function handleChange(e) {
-    if (e.target.checked) {
-      setAllChecked([...allchecked, e.target.value]);
-    } else {
-      setAllChecked(allchecked.filter((item) => item !== e.target.value));
-    }
-  }
+  useEffect(() => {
+    const fetchRepairCenters = async () => {
+      try {
+        const centers = await axios
+          .get("/api/repair-center", {
+            validateStatus: (status) => status < 400,
+          })
+          .then((res) => res.data)
+          .then((res) => res.data);
+        setRepairCenters(centers);
+      } catch (error) {
+        console.error("error fetching repair centers", error);
+      }
+    };
 
-  console.log(allchecked);
+    const fetchRepairItems = async () => {
+      try {
+        const items = await axios
+          .get("/api/repair-items", {
+            validateStatus: (status) => status < 400,
+          })
+          .then((res) => res.data)
+          .then((res) => res.data);
+        setRepairItems(items);
+      } catch (error) {
+        console.error("error fetching repair items", error);
+      }
+    };
+
+    fetchRepairCenters();
+    fetchRepairItems();
+  }, []);
+
+  let [values, setValues] = useState([]);
+  console.log({ selectedOption });
+  console.log({ values });
+
+  useCalendlyEventListener({
+    onProfilePageViewed: () => console.log("onProfilePageViewed"),
+    onDateAndTimeSelected: () => console.log("onDateAndTimeSelected"),
+    onEventTypeViewed: () => console.log("onEventTypeViewed"),
+    onEventScheduled: (e) => {
+      console.log(e.data.payload);
+      const requestData = {
+        repairItem: selectedOption.name,
+        repairType: values,
+        otherIssues: otherIssues || "Nil",
+        repairCenter: selectedRepairCenter._id,
+        status: selectedOption.status,
+        customerDetail: {
+          name: name,
+          email: email,
+          howDidYouFoundUs: foundUs,
+        },
+        faceId: faceId,
+        trueTone: trueTone,
+        phoneOpenedBefore: phoneOpenedBefore,
+        repairReport: " ",
+        repairClinicTagNum: " ",
+      };
+
+      axios
+        .post("/api/repair", requestData)
+        .then((response) => {
+          toast.success("Your repair request has been scheduled successfully");
+          router.push("/");
+          console.log("Response data:", response.data);
+        })
+        .catch((error) => {
+          console.error("Error:", error.message);
+        });
+    },
+  });
+
+  const handleOptionSelect = (option) => {
+    setSelectedOption(option);
+    setShowDropdown(false);
+  };
+
+  const handleCenterOptionSelect = (option) => {
+    setSelectedRepairCenter(option);
+    setShowSelectedRepairCenter(false);
+    setShowSummary(true);
+  };
+
+  const handleSelectClick = () => {
+    setShowDropdown(true);
+  };
+
+  const handleSelectCenter = () => {
+    setShowSelectedRepairCenter((prevState) => !prevState);
+  };
+
+  const handleChange = () => {};
 
   const repairOptions = [
-    { name: "Screen replacement", value: "" },
+    { name: "Screen Replacement", value: " " },
     { name: "Back Glass Replacement", value: "" },
     { name: "Battery Replacement", value: "" },
-    { name: "Bluetooth/Pairing Issue", value: "" },
-    { name: "Data Recovery & Backup", value: "" },
-    { name: "Water Damage", value: "" },
-    { name: "Data Transfer", value: "" },
-    { name: "Wifi Issue", value: "" },
-    { name: "Cleaning", value: "" },
   ];
-
-  const repairs = {
-    "Screen replacement": {
-      cost: 1500,
-    },
-    "Back glass replacement": {
-      cost: 1000,
-    },
-    "Battery replacement": {
-      cost: 2000,
-    },
-  };
-
-  const handleSelectChange = (event) => {
-    const selectedValue = event.target.value;
-    setSelectedOption(selectedValue);
-    setSelectedRepairOption("");
-    setShowButton(selectedValue !== "option1");
-    setShowBox(false);
-  };
-
-  const handleButtonClick = () => {
-    setShowBox(!showBox);
-  };
-
-  // const handleSelectClick = () => {
-  //  setShowDropdown(!showDropdown);
-  //};
-
-  const handleTextClick = (model, repairOption) => {
-    setSelectedModel(model);
-    setShowBox(false);
-    setShowButtons(true);
-    setShowButton(false);
-    setSelectedRepairOption(repairOption);
-  };
-
-  // const handleRepairOption = (repairType) => {
-  //   if (selectedModel && repairs[repairType]) {
-  //     const economyCost = repairs[repairType].cost;
-  //     const premiumCost = economyCost * 1.1; // 10% more expensive
-
-  //     setSelectedRepair({
-  //       repairType,
-  //       economyCost,
-  //       premiumCost,
-  //     });
-  //   }
-  // };
-
-  // const handleRepairOption = (repairTypes) => {
-  //   if (selectedModel && repairTypes.length > 0) {
-  //     const repairInfo = {};
-
-  //     repairTypes.forEach((type) => {
-  //       if (repairs[type]) {
-  //         const economyCost = repairs[type].cost;
-  //         const premiumCost = economyCost * 1.1; // 10% more expensive
-
-  //         repairInfo[type] = {
-  //           economyCost,
-  //           premiumCost,
-  //         };
-  //       }
-  //     });
-
-  //     setSelectedRepair(repairInfo);
-  //   }
-  // };
-
-  const handleRepairOption = (selectedRepairTypes) => {
-    if (selectedModel && selectedRepairTypes.length > 0) {
-      const repairInfo = {};
-
-      selectedRepairTypes.forEach((type) => {
-        if (repairs[type]) {
-          const economyCost = repairs[type].cost;
-          const premiumCost = economyCost * 1.1; // 10% more expensive
-
-          repairInfo[type] = {
-            economyCost,
-            premiumCost,
-            // Add other information you want to display, e.g., repair centers, addresses, etc.
-          };
-        }
-      });
-
-      setSelectedRepair(repairInfo);
-    }
-  };
-
   return (
-    <div className="px-5 py-10">
-      <p className="text-2xl font-bold mt-10">
-        We fix it right, the Apple way.
-      </p>
-      <p className="text-x font-bold mb-2">Make your iPhone new again.</p>
+    <div className="m-5 px-3">
+      <ToastContainer />
+      <p className="text-xl font-bold">We fix it right, the Apple way.</p>
+      <p className="text-l font-bold my-2">Make your iPhone new again.</p>
       <div className="flex justify-between">
-        <p className="w-[65%] text-[14px]">
+        <blockquote className="w-[65%] text-xs font-semibold">
           Apple-certified repairs are performed by trusted experts who use
-          genuine Apple parts. We are certified repairers, and you'll get your
+          genuine Apple parts. We are certified repairers. You'll get your
           product back working exactly the way it should.
-        </p>
+        </blockquote>
         <div className="w-[30%]">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcM--txB8ScFUfGtFXBQ6ojoKSp16F1Ciatw&usqp=CAU"
-            alt="Image"
-          />
+          <img src="/repairImg.png" alt="Image" />
         </div>
       </div>
 
-      <div className="flex items-center justify-between my-10">
-        <p className="font-bold">Perform a repair:</p>
-
+      <div className="flex items-center py-5 justify-between text-[16px]">
+        <span className="text-sm font-semibold">Perform a Repair:</span>
         <button
-          className="px-3 py-4 rounded-xl shadow-lg flex items-center border-[#D9D9D9] border-r-8 border-b-8"
-          onClick={handleButtonClick}
+          className="p-3 rounded-xl flex items-center justify-around border-[#D9D9D9] border-2 w-[60%]"
+          onClick={handleSelectClick}
         >
-          {selectedModel ? selectedModel : "Select your phone"}
-          <FaPlay
-            className={`text-[20px] text-[#187EB4] mx-2  ${
-              showBox ? "rotate-90" : ""
-            }`}
-          />
-        </button>
-
-        {/*<select
-          className="p-4 bg-white rounded-xl shadow-2xl border-[#D9D9D9] border-r-8 border-b-8 outline-none"
-          value={selectedOption}
-          onChange={handleSelectChange}
-        >
-          <option className="w-[50px]" value="option1">
-            Select
-          </option>
-          <option className="w-[50px]" value="option2">
-            Screen replacement
-          </option>
-          <option className="w-[50px]" value="option3">
-            Back glass replacement
-          </option>
-          <option className="w-[50px]" value="option4">
-            Battery replacement
-          </option>
-        </select>*/}
-      </div>
-
-      {showButton && (
-        <button
-          className="w-full mt-2 border text-black px-4 py-2 bg-white rounded-xl shadow-2xl border-[#D9D9D9] border-r-8 border-b-8"
-          onClick={handleButtonClick}
-        >
-          Select your phone
-        </button>
-      )}
-
-      {showBox && (
-        <div className="my-3 p-4 border divide-y divide-gray-300 bg-white rounded-2xl shadow-2xl border-[#D9D9D9] border-r-8 border-b-8">
-          <div className="flex justify-between text-lg">
-            <div className="w-full font-bold flex flex-col space-y-2">
-              <p onClick={() => handleTextClick("iPhone 8")}>iPhone 8</p>
-              <p onClick={() => handleTextClick("iPhone 8 plus")}>
-                iPhone 8 plus
-              </p>
-              <p>iPhone x</p>
-              <p>iPhone XR</p>
-              <p>iPhone XS</p>
-              <p>iPhone XS Max</p>
-              <p>iPhone 11</p>
-              <p>iPhone 11 Pro</p>
-              <p>iPhone 11 Pro Max</p>
-              <p>iPhone SE(2nd Gen)</p>
-              <p>iPhone 12 mini</p>
-              <p>iPhone 12 Pro</p>
-              <p>iPhone 12 Pro Max</p>
-            </div>
-            <div className="w-full font-bold flex flex-col space-y-2">
-              <p>iPhone 12 Pro Max</p>
-              <p>iPhone 13 mini</p>
-              <p>iPhone 13</p>
-              <p>iPhone 13 Pro</p>
-              <p>iPhone 13 Pro Max</p>
-              <p>iPhone SE(3rd Gen)</p>
-              <p>iPhone 14</p>
-              <p>iPhone 14 Plus</p>
-              <p>iPhone 14 Pro</p>
-              <p>iPhone 15</p>
-              <p>iPhone 15 plus</p>
-              <p>iPhone 15 Pro Max</p>
-            </div>
+          <div className="leading-5">
+            {selectedOption ? selectedOption.name : "Select your device"}
           </div>
-        </div>
-      )}
 
-      {selectedModel && (
-        <button
-          onClick={() => setShowRepairTypes(!showRepairTypes)}
-          className="w-full my-3 font-bold text-black px-4 py-2 bg-white rounded-xl shadow-2xl outline-none border-[#D9D9D9] border-r-8 border-b-8 flex justify-center"
-        >
-          Select the repair type{" "}
-          <FaPlay
-            className={`text-[20px] text-[#187EB4] mx-2 ${
-              showRepairTypes ? "rotate-90" : ""
-            }`}
-          />
+          <FaPlay className="text-[18px] text-rh-blue ml-1" />
         </button>
+      </div>
+
+      {showDropdown ? (
+        <div className="p-2 font-semibold text-sm flex flex-wrap shadow-lg border-[#D9D9D9] border-t-4 border-l-4 rounded-[20px]">
+          {repairItems?.map((option, key) => (
+            <div
+              key={key}
+              className="w-1/2 cursor-pointer p-2 hover-bg-gray-100"
+              onClick={() => handleOptionSelect(option)}
+            >
+              {option.name}
+            </div>
+          ))}
+        </div>
+      ) : (
+        ""
       )}
 
-      {showRepairTypes && (
-        <div className="px-3 py-10">
-          <div className="flex flex-col items-center justify-center py-3">
-            <h4 className="font-semibold text-xl">
-              What's wrong with your iPhone?
+      {selectedOption && (
+        <div className="">
+          <div className="flex flex-col justify-center">
+            <h4 className="font-semibold text-lg">
+              What's wrong with your device?
             </h4>
             <span>You can select multiple if applicable</span>
           </div>
 
-          <div className="py-4 flex flex-col space-y-5">
+          <div className="py-4 flex flex-col">
             {repairOptions.map((item, index) => (
-              <div key={index} className="flex justify-between items-center">
-                <span className="font-semibold text-lg">{item.name}</span>
-                <input
-                  value={item.name}
-                  className="w-6 h-6 border border-gray-300 checked:bg-indigo-600 checked:border-indigo-600 transition duration-150 ease-in-out text-green-700"
-                  type="checkbox"
-                  onChange={handleChange}
-                />
-              </div>
+              <RadioSelection
+                key={index}
+                title={item.name}
+                name={item.name}
+                options={["Premium", "Economy"]}
+                onChange={(option) => {
+                  setShowContinueButton(true);
+
+                  const existingItemIndex = values.findIndex(
+                    (value) => value.name === item.name
+                  );
+                  if (existingItemIndex !== -1) {
+                    setValues((prevValues) => [
+                      ...prevValues.slice(0, existingItemIndex),
+                      { ...prevValues[existingItemIndex], value: option },
+                      ...prevValues.slice(existingItemIndex + 1),
+                    ]);
+                  } else {
+                    setValues((prevValues) => [
+                      ...prevValues,
+                      { name: item.name, value: option },
+                    ]);
+                  }
+                }}
+              />
             ))}
           </div>
-
-          <div className="flex justify-center">
-            <button
-              onClick={() => setShowRepairTypes(!showRepairTypes)}
-              className="bg-[#187EB4] px-16 py-4 mt-5 rounded-full text-[#FFFFFF]"
-            >
-              Continue
-            </button>
-          </div>
-        </div>
-      )}
-
-      <RadioSelection
-        title={"Has your phone been opened before?"}
-        name={"lock"}
-        options={["Yes", "No"]}
-        //onChange={(selectedOption) => handleLockedOrUnlockedChange(selectedOption)}
-      />
-
-      <RadioSelection
-        title={"Face ID"}
-        name={"lock"}
-        options={["Yes", "No"]}
-        //onChange={(selectedOption) => handleLockedOrUnlockedChange(selectedOption)}
-      />
-
-      <RadioSelection
-        title={"True Tone"}
-        name={"lock"}
-        options={["Yes", "No"]}
-        //onChange={(selectedOption) => handleLockedOrUnlockedChange(selectedOption)}
-      />
-
-      <div>
-        <div className="flex flex-col items-center justify-center py-3">
-          <h4 className="font-semibold text-xl">
-            Any other issues with the phone?
-          </h4>
-          <span>Write in the box below or put ‘Nil’ if there is non.</span>
-        </div>
-        <input className="outline-none border-2 border-[#187EB4] w-full h-[50px] px-3" />
-      </div>
-
-      {showButtons && (
-        <div className="mt-2 flex justify-between">
-          {selectedOption !== "option1" && (
-            <button
-              className="mt-2 text-black px-14 py-2 bg-white rounded-xl shadow-2xl border-[#D9D9D9] border-r-8 border-b-8 text-bold"
-              onClick={() => handleRepairOption(repairOptions)}
-              // onClick={() => handleRepairOption('Screen replacement')}
-            >
-              Premium
-            </button>
-          )}
-          {selectedOption !== "option1" && (
-            <button
-              className="mt-2 border text-black px-14 py-2 bg-white rounded-xl shadow-2xl border-[#D9D9D9] border-r-8 border-b-8 text-bold"
-              onClick={() => handleRepairOption(repairOptions)}
-              // onClick={() => handleRepairOption('Screen replacement')}
-            >
-              Economy
-            </button>
+          {showContinueButton ? (
+            <div className="flex justify-center">
+              <button
+                onClick={() => {
+                  setShowContinueButton(false);
+                  setProceedToOpen(true);
+                }}
+                className="bg-rh-blue px-16 py-2 rounded-full text-[#FFFFFF]"
+              >
+                Continue
+              </button>
+            </div>
+          ) : (
+            ""
           )}
         </div>
       )}
+      {proceedToOpen ? (
+        <RadioSelection
+          title={"Has your device been opened before?"}
+          name={"lock"}
+          options={["Yes", "No", "I don't know"]}
+          onChange={(option) => {
+            setProceedToFaceId(true);
+            setPhoneOpenedBefore(option);
+          }}
+        />
+      ) : (
+        ""
+      )}
 
-      {/* {showButtons && (
-  <div className="mt-2 flex justify-between">
-    {selectedOption !== 'option1' &&
-      repairOptions.map((option) => (
-        <button
-          key={option}
-          className="w-full mt-2 border text-black px-4 py-2 shadow-lg rounded-lg my-custom-font text-bold"
-          onClick={() => handleRepairOption(option)}
-        >
-          Premium {option}
-        </button>
-      ))}
+      {proceedToFaceId ? (
+        <RadioSelection
+          title={"Face ID"}
+          name={"face"}
+          options={["Yes", "No", "I don't know"]}
+          onChange={(option) => {
+            setProceedToTrueTone(true);
+            setFaceId(option);
+          }}
+        />
+      ) : (
+        ""
+      )}
 
-      {console.log(repairOptions)}
-  </div>
-)} */}
+      {proceedToTrueTone ? (
+        <RadioSelection
+          title={"True Tone"}
+          name={"tone"}
+          options={["Yes", "No", "I don't know"]}
+          onChange={(option) => {
+            setProceedToAnyOtherIssues(true);
+            setTrueTone(option);
+          }}
+        />
+      ) : (
+        ""
+      )}
 
-      {/* {selectedRepair && (
-  <div className="mt-4 p-4 border divide-y divide-gray-300 shadow-lg rounded-lg">
-    <p className="my-custom-font">
-      You have chosen {selectedRepair.repairType} for your {selectedModel}. Visit any of the addresses below to complete your repairs.
-    </p>
-    <p className="my-custom-font font-bold">Cost for the Economy option: {selectedRepair.economyCost}</p>
-    <p className="my-custom-font font-bold">Cost for the Premium option: {selectedRepair.premiumCost}</p>
-    <p className="my-custom-font font-bold">Available repair center:</p>
-    <p className="my-custom-font font-bold">Contact address: {selectedRepair.address}</p>
-    <p className="my-custom-font "> 267 Herbert Macauly way, Sabo,Yaba </p>
-          <div className="flex justify-between ">
-          <p className="my-custom-font font-bold">Email: {selectedRepair.email}</p>
-          <p className="my-custom-font font-bold">Phone Numbers: {selectedRepair.phone}</p>
+      {proceedToAnyOtherIssues ? (
+        <div>
+          <div className="flex flex-col justify-center">
+            <h4 className="font-semibold text-xl">
+              Any other issues with the device?
+            </h4>
+            <span className="text-sm opacity-[50]">
+              Write in the box below or put ‘Nil’ if there is none.
+            </span>
           </div>
-          <div className="flex justify-between ">
-          <p className="my-custom-font ">repair@gmail.com</p>
-          <p className="my-custom-font ">09087654321</p>
+          <input
+            className="text-sm outline-none border border-rh-blue w-full h-[50px] px-3 my-3"
+            onChange={(e) => {
+              setOtherIssues(e.target.value);
+            }}
+          />
+
+          <div className="flex flex-col justify-center">
+            <h4 className="font-semibold text-xl">Name:</h4>
           </div>
-  </div>
-)}  */}
+          <input
+            className="text-xs outline-none border border-rh-blue w-full h-[50px] px-3 my-3"
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+          />
 
-      {selectedRepair && (
-        <div className="mt-4 px-4">
-          {Object.keys(selectedRepair).map((repairType) => {
-            const repairInfo = selectedRepair[repairType];
-            return (
-              <div key={repairType}>
-                <div className="py-4">
-                  <p>
-                    You have chosen {repairType} for your {selectedModel}. Visit
-                    any of the addresses below to complete your repairs.
-                  </p>
-                  <p>Cost for the Economy option: {repairInfo.economyCost}</p>
-                  <p>Cost for the Premium option: {repairInfo.premiumCost}</p>
-                </div>
+          <div className="flex flex-col justify-center">
+            <h4 className="font-semibold text-xl">Email:</h4>
+          </div>
+          <input
+            className="text-xs outline-none border border-rh-blue w-full h-[50px] px-3 my-3"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
 
-                <b className="my-10 text-xl">Available repair center:</b>
+          <div className="flex flex-col justify-center">
+            <h4 className="font-semibold text-xl">How do you know about us:</h4>
+          </div>
+          <input
+            className="text-xs outline-none border border-rh-blue w-full h-[50px] px-3 my-3"
+            onChange={(e) => {
+              setFoundUs(e.target.value);
+            }}
+          />
 
-                <div className="flex flex-col space-y-2">
-                  <b>Contact address:</b>
-                  <p>
-                    {repairInfo.address ||
-                      "267 Herbert Macaulay way, Sabo, Yaba"}
-                  </p>
+          {showSelectCenterButton && (
+            <button
+              className="p-3 rounded-xl flex items-center justify-around border-[#D9D9D9] border-2 w-full my-3"
+              onClick={handleSelectCenter}
+            >
+              <div className="leading-5">Select a Repair Center</div>
+              <IoIosArrowDropdownCircle className="text-[18px] text-rh-blue ml-1" />
+            </button>
+          )}
+
+          {showSelectedRepairCenter ? (
+            <div className="p-2 font-semibold text-sm flex flex-wrap shadow-lg border-[#D9D9D9] border-t-4 border-l-4 rounded-[20px]">
+              {repairCenters?.map((option, key) => (
+                <div
+                  key={key}
+                  className="cursor-pointer p-2 hover-bg-gray-100"
+                  onClick={() => handleCenterOptionSelect(option)}
+                >
+                  <div className="flex flex- gap-2">
+                    <p>{option.address}</p>
+                  </div>
                 </div>
-                <div className="flex justify-between py-3">
-                  <b>Email:</b>
-                  <b>Phone Numbers:</b>
-                </div>
-                <div className="flex justify-between">
-                  <p>{repairInfo.email || "repair@gmail.com"}</p>
-                  <p> {repairInfo.phone || "09087654321"}</p>
-                </div>
-              </div>
-            );
-          })}
+              ))}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
+      ) : (
+        ""
+      )}
+
+      {showSummary ? (
+        <div className="py-4">
+          <h1 className="font-bold  mb-3">Summary: </h1>
+
+          <div>
+            <div className="mb-3">
+              <h2 className="font-bold ">Device Detail:</h2>
+              <p>{selectedOption?.name}</p>
+            </div>
+          </div>
+
+          <div className="mb-3">
+            <div className="flex justify-between font-bold">
+              <h2 className="w-[80%]">Repair Detail:</h2>
+              <p className="w-[20%]">Cost</p>
+            </div>
+
+            <div>
+              {values.map((item, key) => {
+                const optionKey =
+                  item.name === "Screen Replacement"
+                    ? "screenReplacement"
+                    : item.name === "Battery Replacement"
+                    ? "batteryReplacement"
+                    : item.name === "Back Glass Replacement"
+                    ? "backGlassReplacement"
+                    : null;
+                return (
+                  <div className="my-2 flex" key={key}>
+                    <div className="w-[80%]">
+                      {item.name} - {item.value}
+                    </div>
+                    <div className="w-[20%]">
+                      {optionKey &&
+                        (item.value.toLowerCase() === "premium"
+                          ? selectedOption[optionKey]?.premiumCost
+                          : selectedOption[optionKey]?.economyCost)}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <p className="font-bold my-3">
+              Total: ₦
+              {values?.reduce((sum, item) => {
+                console.log({item})
+                const price =
+                  item.value.toLowerCase() === "premium"
+                    ? selectedOption.premiumCost
+                    : selectedOption.economyCost;
+
+                    console.log({price})
+                return sum + price;
+              }, 0)}
+            </p>
+          </div>
+
+          <div>
+            <div className="mb-3">
+              <h2 className="font-bold">Other issues with the phone:</h2>
+              <p>{otherIssues}</p>
+            </div>
+          </div>
+
+          <div className="my-2">
+            <h1 className="text-l font-bold mb-3">
+              Repair Center Information:{" "}
+            </h1>
+            <span className="font-bold">Contact Address:</span>
+            {"   "}
+            {selectedRepairCenter?.address}
+          </div>
+          <div className="my-2">
+            <span className="font-bold">Email:</span>{" "}
+            {selectedRepairCenter?.email}
+          </div>
+          <div className="my-3">
+            <span className="font-bold">Phone Numbers:</span>
+            {"   "}
+            <div>
+              {selectedRepairCenter?.phoneNumbers.map((phoneNumber, index) => (
+                <div key={index}>{phoneNumber}</div>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex justify-between">
+            <button
+              className="p-3 rounded-xl border-[#D9D9D9] border-2"
+              onClick={() => setShowCalendar(true)}
+            >
+              Walk in
+            </button>
+            <button
+              className="p-3 rounded-xl border-[#D9D9D9] border-2"
+              onClick={() => {}}
+            >
+              Pick Up
+            </button>
+          </div>
+        </div>
+      ) : (
+        " "
+      )}
+
+      {showCalendar && (
+        <InlineWidget
+          prefill={{ email: email, name: name }}
+          url="https://calendly.com/bjayzee/book-repair-visit"
+        />
       )}
     </div>
   );

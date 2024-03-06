@@ -21,7 +21,6 @@ export default function Buy() {
   const [showAddToCart, setShowAddToCart] = useState(false);
   const [addToCartButton, setAddToCartButton] = useState(false);
   const [removeItem, setRemoveItem] = useState(true);
-  const [checkoutButton, setCheckoutButton] = useState(false);
   const [modelIndex, setModelIndex] = useState(0);
   const [iphoneModel, setIphoneModel] = useState("");
   const [availableModels, setAvailableModels] = useState([]);
@@ -37,6 +36,29 @@ export default function Buy() {
   const priceRef = useRef(null);
 
   const { cartItems, setCartItems, addToCart } = useContext(CartContent);
+
+
+useEffect(() => {
+  getModelsAvailable();
+}, []);
+
+const getModelsAvailable = async () => {
+  setFetchingModel(true);
+  try {
+    const response = await axios
+      .get("/api/products/search?category=MacBook", {
+        validateStatus: (status) => status < 400,
+      })
+      .then((res) => res.data);
+
+    const iphoneModels = response.data;
+    setAvailableModels(iphoneModels);
+  } catch (error) {
+    console.error("Error fetching available models:", error);
+  } finally {
+    setFetchingModel(false);
+  }
+};
 
   const handleNewOrUsedChange = (iphoneState) => {
     const filteredItems = filterItemsBySpec(pickItems, "grade", iphoneState);
@@ -115,27 +137,7 @@ export default function Buy() {
   };
 
   const [fetchingModel, setFetchingModel] = useState(true);
-  const getModelsAvailable = async () => {
-    setFetchingModel(true);
-    try {
-      const response = await axios
-        .get("/api/products/search?category=MacBook", {
-          validateStatus: (status) => status < 400,
-        })
-        .then((res) => res.data);
-
-      const iphoneModels = response.data;
-      setAvailableModels(iphoneModels);
-    } catch (error) {
-      console.error("Error fetching available models:", error);
-    } finally {
-      setFetchingModel(false);
-    }
-  };
-
-  useEffect(() => {
-    getModelsAvailable();
-  }, []);
+  
 
   const filterItemsBySpec = (items, spec, value) =>
     items.filter(

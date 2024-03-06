@@ -11,8 +11,13 @@ const Cart = () => {
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter();
 
-  const { cartItems, removeFromCart, swapValue, clearCartAndLocalStorage } =
-    useContext(CartContent);
+  const {
+    cartItems,
+    removeFromCart,
+    swapValue,
+    setSwapValue,
+    clearCartAndLocalStorage,
+  } = useContext(CartContent);
 
   const handleCheckout = (e) => {
     e.preventDefault();
@@ -38,7 +43,7 @@ const Cart = () => {
       {cartItems.length === 0 ? (
         <p className="text-gray-500 ml-5">Your cart is empty.</p>
       ) : (
-        <div className="flex lg:flex-row flex-col lg:justify-between">
+        <div className="flex flex-col items-center">
           <div className="lg:w-3/4">
             {cartItems.map((phone, index) => (
               <CartCard
@@ -47,53 +52,68 @@ const Cart = () => {
                 onRemove={() => removeFromCart(index)}
               />
             ))}
-          </div>
 
-          <div>
-            <p className="flex justify-end pt-3 px-5">
-              <span className="font-bold font pr-3">Subtotal:</span>{" "}
-              <TbCurrencyNaira className="w-5 h-6" /> {price?.toLocaleString()}
+            <p className="flex justify-end pt-3 px-5 mt-5">
+              <span className="font-bold font pr-3">Subtotal:</span>₦
+              {price?.toLocaleString()}
             </p>
 
             {swapValue > 1 ? (
               <p className="flex justify-end pt-3 px-5">
-                <span className="font-bold font pr-3">Swap Item Value:</span>{" "}
-                <TbCurrencyNaira className="w-5 h-6" />{" "}
+                <span className="font-bold font pr-3">Swap Item Value:</span>₦
                 {swapValue?.toLocaleString()}
               </p>
             ) : (
               ""
             )}
 
-            <p className="flex justify-end pt-3 px-5">
-              <span className="font-bold font pr-3">Total:</span>{" "}
-              <TbCurrencyNaira className="w-5 h-6" />{" "}
-              {totalPrice?.toLocaleString()}
-            </p>
+            {totalPrice > 0 && (
+              <p className="flex justify-end pt-3 px-5">
+                <span className="font-bold font pr-3">Total Payable:</span>₦
+                {totalPrice?.toLocaleString()}
+              </p>
+            )}
+
+            {totalPrice < 0 && (
+              <p className="flex justify-end pt-3 px-5">
+                <span className="font-bold font pr-3">Cash Back:</span>₦
+                {Math.abs(totalPrice)?.toLocaleString()}
+              </p>
+            )}
+          </div>
+
+          <div className="flex justify-center my-4 lg:mt-10 ">
+            <button
+              className="text-[red] text-sm px-4 py-2 mr-2 rounded-md"
+              disabled={cartItems.length === 0}
+              onClick={() => {
+                clearCartAndLocalStorage();
+                setSwapValue(0);
+              }}
+            >
+              Clear Cart
+            </button>
+            <Link href="/" passHref>
+              <button
+                className="text-rh-blue text-sm px-4 py-2 mr-2 rounded-md"
+                disabled={cartItems.length === 0}
+              >
+                Add More Items
+              </button>
+            </Link>
+
+            <button
+              className={`bg-rh-blue text-[white] px-4 py-2 rounded-md ${
+                cartItems.length === 0 ? "opacity-30 cursor-not-allowed" : ""
+              }`}
+              onClick={(e) => handleCheckout(e)}
+              disabled={cartItems.length === 0}
+            >
+              CHECKOUT
+            </button>
           </div>
         </div>
       )}
-
-      <div className="flex justify-center my-8">
-        <Link href="/" passHref>
-          <button
-            className="text-rh-blue text-sm px-4 py-2 mr-2 rounded-md"
-            disabled={cartItems.length === 0}
-          >
-            Add More Items
-          </button>
-        </Link>
-
-        <button
-          className={`bg-rh-blue text-[white] px-4 py-2 rounded-md ${
-            cartItems.length === 0 ? "opacity-30 cursor-not-allowed" : ""
-          }`}
-          onClick={(e) => handleCheckout(e)}
-          disabled={cartItems.length === 0}
-        >
-          CHECKOUT
-        </button>
-      </div>
     </div>
   );
 };

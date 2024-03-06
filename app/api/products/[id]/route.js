@@ -1,4 +1,5 @@
 import { Product } from "@/server/models";
+import { failMessage, successMessage } from "@/server/utils/apiResponse";
 import connectDB from "@/server/utils/db";
 import httpStatus from "http-status";
 import { NextResponse } from "next/server";
@@ -11,15 +12,21 @@ export async function PUT(request, {params}){
     try {
         const { id } = params;
 
-        const requestObj = request.json();
+        const requestObj = await request.json();
         
         await connectDB();
 
-        const responseObj = await Product.findByIdAndUpdate(id, { requestObj });
+        const { specification, ...updateData } = requestObj;
 
-        return NextResponse.json({ status: httpStatus.OK }, { message: 'Updated successfully' }, { data: requestObj });
+        const responseObj = await Product.findByIdAndUpdate(
+          id,
+          { specification },
+          { new: true }
+        );
+
+        return successMessage("Product updated successfully", responseObj, httpStatus.OK)
     } catch (error) {
-        return NextResponse.json({status: httpStatus.BAD_REQUEST}, {message: error.message})
+        return failMessage(error, httpStatus.INTERNAL_SERVER_ERROR, "Product update fail")
     } 
 }
 
@@ -30,7 +37,7 @@ export async function GET(request, { params }) {
         const { id } = params;
         await connectDB();
 
-        return NextResponse.json({ success: true, message: "Product found successfully", data: await Product.findById(id) }, { status: httpStatus.FOUND })
+        return NextResponse.json({ success: true, message: "Product found successfully", data: await Product.findById(id).populate(["specification"]) }, { status: httpStatus.FOUND })
     } catch (error) {
         return NextResponse.json({ success: false, message: "Product retrieval failed", data: error.message }, { status: httpStatus.NOT_FOUND })
     }
