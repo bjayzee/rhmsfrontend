@@ -3,57 +3,32 @@
 import OrderTable from "@/components/OrderTable";
 import { useState, useEffect } from "react";
 import { PageHeader, Tabs, Button } from "antd";
-import styled from "styled-components";
 
-const { TabPane } = Tabs;
 
-const OrderManagement = (props) => {
+const OrderManagement = () => {
   const [orders, setOrders] = useState([]);
 
+  const fetchOrders = async () => {
+    const res = await fetch("/api/order");
+    const data = await res.json();
+    setOrders(data);
+  };
+
   useEffect(() => {
-    const fetchOrders = async () => {
-      const res = await fetch("/api/accessories");
-      const data = await res.json();
-      setOrders(data);
-    };
 
     fetchOrders();
   }, []);
 
-  console.log(accessories);
-
   return (
-      <div className="my-[100px]">
-        <div className="mx-[50px]">
-          <PageHeader title="Orders" />
+    <div className="my-[100px]">
+      <div className="mx-[50px]">
+        <PageHeader title="Orders" />
 
-          <StyledDiv {...props}>
-            <Tabs defaultActiveKey="1">
-              <TabPane tab="IPhones" key="1">
-                <OrderTable data={orders.data} loading={orders.loading} />
-              </TabPane>
-              <TabPane tab="IWatches" key="2">
-                <OrderTable data={orders.data} loading={orders.loading} />
-              </TabPane>
-              <TabPane tab="IPads" key="3">
-                <OrderTable data={orders.data} loading={orders.loading} />
-              </TabPane>{" "}
-              <TabPane tab="Mac" key="4">
-                <OrderTable data={orders.data} loading={orders.loading} />
-              </TabPane>
-              <TabPane tab="Airpods" key="5">
-                <OrderTable data={orders.data} loading={orders.loading} />
-              </TabPane>
-            </Tabs>
-          </StyledDiv>
-        </div>
+       {orders?.data && (<OrderTable data={orders?.data} />)} 
       </div>
+    </div>
   );
 };
 
 export default OrderManagement;
 
-const StyledDiv = styled.div`
-  margin-orders: 1rem;
-  padding: 0 0.5rem;
-`;
