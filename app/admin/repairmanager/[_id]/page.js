@@ -53,7 +53,7 @@ const RepairRequestDetails = ({ params: { _id } }) => {
         repairReport: repairRequest.data.repairReport,
       }));
     }
-  }, [repairRequest]);  // Add repairRequest as a dependency
+  }, [repairRequest]); 
   
 
   const fetchRepairCentres = async () => {
