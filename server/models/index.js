@@ -8,10 +8,8 @@ import Review from "./products/Review";
 import Category from "./products/Category";
 import Accessory from "./accessories/Accessory";
 import Article from "./blog/Article";
-
-
-
-
+import OldWatch from "./products/OldWatch";
+import Order from "./order/Order";
 
 export {
   RepairCenter,
@@ -24,4 +22,6 @@ export {
   Category,
   Accessory,
   Article,
+  OldWatch,
+  Order
 };

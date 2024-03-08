@@ -7,7 +7,6 @@ import { CartContent } from '@/app/context/AppContext';
 import axios from 'axios';
 import ProductCard from './ProductCard';
 import ImageSlider from './ImageSlider';
-import { TbCurrencyNaira } from 'react-icons/tb';
 
 
 const BuyAirPods = () => {
@@ -106,9 +105,7 @@ const BuyAirPods = () => {
                <div
                  key={index}
                  className={`w-1/2 p-4 font-semibold text-xl ${
-                   !modelExists
-                     ? " opacity-20 cursor-not-allowed"
-                     : ""
+                   !modelExists ? " opacity-20 cursor-not-allowed" : ""
                  }`}
                  onClick={() => {
                    if (modelExists) {
@@ -148,7 +145,7 @@ const BuyAirPods = () => {
                  setProceed(2);
                  setIphoneModel({ ...model });
                  setAddToCartButton(true);
-                 setPrice(model.price);
+                 setPrice(model.price.toLocaleString());
                }}
                model={model}
              />
@@ -168,26 +165,28 @@ const BuyAirPods = () => {
                <>
                  <div className="flex justify-between py-4">
                    <b>{iphoneModel?.name}</b>
-                   <b className="flex">
-                     Price: <TbCurrencyNaira className="h-6 mr-1" />
-                     {price}
-                   </b>
+                   <b className="flex">Price: ₦{price.toLocaleString()}</b>
                  </div>
-                 <div className="flex justify-between">
+                 <div className="font-bold">
                    <p>Specification:</p>
-                   <div className="flex-column">
-                     <span></span>
-                     <span>
-                       {iphoneModel.specification.color},
-                       {iphoneModel.specification.batteryHealth}
-                     </span>
-                     <span>{iphoneModel.specification.model}</span>
-                   </div>
+                   
                  </div>
                  <div className="flex justify-between">
                    <p>Condition:</p>
                    <div className="text-[gray]">
                      {iphoneModel.specification.grade}
+                   </div>
+                 </div>
+                 <div className="flex justify-between">
+                   <p>Color:</p>
+                   <div className="text-[gray]">
+                     {iphoneModel.specification.color}
+                   </div>
+                 </div>
+                 <div className="flex justify-between">
+                   <p>Battery Health:</p>
+                   <div className="text-[gray]">
+                     {iphoneModel.specification.batteryHealth}
                    </div>
                  </div>
                </>

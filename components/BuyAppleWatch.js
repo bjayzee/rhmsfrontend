@@ -1,9 +1,7 @@
 "use client";
 
 import { useContext, useEffect, useRef, useState } from "react";
-import { GoDot, GoDotFill } from "react-icons/go";
 import { FaPlay } from "react-icons/fa";
-import { BiRightArrow, BiLeftArrow } from "react-icons/bi";
 import axios from "axios";
 import ImageSlider from "./ImageSlider";
 import RadioSelection from "./RadioSelectionButton";
@@ -11,6 +9,8 @@ import { CartContent } from "@/app/context/AppContext";
 import Link from "next/link";
 
 const BuyAppleWatch = () => {
+
+
   const [showDropdown, setShowDropdown] = useState(false);
   const [showBox, setShowBox] = useState(false);
   const [fetchingModel, setFetchingModel] = useState(false);
@@ -89,7 +89,6 @@ const BuyAppleWatch = () => {
   const uniqueWatchValues = Array.from(
     new Set(availableWatches?.map((item) => item.name))
   );
-  console.log({ uniqueWatchValues });
 
   const uniqueAirpodsValues = Array.from(
     new Set(availableAirpods?.map((item) => item.name))
@@ -117,13 +116,6 @@ const BuyAppleWatch = () => {
     setItemBasedOnCarrier(filteredItems);
     setAvailableCarrier(carriers);
     setSelectedCondition(itemState);
-    // setShowAddToCart(false);
-    // setAvailableBands(null);
-    // setAvailableCases(null);
-    // setAvailableStorage(null);
-    // setAvailableCarrier(null);
-    // setRemoveItem(false);
-    // setIwatchModel(null);
   };
 
   const handleConnectionType = (option) => {
@@ -148,10 +140,8 @@ const BuyAppleWatch = () => {
     const uniqueCaseMaterial = getUniqueValues(filteredItems, "caseMaterial");
 
     setAvailableCases(uniqueCaseMaterial);
-    console.log({ availableCases });
 
     setItemBasedOnCaseMaterial(filteredItems);
-    console.log({ itemsBasedOnCaseMaterial });
   };
 
   const handleCaseMaterial = (material) => {
@@ -244,7 +234,6 @@ const BuyAppleWatch = () => {
                 <div
                   key={key}
                   className="w-1/2 cursor-pointer p-2 hover-bg-gray-100"
-                  onClick={() => {}}
                 >
                   {option}
                 </div>

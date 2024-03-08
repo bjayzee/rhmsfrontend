@@ -17,8 +17,7 @@ const ProductCard = ({ onClick, model }) => {
         {model.name}
       </div>
       <div className="w-fit h-2 text-black text-l font-normal pb-5 flex">
-        <TbCurrencyNaira className="h-7"/>
-        <span>{model.price}</span>
+        <span>₦ {model.price.toLocaleString()}</span>
       </div>
       <button className="w-[120px] h-[26px] bg-rh-blue rounded-[10px] shadow text-white-100 mt-2">
         BUY

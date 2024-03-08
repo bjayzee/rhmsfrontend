@@ -58,6 +58,15 @@ const oldiPhoneSchema = Joi.object({
     .required(),
 });
 
+const oldWatchSchema = Joi.object({
+  name: Joi.string().required(),
+  storagePrice: Joi.number().required(),
+  baseStorage: Joi.string().required(),
+  storageVariance: Joi.array().items(Joi.string()).required(),
+  carrier: Joi.string().required(),
+  pricePerGrade: Joi.array().items(Joi.object()).required(),
+});
+
 // Define Joi schema for the review sub-schema
 const reviewSchema = Joi.object({
     content: Joi.string().required(),
@@ -116,6 +125,24 @@ const repairSchema = Joi.object({
   repairClinicTagNum: Joi.string(),
 }).options({ stripUnknown: true });
 
+const orderSchema = Joi.object({
+  orderItems: Joi.array().items(Joi.string().required()), // Assuming orderItems is an array of strings representing ObjectIds
+  shippingAddress: Joi.object(),
+  deliveryFee: Joi.number(),
+  phoneNumber: Joi.string().required(),
+  status: Joi.string()
+    .valid("Pending", "Processing", "Shipped", "Delivered", "Cancelled")
+    .default("Pending")
+    .required(),
+  totalPrice: Joi.number(),
+  paymentStatus: Joi.boolean(),
+  paymentMethod: Joi.string(),
+  customerInformation: Joi.object(),
+  howDidYouFindUs: Joi.string(),
+  salesTerm: Joi.string(),
+}).options({ abortEarly: false });
+
+
 
 
 
@@ -128,5 +155,7 @@ export {
   accessoriesSchema,
   articleSchema,
   repairItemSchema,
-  repairSchema
+  repairSchema,
+  oldWatchSchema,
+  orderSchema
 };

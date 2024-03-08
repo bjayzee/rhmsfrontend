@@ -16,9 +16,11 @@ const DealODayCard = ({ onClick, param }) => {
       <div className="w-20 h-[25.85px] text-black text-l font-bold py-3">
         {param.name}
       </div>
-      <div className="w-11 h-2 text-black text-l py-5">${param.price}</div>
+      <div className="w-20 h-2 text-black text-l py-5">
+        ₦ {param.price.toLocaleString()}
+      </div>
       <button className="w-[120px] h-[26px] bg-rh-blue rounded-[10px] shadow text-white-100 mt-2">
-        BUY/SWAP
+        BUY
       </button>
     </section>
   );

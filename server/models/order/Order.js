@@ -8,8 +8,7 @@ const orderSchema = new Schema({
         required:true
     }],
     shippingAddress: {
-        type: Schema.Types.ObjectId,
-        ref: 'Address',
+        type: Object
     },
     deliveryFee: {
         type: Number
@@ -21,15 +20,11 @@ const orderSchema = new Schema({
     status: {
         type: String,
         required: [true, 'Insert order status'],
-        enum: ["Pending", "Processing", "Shipped", "Delivered"],
+        enum: ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"],
         default: 'Pending',
     },
     totalPrice: {
         type: Number,
-    },
-    user: {
-        type: Schema.Types.ObjectId,
-        ref: 'RHMSUsers',
     },
     paymentStatus: {
         type: Boolean,
@@ -37,9 +32,12 @@ const orderSchema = new Schema({
     paymentMethod: {
         type: String
     },
-    deliveryPaymentStatus: {
-        type: Boolean
-    }
+    customerInformation: {
+        type: Object
+    },
+    howDidYouFindUs: String,
+    salesTerm: String
+
 }, {timestamp: true})
 
 

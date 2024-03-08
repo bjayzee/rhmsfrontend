@@ -1,4 +1,4 @@
-import { Product } from "@/server/models";
+import { Product, Specification } from "@/server/models";
 import { failMessage, successMessage } from "@/server/utils/apiResponse";
 import connectDB from "@/server/utils/db";
 import httpStatus from "http-status";
@@ -12,15 +12,21 @@ export async function PUT(request, {params}){
     try {
         const { id } = params;
 
-        const requestObj = await request.json();
+        const {specification, ...requestObj} = await request.json();
         
         await connectDB();
 
-        const { specification, ...updateData } = requestObj;
+        if(specification){
+            const product = await Product.findById(id);
+
+            const specId = product.specification._id;
+
+            const specificationRes = await Specification.findByIdAndUpdate(specId, specification, {new: true})
+        }
 
         const responseObj = await Product.findByIdAndUpdate(
           id,
-          { specification },
+          requestObj,
           { new: true }
         );
 

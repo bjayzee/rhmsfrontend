@@ -22,9 +22,12 @@ const SwapiPhone = () => {
   const [showLearnHowItWorks, setShowLearnHowItWorks] = useState(true);
   const [storageList, setStorageList] = useState([]);
   const [itemSelected, setItemSelected] = useState(null);
+  const [grade, setGrade] = useState("");
+  const [swapValue, setSwapValue] = useState(0);
+
   const valueRef = useRef(null);
 
-  const { swapValue, setSwapValue } = useContext(CartContent);
+  const { setSwapItem } = useContext(CartContent);
 
   useEffect(() => {
     getModelsAvailable();
@@ -40,8 +43,6 @@ const SwapiPhone = () => {
 
       const iphoneModels = response.data;
 
-      console.log({ iphoneModels });
-
       setAvailableModels(iphoneModels);
       const modelData = Array.from(
         new Set(response.data.map((item) => item.name))
@@ -50,6 +51,14 @@ const SwapiPhone = () => {
     } catch (error) {
       console.error("Error fetching available models:", error);
     }
+  };
+
+  const swapProduct = {
+    name: selectedOption,
+    grade: grade,
+    price: swapValue,
+    condition: selectedCondition,
+    storage: selectedStorage,
   };
 
   const handleSelectClick = () => {
@@ -74,6 +83,7 @@ const SwapiPhone = () => {
         behavior: "smooth",
       });
     }
+    setGrade(grade);
     const { storageVariance, pricePerGrade, storagePrice } = itemSelected;
     let index = storageVariance.indexOf(selectedStorage);
     let gradePrice = pricePerGrade.find(
@@ -82,9 +92,9 @@ const SwapiPhone = () => {
     if (!gradePrice) {
       return "Grade not found";
     }
+
     let gradePriceValue = gradePrice[grade];
     if (gradePriceValue === 0) {
-      setSwapValue(gradePriceValue);
       setShowValue(true);
     } else {
       let price = gradePriceValue + storagePrice * index;
@@ -107,8 +117,6 @@ const SwapiPhone = () => {
       (item) =>
         item.lockStatus.trim().toLowerCase() === condition.trim().toLowerCase()
     );
-    console.log({ itemByLockStatus });
-
     const availableStorage = itemByLockStatus[0].storageVariance;
 
     setItemSelected(itemByLockStatus[0]);
@@ -329,9 +337,10 @@ const SwapiPhone = () => {
             </div>
 
             <Link href="/buy-iphone" passHref>
-              <button className="flex items-center">
+              <button className="flex items-center" onClick={() => setSwapItem(swapProduct)}>
                 <p className="text-lg">Now let's select your new phone</p>
                 <IoIosArrowDropdownCircle className="text-[20px] text-rh-blue " />
+                
               </button>
             </Link>
             <p></p>
