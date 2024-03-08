@@ -13,8 +13,8 @@ const Cart = () => {
   const {
     cartItems,
     removeFromCart,
-    swapValue,
-    setSwapValue,
+    swapItem,
+    setSwapItem,
     clearCartAndLocalStorage,
   } = useContext(CartContent);
 
@@ -29,6 +29,8 @@ const Cart = () => {
     }
   };
 
+  const swapValue = swapItem?.price;
+  
   const price = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
@@ -87,7 +89,7 @@ const Cart = () => {
           disabled={cartItems.length === 0}
           onClick={() => {
             clearCartAndLocalStorage()
-            setSwapValue(0);
+            setSwapItem(null);
           }}
         >
           Clear Cart

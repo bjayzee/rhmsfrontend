@@ -1,4 +1,4 @@
-import { Article } from "@/server/models";
+import { Order } from "@/server/models";
 import { failMessage, successMessage } from "@/server/utils/apiResponse";
 import connectDB from "@/server/utils/db";
 import httpStatus from "http-status";
@@ -8,15 +8,15 @@ export async function PUT(request, { params }){
         const { id } = params;
         const req = await request.json();
         
-        const updatedArticle = await Article.findByIdAndUpdate(id, req, {new: true});
+        const updatedOrder = await Order.findByIdAndUpdate(id, req, {new: true});
         return successMessage(
-          "Article Updated successfully",
-          updatedArticle,
+          "Order Updated successfully",
+          updatedOrder,
           httpStatus.OK
         );
     } catch (error) {
         console.error("An error has occur", error);
-        return failMessage(error, httpStatus.BAD_REQUEST, error.message);
+        return failMessage(error, httpStatus.BAD_REQUEST, "error updating order");
     }
 }
 
@@ -26,13 +26,13 @@ export async function GET(request, { params }) {
     await connectDB();
 
     return successMessage(
-      "Article fetched successfully",
-      await Article.findById(id),
+      "Order fetched successfully",
+      await Order.findById(id),
       httpStatus.FOUND
     );
   } catch (error) {
     console.error("An error has occur", error);
-    return failMessage(error, httpStatus.NOT_FOUND, error.message);
+    return failMessage(error, httpStatus.NOT_FOUND, "error fetcing order data");
   }
 }
 
@@ -40,10 +40,10 @@ export async function GET_ALL({params}){
 
     const { page, limit } = params;
       try {
-        const articles = await Article.find()
+        const orders = await Order.find()
           .skip((page - 1) * limit)
           .limit(limit);
-        return successMessage('successful', articles, httpStatus.OK);
+        return successMessage('successful', orders, httpStatus.OK);
       } catch (error) {
         console.error("An error occurred while fetching articles:", error);
         return {

@@ -6,10 +6,11 @@ const repairSchema = new Schema(
       type: String,
       required: true,
     },
-    repairType: {
-      type: String,
-      required: true,
-    },
+    repairType: [{
+      type: Map,
+      required: true
+    }]
+    ,
     otherIssues: {
       type: String,
       required: true,

@@ -1,4 +1,5 @@
-import { Product } from "@/server/models";
+import { Product, Specification } from "@/server/models";
+import { failMessage, successMessage } from "@/server/utils/apiResponse";
 import connectDB from "@/server/utils/db";
 import httpStatus from "http-status";
 import { NextResponse } from "next/server";
@@ -11,15 +12,27 @@ export async function PUT(request, {params}){
     try {
         const { id } = params;
 
-        const requestObj = await request.json();
+        const {specification, ...requestObj} = await request.json();
         
         await connectDB();
 
-        const responseObj = await Product.findByIdAndUpdate(id, { requestObj });
+        if(specification){
+            const product = await Product.findById(id);
 
-        return NextResponse.json({ status: httpStatus.OK }, { message: 'Updated successfully' }, { data: requestObj });
+            const specId = product.specification._id;
+
+            const specificationRes = await Specification.findByIdAndUpdate(specId, specification, {new: true})
+        }
+
+        const responseObj = await Product.findByIdAndUpdate(
+          id,
+          requestObj,
+          { new: true }
+        );
+
+        return successMessage("Product updated successfully", responseObj, httpStatus.OK)
     } catch (error) {
-        return NextResponse.json({status: httpStatus.BAD_REQUEST}, {message: error.message})
+        return failMessage(error, httpStatus.INTERNAL_SERVER_ERROR, "Product update fail")
     } 
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import toast from "react-hot-toast";
+import { ToastContainer, toast } from "react-toastify";
 
 const { useState, createContext, useEffect } = require("react");
 
@@ -8,7 +8,7 @@ export const CartContent = createContext({});
 
 function AppContext({ children }) {
   const [cartItems, setCartItems] = useState([]);
-  const [swapValue, setSwapValue] = useState(0);
+  const [swapItem, setSwapItem] = useState([]);
 
   const ls = typeof window !== "undefined" ? window.localStorage : null;
 
@@ -72,11 +72,12 @@ function AppContext({ children }) {
           removeFromCart,
           addToCart,
           clearCartAndLocalStorage,
-          setSwapValue,
-          swapValue
+          setSwapItem,
+          swapItem
         }}
       >
         {children}
+        <ToastContainer />
       </CartContent.Provider>
     </div>
   );
