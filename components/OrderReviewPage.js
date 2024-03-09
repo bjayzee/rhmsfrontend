@@ -84,12 +84,7 @@ const OrderReviewPage = () => {
     month: "long",
     day: "numeric",
   };
-  const options = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
+ 
   const formattedDate = oneWeekLater.toLocaleDateString(undefined, options);
 
   const email = formData?.email;
@@ -145,7 +140,6 @@ const OrderReviewPage = () => {
     onClose: () => {
       alert("Wait! Don't leave :(");
     },
-  };
   };
 
   return (
@@ -547,6 +541,7 @@ const OrderReviewPage = () => {
       </div>
     </div>
     </div>
+    
   );
 };
 

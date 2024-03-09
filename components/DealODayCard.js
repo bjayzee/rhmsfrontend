@@ -1,4 +1,3 @@
-import Image from "next/image";
 
 const DealODayCard = ({ onClick, param }) => {
   return (
