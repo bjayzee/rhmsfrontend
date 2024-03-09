@@ -1,30 +1,29 @@
-'use client'
+"use client";
 
 import { CartContent } from "@/app/context/AppContext";
 import { useContext } from "react";
 
+const CheckoutCartCard = ({ phone }) => {
+  const { setCartItems, cartItems } = useContext(CartContent);
+  const updateItem = (type) => {
+    const temp = [...cartItems];
 
-const CheckoutCartCard = ({ phone}) => {
-    const { setCartItems, cartItems } = useContext(CartContent)
-    const updateItem = (type) => {
-        const temp = [...cartItems]
+    const tempItem = temp.find((item) => {
+      return item._id === phone._id;
+    });
 
-        const tempItem = temp.find(item => {
-            return item._id === phone._id
-        })
-
-        if (type === "minus" && tempItem.quantity > 1) {
-            tempItem.quantity = tempItem.quantity - 1
-        } else {
-            tempItem.quantity = tempItem.quantity + 1
-        }
-
-        const indexToBeReplaced = temp.findIndex(item => item._id === tempItem._id)
-        temp[indexToBeReplaced] = tempItem
-        setCartItems([...temp])
-
+    if (type === "minus" && tempItem.quantity > 1) {
+      tempItem.quantity = tempItem.quantity - 1;
+    } else {
+      tempItem.quantity = tempItem.quantity + 1;
     }
 
+    const indexToBeReplaced = temp.findIndex(
+      (item) => item._id === tempItem._id
+    );
+    temp[indexToBeReplaced] = tempItem;
+    setCartItems([...temp]);
+  };
 
     return (
       <div className="my-5">

@@ -336,6 +336,7 @@ const SwapAppleWatch = () => {
         )}
       </div>
     </div>
-  );
-};
-export default SwapAppleWatch;
+  )
+}
+
+export default SwapAppleWatch

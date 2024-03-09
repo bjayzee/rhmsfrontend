@@ -1,16 +1,16 @@
 "use client";
 
-import axios from 'axios';
-import Link from 'next/link';
-import { useState, useEffect, useRef, useContext, CSSProperties } from 'react';
-import RadioSelection from './RadioSelectionButton';
-import { models } from '@/server/utils/iPhonedata';
-import ImageSlider from './ImageSlider';
-import { CartContent } from '@/app/context/AppContext';
+import axios from "axios";
+import Link from "next/link";
+import { useState, useEffect, useRef, useContext, CSSProperties } from "react";
+import RadioSelection from "./RadioSelectionButton";
+import { models } from "@/server/utils/iPhonedata";
+import ImageSlider from "./ImageSlider";
+import { CartContent } from "@/app/context/AppContext";
 import PropagateLoader from "react-spinners/PropagateLoader";
+import { TbCurrencyNaira } from "react-icons/tb";
 
 export default function Buy() {
-  
   const [selectedModel, setSelectedModel] = useState(null);
   const [currentPictureIndex, setCurrentPictureIndex] = useState(0);
   const [selectedCondition, setSelectedCondition] = useState(null);
@@ -32,13 +32,13 @@ export default function Buy() {
   const [grade, setGrade] = useState([null]);
   const [price, setPrice] = useState(0);
   const [pickItems, setPickItems] = useState([]);
-  const priceRef = useRef(null)
+  const priceRef = useRef(null);
 
   const { addToCart } = useContext(CartContent);
 
-   useEffect(() => {
-     getModelsAvailable();
-   }, []);
+  useEffect(() => {
+    getModelsAvailable();
+  }, []);
   const getModelsAvailable = async () => {
     setFetchingModel(true);
     try {
@@ -58,8 +58,8 @@ export default function Buy() {
   };
 
   const handleNewOrUsedChange = (iphoneState) => {
-    const filteredItems = filterItemsBySpec(pickItems, 'grade', iphoneState);
-    const carriers = getUniqueValues(filteredItems, 'carrier');
+    const filteredItems = filterItemsBySpec(pickItems, "grade", iphoneState);
+    const carriers = getUniqueValues(filteredItems, "carrier");
     setPhoneBasedOnCarrier(filteredItems);
     setAvailableCarrier(carriers);
     setSelectedCondition(iphoneState);
@@ -70,8 +70,12 @@ export default function Buy() {
   };
 
   const handleLockedOrUnlockedChange = (iphoneLockState) => {
-    const filteredItems = filterItemsBySpec(phoneBasedOnCarrier, 'carrier', iphoneLockState);
-    const capacities = getUniqueValues(filteredItems, 'capacity');
+    const filteredItems = filterItemsBySpec(
+      phoneBasedOnCarrier,
+      "carrier",
+      iphoneLockState
+    );
+    const capacities = getUniqueValues(filteredItems, "capacity");
     setPhoneBasedOnStorage(filteredItems);
     setLockState(iphoneLockState);
     setStorageList(capacities);
@@ -81,8 +85,12 @@ export default function Buy() {
   };
 
   const handleStorageSelection = (storage) => {
-    const filteredItems = filterItemsBySpec(phoneBasedOnStorage, 'capacity', storage);
-    const colors = getUniqueValues(filteredItems, 'color');
+    const filteredItems = filterItemsBySpec(
+      phoneBasedOnStorage,
+      "capacity",
+      storage
+    );
+    const colors = getUniqueValues(filteredItems, "color");
     setPhoneBasedOnColor(filteredItems);
     setColorList(colors);
     setSelectedStorage(storage);
@@ -92,7 +100,11 @@ export default function Buy() {
   };
 
   const handleColorChange = (iphoneColor) => {
-    const filteredItems = filterItemsBySpec(phoneBasedOnColor, 'color', iphoneColor);
+    const filteredItems = filterItemsBySpec(
+      phoneBasedOnColor,
+      "color",
+      iphoneColor
+    );
     setSelectedColor(iphoneColor);
     setPrice(filteredItems[0].price);
     setIphoneModel(filteredItems[0]);
@@ -101,7 +113,7 @@ export default function Buy() {
       priceRef.current.focus();
       window.scrollTo({
         top: priceRef.current.offsetTop,
-        behavior: 'smooth',
+        behavior: "smooth",
       });
     }
 
@@ -109,24 +121,29 @@ export default function Buy() {
     setAddToCartButton(true);
   };
 
-
-
   const showNextImage = () => {
-    setCurrentPictureIndex((index) => (index === iphoneModel?.images?.length - 1 ? 0 : index + 1));
+    setCurrentPictureIndex((index) =>
+      index === iphoneModel?.images?.length - 1 ? 0 : index + 1
+    );
   };
 
   const showPrevImage = () => {
-    setCurrentPictureIndex((index) => (index === 0 ? iphoneModel?.images?.length - 1 : index - 1));
+    setCurrentPictureIndex((index) =>
+      index === 0 ? iphoneModel?.images?.length - 1 : index - 1
+    );
   };
 
-
-  const [fetchingModel, setFetchingModel] = useState(true)
-  
+  const [fetchingModel, setFetchingModel] = useState(true);
 
   const filterItemsBySpec = (items, spec, value) =>
-    items.filter((iphone) => iphone.specification[spec].trim().toLowerCase() === value.trim().toLowerCase());
+    items.filter(
+      (iphone) =>
+        iphone.specification[spec].trim().toLowerCase() ===
+        value.trim().toLowerCase()
+    );
 
-  const getUniqueValues = (items, spec) => Array.from(new Set(items.map((iphone) => iphone.specification[spec])));
+  const getUniqueValues = (items, spec) =>
+    Array.from(new Set(items.map((iphone) => iphone.specification[spec])));
 
   const override = {
     display: "block",
@@ -134,7 +151,7 @@ export default function Buy() {
     borderColor: "green",
   };
   return (
-    <div className="overflow-x-hidden py-5 px-5">
+    <div className="overflow-x-hidden py-5 px-5 lg:w-[80%] mx-auto lg:my-10">
       <p className="text-xl py-3 font-semi-bold">
         The iPhone connection - connecting you to the world
       </p>
@@ -197,7 +214,7 @@ export default function Buy() {
       )}
 
       {selectedModel === modelIndex && (
-        <div ref={priceRef}>
+        <div ref={priceRef} className="lg:flex lg:flex-row gap-10">
           <ImageSlider
             images={iphoneModel?.images}
             currentPictureIndex={currentPictureIndex}
@@ -208,10 +225,13 @@ export default function Buy() {
             {removeItem !== false && (
               <div className="flex justify-between py-4">
                 <b>{iphoneModel?.name}</b>
-                <b className="flex">Price: ₦{price}</b>
+                <b className="flex">
+                  Price: <TbCurrencyNaira className="h-6 mr-1" />
+                  {price?.toLocaleString()}
+                </b>
               </div>
             )}
-            
+
             {removeItem !== false && (
               <RadioSelection
                 title={"Pick your preference"}
