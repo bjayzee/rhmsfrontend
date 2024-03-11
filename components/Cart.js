@@ -3,7 +3,6 @@ import { useContext } from "react";
 import { CartContent } from "@/app/context/AppContext";
 import CartCard from "./CartCard";
 import Link from "next/link";
-import { TbCurrencyNaira } from "react-icons/tb";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -90,7 +89,7 @@ const Cart = () => {
               disabled={cartItems.length === 0}
               onClick={() => {
                 clearCartAndLocalStorage();
-                setSwapValue(0);
+                setSwapItem(null);
               }}
             >
               Clear Cart
