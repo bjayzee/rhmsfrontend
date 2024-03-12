@@ -337,10 +337,12 @@ const SwapiPhone = () => {
             </div>
 
             <Link href="/buy-iphone" passHref>
-              <button className="flex items-center" onClick={() => setSwapItem(swapProduct)}>
+              <button
+                className="flex items-center"
+                onClick={() => setSwapItem(swapProduct)}
+              >
                 <p className="text-lg">Now let's select your new phone</p>
                 <IoIosArrowDropdownCircle className="text-[20px] text-rh-blue " />
-                
               </button>
             </Link>
             <p></p>

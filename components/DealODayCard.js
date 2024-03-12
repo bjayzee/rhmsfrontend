@@ -1,10 +1,9 @@
-import Image from "next/image";
 
 const DealODayCard = ({ onClick, param }) => {
   return (
     <section
       onClick={onClick}
-      className="w-[165px] h-[275px] bg-white rounded-xl shadow-2xl border-[#D9D9D9] border-r-8 border-b-8 grid justify-items-center py-5"
+      className="w-[165px] lg:w-[90%] min-h-[275px] bg-white rounded-xl shadow-xl border-[#D9D9D9] border-r-5 border-b-5 flex flex-col items-center justify-items-center py-5"
     >
       <img
         src={param.thumbnail}

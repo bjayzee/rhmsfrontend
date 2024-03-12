@@ -7,9 +7,7 @@ import { ImAppleinc } from "react-icons/im";
 import { FcGoogle } from "react-icons/fc";
 import { BsFacebook } from "react-icons/bs";
 
-
 const SignInPage = () => {
-
   const router = useRouter();
   const [error, setError] = useState("");
 
@@ -28,7 +26,7 @@ const SignInPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const email = e.target[0].value;                            
+    const email = e.target[0].value;
     const password = e.target[1].value;
 
     if (!isValidEmail(email)) {
@@ -60,9 +58,11 @@ const SignInPage = () => {
   // }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between">
+    <div className="flex min-h-screen flex-col items-center justify-between lg:mt-10">
       <div className="p-8 rounded shadow-md w-96">
-        <h1 className="text-2xl text-center font-semibold mb-8 text-rh-blue">Sign in</h1>
+        <h1 className="text-2xl text-center font-semibold mb-8 text-rh-blue">
+          Sign in
+        </h1>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -78,13 +78,15 @@ const SignInPage = () => {
             placeholder="Password"
             required
           />
-          <div className="flex justify-end">
-            <span className="text-[#187EB4] font-bold text-sm">Forgot Password?</span>
+          <div className="flex my-2 justify-end">
+            <span className="text-[#187EB4] font-bold text-sm">
+              Forgot Password?
+            </span>
           </div>
 
           <button
             type="submit"
-            className="w-1/2 py-3  bg-[#187EB4] text-[#FFFFFF] flex items-center justify-center text-sm"
+            className="w-1/2 lg:w-full py-3  bg-[#187EB4] text-[#FFFFFF] flex items-center justify-center text-sm"
           >
             Sign in
           </button>
@@ -92,12 +94,14 @@ const SignInPage = () => {
           <p className="text-red-600 text-[16px] mb-4">{error && error}</p>
         </form>
         <div className="text-center text-gray-500 mt-4">- or login with -</div>
-        <span className="flex items-center justify-center space-x-5 text-[20px] py-3"><ImAppleinc /> <FcGoogle /> <BsFacebook className="text-rh-blue" /></span>
+        <span className="flex items-center justify-center space-x-5 text-[20px] py-3">
+          <ImAppleinc /> <FcGoogle /> <BsFacebook className="text-rh-blue" />
+        </span>
         <Link
           className="block text-center text-rh-blue hover:underline mt-2"
           href="/checkoutPage"
         >
-          proceed as Guest
+          Proceed as Guest
         </Link>
         <Link
           className="block text-center text-rh-blue hover:underline mt-2"
@@ -111,7 +115,3 @@ const SignInPage = () => {
 };
 
 export default SignInPage;
-
-
-
-

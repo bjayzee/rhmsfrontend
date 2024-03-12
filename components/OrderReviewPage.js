@@ -16,6 +16,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const OrderReviewPage = () => {
+
   const [salesTerm, setSalesTerm] = useState("");
   const [formData, setFormData] = useState({
     firstName: "",
@@ -83,6 +84,7 @@ const OrderReviewPage = () => {
     month: "long",
     day: "numeric",
   };
+ 
   const formattedDate = oneWeekLater.toLocaleDateString(undefined, options);
 
   const email = formData?.email;
@@ -444,7 +446,6 @@ const OrderReviewPage = () => {
             Please note that delivery payment must be paid on checkout
           </p>
         </div>
-      </div>
 
       <div className="m-5">
         <h2 className="font-bold text-lg mb-3">Order Summary:</h2>
@@ -539,6 +540,8 @@ const OrderReviewPage = () => {
         <p className="mx-1">Applied</p>
       </div>
     </div>
+    </div>
+    
   );
 };
 

@@ -56,13 +56,13 @@ const SwapAppleWatch = () => {
     }
   };
 
-   const swapProduct = {
-     name: selectedOption,
-     grade: grade,
-     price: swapValue,
-     condition: selectedCondition,
-     storage: selectedStorage,
-   };
+  const swapProduct = {
+    name: selectedOption,
+    grade: grade,
+    price: swapValue,
+    condition: selectedCondition,
+    storage: selectedStorage,
+  };
 
   const handleSelectClick = () => {
     setShowDropdown(!showDropdown);

@@ -18,6 +18,12 @@ const CheckoutCartCard = ({ phone }) => {
       tempItem.quantity = tempItem.quantity + 1;
     }
 
+    const indexToBeReplaced = temp.findIndex(
+      (item) => item._id === tempItem._id
+    );
+    temp[indexToBeReplaced] = tempItem;
+    setCartItems([...temp]);
+  };
 
     return (
       <div className="my-5">
