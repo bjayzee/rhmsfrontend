@@ -83,7 +83,7 @@ const RepairManager = (props) => {
   };
 
   return (
-    <div className="my-[100px] mx-[50px]">
+    <div className="my-[50px] md:my-[100px] mx-[20px] md:mx-[50px]">
       <PageHeader
         title="Repair Manager"
         extra={[

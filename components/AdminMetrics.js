@@ -5,7 +5,7 @@ import { GrMoney } from "react-icons/gr";
 
 const AdminMetrics = ({products}) => {
   return (
-    <div className="flex items-center justify-center gap-[100px]">
+    <div className="flex flex-col md:flex-row items-center justify-center gap-[100px]">
       <div className="flex px-[30px] items-center justify-between h-[200px] w-[300px] shadow-lg rounded-sm">
         <div>
           {" "}

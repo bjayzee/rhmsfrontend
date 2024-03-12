@@ -353,7 +353,7 @@ function EditProduct({ data }) {
     formDataForBackend.append("thumbnail", imageUrl);
 
     axios
-      .put(`/api/products/?id=${data?._id}`, formDataForBackend, {
+      .put(`/api/products/${data?._id}`, formDataForBackend, {
         headers: {
           "Content-Type": "application/json",
         },

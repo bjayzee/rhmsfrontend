@@ -364,7 +364,7 @@ function CreateProduct() {
           </button>
         </Modal.Header>
         <Modal.Body className="px-[50px]">
-          <Form className="grid grid-cols-2 gap-[100px] overflow-y-scroll">
+          <Form className="flex flex-col md:grid md:grid-cols-2 gap-[30px] md:gap-[100px] overflow-y-scroll">
             <div>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>SubCategory</Form.Label>

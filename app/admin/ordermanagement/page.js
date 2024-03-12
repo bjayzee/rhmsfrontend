@@ -2,7 +2,7 @@
 
 import OrderTable from "@/components/OrderTable";
 import { useState, useEffect } from "react";
-import { PageHeader, Tabs, Button } from "antd";
+import { PageHeader } from "antd";
 
 
 const OrderManagement = () => {
@@ -15,18 +15,17 @@ const OrderManagement = () => {
   };
 
   useEffect(() => {
-
     fetchOrders();
   }, []);
 
   return (
-    <div className="my-[100px]">
-      <div className="mx-[50px]">
-        <PageHeader title="Orders" />
+      <div className="my-[50px] md:my-[100px] mx-[20px] md:mx-[50px]">
+        <div>
+          <PageHeader title="Orders" />
+          <OrderTable data={orders?.data} loading={orders?.loading} />
 
-       {orders?.data && (<OrderTable data={orders?.data} />)} 
+        </div>
       </div>
-    </div>
   );
 };
 

@@ -60,8 +60,8 @@ const AccessoriesManagement = (props) => {
   };
 
   return (
-    <div className="my-[100px]">
-      <div className="mx-[50px]">
+    <div className="my-[50px] md:my-[100px] mx-[20px] md:mx-[50px]">
+      <div>
         <PageHeader
           title="Accessories"
           extra={[

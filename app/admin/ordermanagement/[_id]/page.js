@@ -25,7 +25,7 @@ export default function OrderDetails({ params: { _id } }) {
   console.log(order.data);
 
   return (
-    <div className="my-[100px] mx-[50px]">
+    <div className="my-[50px] md:my-[100px] mx-[20px] md:mx-[50px]">
       <Card>
         <Card.Header className="flex items-center justify-between">
           <div className=" text-2xl font-bold">order Details</div>

@@ -40,7 +40,7 @@ console.log(swapItems.data)
   };
 
   return (
-    <div className="mx-[50px] my-[100px]">
+    <div className="my-[50px] md:my-[100px] mx-[20px] md:mx-[50px]">
       <PageHeader
         title="Swap Management"
         extra={[
