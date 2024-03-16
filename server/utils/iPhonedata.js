@@ -243,24 +243,23 @@ const states = [
 ];
 
 const locationDeliveryPrice = [
-  { name: "Office Pickup", value: 0 },
-  { name: "Pickup at CMS - Obalende - Marina - N4000", value: 4000 },
-  { name: "Pickup at VI - Lekki - Ajah - N5000", value: 5000 },
-  { name: "Pickup at Sangotedo - Epe Road - N7000", value: 7000 },
+  { name: " ", value: 0 },
+  { name: "Delivery at CMS - Obalende - Marina - N4000", value: 4000 },
+  { name: "Delivery at VI - Lekki - Ajah - N5000", value: 5000 },
+  { name: "Delivery at Sangotedo - Epe Road - N7000", value: 7000 },
   {
-    name: "Pickup at Oshodi - Isolo - Iyana Ipaja - Egbeda - N4000",
+    name: "Delivery at Oshodi - Isolo - Iyana Ipaja - Egbeda - N4000",
     value: 4000,
   },
   {
-    name: "Pickup at Ikotun - Ayobo - Abule Egba - Mushin - N4000",
+    name: "Delivery at Ikotun - Ayobo - Abule Egba - Mushin - N4000",
     value: 4000,
   },
   {
-    name: "Pickup at Ogba - Berger - Gbagada - Maryland - Anthony - Surulere - N3000",
+    name: "Delivery at Ogba - Berger - Gbagada - Maryland - Anthony - Surulere - N3000",
     value: 3000,
   },
-  { name: "Pickup at Ikorodu Axis - N5000", value: 5000 },
-  { name: "Pickup Outside Lagos - N10000", value: 10000 },
+  { name: "Delivery at Ikorodu Axis - N5000", value: 5000 },
 ];
 
 const howDidYouHearData = [

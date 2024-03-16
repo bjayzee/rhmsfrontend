@@ -4,7 +4,7 @@ import { CartContent } from "@/app/context/AppContext";
 import { useContext } from "react";
 
 const CheckoutCartCard = ({ phone }) => {
-  const { setCartItems, cartItems } = useContext(CartContent);
+  const { setCartItems, cartItems, swapItem} = useContext(CartContent);
   const updateItem = (type) => {
     const temp = [...cartItems];
 

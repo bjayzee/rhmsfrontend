@@ -27,7 +27,7 @@ const SwapiPhone = () => {
 
   const valueRef = useRef(null);
 
-  const { setSwapItem } = useContext(CartContent);
+  const { addToSwapItem, swapItem } = useContext(CartContent);
 
   useEffect(() => {
     getModelsAvailable();
@@ -110,8 +110,6 @@ const SwapiPhone = () => {
         item.name.trim().toLowerCase() === selectedOption.trim().toLowerCase()
       );
     });
-
-    console.log({ filteredItemsBySelection });
 
     const itemByLockStatus = filteredItemsBySelection.filter(
       (item) =>
@@ -339,7 +337,7 @@ const SwapiPhone = () => {
             <Link href="/buy-iphone" passHref>
               <button
                 className="flex items-center"
-                onClick={() => setSwapItem(swapProduct)}
+                onClick={() => addToSwapItem(swapProduct)}                    
               >
                 <p className="text-lg">Now let's select your new phone</p>
                 <IoIosArrowDropdownCircle className="text-[20px] text-rh-blue " />

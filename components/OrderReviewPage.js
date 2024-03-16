@@ -16,7 +16,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const OrderReviewPage = () => {
-
   const [salesTerm, setSalesTerm] = useState("");
   const [formData, setFormData] = useState({
     firstName: "",
@@ -31,29 +30,48 @@ const OrderReviewPage = () => {
     howDidYouHear: "",
   });
 
-  console.log({ formData });
-
-  const { cartItems, clearCartAndLocalStorage, swapItem } =
-    useContext(CartContent);
+  const {
+    cartItems,
+    clearCartAndLocalStorage,
+    swapItem,
+    clearSwapAndLocalStorage,
+    removeFromSwapItem,
+  } = useContext(CartContent);
 
   const router = useRouter();
+
+  let isSwap = swapItem?.length > 0 ? true : false;
 
   const totalPrice = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
 
+  const swapValue = swapItem?.reduce((sum, item) => sum + item.price, 0);
+
   const selectedLocation = formData?.shippingLocation;
   let location = locationDeliveryPrice.find(
     (location) => location.name === selectedLocation
   );
 
-  const locationPrice = location ? location.value : 0;
+  let locationPrice = 0;
 
-  const totalPayable = totalPrice - (swapItem?.price || 0) + locationPrice;
+  if (isSwap) {
+    locationPrice = 10000;
+  } else if (formData?.state !== "Lagos") {
+    locationPrice = 8000;
+  } else if (formData?.state === "Lagos") {
+    locationPrice = location?.value;
+  }
+
+  locationPrice = salesTerm === "Office Pick up" ? 0 : locationPrice;
+
+  const totalPayable = totalPrice - (swapValue || 0) + locationPrice;
 
   const finalPrice =
-    salesTerm === "Payment after delivery" ? locationPrice : totalPayable;
+    salesTerm === "Payment on delivery (Lagos only)"
+      ? locationPrice
+      : totalPayable;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -84,12 +102,34 @@ const OrderReviewPage = () => {
     month: "long",
     day: "numeric",
   };
- 
+
   const formattedDate = oneWeekLater.toLocaleDateString(undefined, options);
 
   const email = formData?.email;
   const paymentMade = finalPrice < 0 ? locationPrice || 0 : finalPrice;
   const phoneNumber = formData?.phoneNumber;
+
+  const requestData = {
+    orderItems: cartItems.map((item) => item._id),
+    shippingAddress: {
+      streetAddress: formData?.streetAddress,
+      city: formData?.city,
+      state: formData?.state,
+      shippingLocation: formData?.shippingLocation,
+    },
+    deliveryFee: locationPrice,
+    phoneNumber: formData?.phoneNumber,
+    status: "Pending",
+    customerInformation: {
+      firstName: formData?.firstName,
+      lastName: formData?.lastName,
+      email: email,
+    },
+    totalPrice: finalPrice,
+    paymentStatus: true,
+    howDidYouFindUs: formData?.howDidYouHear,
+    salesTerm: salesTerm,
+  };
 
   const componentProps = {
     email: email,
@@ -99,38 +139,15 @@ const OrderReviewPage = () => {
     },
     publicKey,
     text: "MAKE PAYMENT " + `(${paymentMade.toLocaleString()})`,
-    onSuccess: () => {           
-
-      const requestData = {
-        orderItems: cartItems.map((item) => item._id),
-        shippingAddress: {
-          streetAddress: formData?.streetAddress,
-          city: formData?.city,
-          state: formData?.state,
-          shippingLocation: formData?.shippingLocation,
-        },
-        deliveryFee: locationPrice,
-        phoneNumber: formData?.phoneNumber,
-        status: "Pending",
-        customerInformation: {
-          firstName: formData?.firstName,
-          lastName: formData?.lastName,
-          email: email,
-        },
-        totalPrice: finalPrice,
-        paymentStatus: true,
-        howDidYouFindUs: formData?.howDidYouHear,
-        salesTerm: salesTerm,
-      };
-
+    onSuccess: () => {
       axios
         .post("/api/order", requestData)
         .then((response) => {
-          console.log("Response data:", response.data);
 
-           toast.success("Order submitted successfully");
-           clearCartAndLocalStorage();
-           router.push("/");
+          toast.success("Order submitted successfully");
+          clearCartAndLocalStorage();
+          clearSwapAndLocalStorage();
+          router.push("/");
         })
         .catch((error) => {
           console.error("Error:", error.message);
@@ -140,6 +157,21 @@ const OrderReviewPage = () => {
     onClose: () => {
       alert("Wait! Don't leave :(");
     },
+  };
+
+  const handleCheckout = () => {
+    axios
+      .post("/api/order", requestData)
+      .then((response) => {
+
+        toast.success("Order submitted successfully");
+        clearCartAndLocalStorage();
+        clearSwapAndLocalStorage();
+        router.push("/");
+      })
+      .catch((error) => {
+        console.error("Error:", error.message);
+      });
   };
 
   return (
@@ -167,35 +199,52 @@ const OrderReviewPage = () => {
         )}
       </div>
 
-      {swapItem?.price > 0 ? (
+      {isSwap ? (
         <div className="my-5 mx-2">
           <p className="font-bold my-3">Items to be swapped:</p>
-          <div className="flex flex-row items-center justify-between border border-[gray] p-4 rounded-xl">
-            <img
-              src="/5631.jpg"
-              alt="swap-image"
-              className="w-10 h-20 object-cover rounded-md mr-4"
-            />
-            <div className="flex flex-col mx-2">
-              <p className="text-sm font-bold">{swapItem?.name}</p>
-              <p className="text-sm text-[gray]">
-                <span>Condition: </span>
-                {swapItem?.condition}
-              </p>
-              <p className="text-sm text-[gray]">
-                <span>Storage: </span>
-                {swapItem?.storage}
-              </p>
-              <p className="text-sm text-[gray]">
-                <span>Grade: </span>
-                {swapItem?.grade}
-              </p>
-            </div>
-            <div className="flex items-center mb-2">
-              <span className="ml-2 font-semibold w-fit">
-                ₦{swapItem?.price?.toLocaleString()}
-              </span>
-            </div>
+          <div className="border border-[gray] rounded-xl">
+            {swapItem?.map((item, index) => (
+              <>
+                <div
+                  key={index}
+                  className="flex flex-row items-center justify-between p-4 rounded-xl"
+                >
+                  <img
+                    src="/5631.jpg"
+                    alt="swap-image"
+                    className="w-10 h-20 object-cover rounded-md mr-4"
+                  />
+                  <div className="flex flex-col mx-2">
+                    <p className="text-sm font-bold">{item.name}</p>
+                    <p className="text-sm text-[gray]">
+                      <span>Condition: </span>
+                      {item.condition}
+                    </p>
+                    <p className="text-sm text-[gray]">
+                      <span>Storage: </span>
+                      {item.storage}
+                    </p>
+                    <p className="text-sm text-[gray]">
+                      <span>Grade: </span>
+                      {item?.grade}
+                    </p>
+                  </div>
+                  <div className="flex items-center mb-2">
+                    <span className="ml-2 font-semibold w-fit">
+                      ₦{item.price?.toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <button
+                    className="text-xs text-[red] px-3 py-1 round-md"
+                    onClick={() => removeFromSwapItem(index)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              </>
+            ))}
           </div>
         </div>
       ) : (
@@ -349,9 +398,10 @@ const OrderReviewPage = () => {
                   className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="state"
                   name="state"
-                  value={formData.state}
+                  value={isSwap ? "Lagos" : formData.state}
                   onChange={handleChange}
                   required
+                  disabled={isSwap}
                 >
                   {states.map((state) => (
                     <option key={state}>{state}</option>
@@ -369,7 +419,7 @@ const OrderReviewPage = () => {
               </div>
             </div>
 
-            {swapItem?.price > 0 && (
+            {isSwap && (
               <div className="w-full md:w-1/3 px-3 md:mb-0">
                 <label
                   htmlFor="accountNumber"
@@ -389,35 +439,41 @@ const OrderReviewPage = () => {
               </div>
             )}
 
-            <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-              <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                htmlFor="shippingLocation"
-              >
-                Choose your shipping location
-              </label>
-              <div className="relative">
-                <select
-                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  name="shippingLocation"
-                  onChange={handleChange}
-                  required
+            {isSwap || formData?.state !== "Lagos" ? (
+              ""
+            ) : (
+              <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <label
+                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  htmlFor="shippingLocation"
                 >
-                  {locationDeliveryPrice?.map((item, index) => (
-                    <option key={index}>{item.name}</option>
-                  ))}
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <svg
-                    className="fill-current h-4 w-4"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
+                  Choose your shipping location
+                </label>
+                <div className="relative">
+                  <select
+                    className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    name="shippingLocation"
+                    onChange={handleChange}
+                    required
+                    disabled={isSwap || formData?.state !== "Lagos"}
                   >
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                  </svg>
+                    {locationDeliveryPrice?.map((item, index) => (
+                      <option key={index}>{item.name}</option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg
+                      className="fill-current h-4 w-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                    </svg>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
+
             <div className="">
               <div className="w-full md:w-1/3 px-3 md:mb-0">
                 <RadioSelection
@@ -437,9 +493,14 @@ const OrderReviewPage = () => {
         <RadioSelection
           title={"Sales Terms:"}
           name={"sales-term"}
-          options={["Payment after delivery", "Payment before delivery"]}
+          options={[
+            "Payment on delivery (Lagos only)",
+            "Payment before delivery",
+            "Office Pick up",
+          ]}
           onChange={handleSalesTerm}
         />
+
         <div className="flex">
           <TiInfoLarge className="text-xs text-[gray]" />{" "}
           <p className="text-xs text-[gray]">
@@ -447,101 +508,103 @@ const OrderReviewPage = () => {
           </p>
         </div>
 
-      <div className="m-5">
-        <h2 className="font-bold text-lg mb-3">Order Summary:</h2>
-        <div className="flex justify-between mb-3">
-          <div>
-            <p>Items({cartItems.length})</p>
-          </div>
-          <div className=" flex flex-row">
-            ₦ <span> {totalPrice?.toLocaleString()}</span>
-          </div>
-        </div>
-        <div className="flex justify-between mb-3">
-          <div>
-            <p>Shipping fee:</p>
-          </div>
-          <div className=" flex flex-row">
-            ₦ <span> {locationPrice?.toLocaleString()}</span>
-          </div>
-        </div>
-
-        {swapItem?.price > 0 && (
+        <div className="m-5">
+          <h2 className="font-bold text-lg mb-3">Order Summary:</h2>
           <div className="flex justify-between mb-3">
             <div>
-              <p>Swap Item Value:</p>
+              <p>Items({cartItems.length})</p>
             </div>
             <div className=" flex flex-row">
-              ₦ <span> {swapItem?.price.toLocaleString()}</span>
+              ₦ <span> {totalPrice?.toLocaleString()}</span>
             </div>
           </div>
-        )}
-
-        {totalPayable > 0 ? (
-          <div className="flex justify-between font-bold mb-3">
+          <div className="flex justify-between mb-3">
             <div>
-              <p className="">Sub-Total:</p>
+              <p>Shipping fee:</p>
             </div>
             <div className=" flex flex-row">
-              ₦<span> {totalPayable?.toLocaleString()}</span>
+              ₦ <span> {locationPrice?.toLocaleString()}</span>
             </div>
+          </div>
+
+          {isSwap && (
+            <div className="flex justify-between mb-3">
+              <div>
+                <p>Swap Item Value:</p>
+              </div>
+              <div className=" flex flex-row">
+                ₦ <span> {swapValue.toLocaleString()}</span>
+              </div>
+            </div>
+          )}
+
+          {totalPayable > 0 && (
+            <div className="flex justify-between font-bold mb-3">
+              <div>
+                <p className="">Sub-Total:</p>
+              </div>
+              <div className=" flex flex-row">
+                ₦<span> {totalPayable?.toLocaleString()}</span>
+              </div>
+            </div>
+          )}
+
+          {finalPrice > -1 ? (
+            <div className="flex justify-between font-extrabold">
+              <div>
+                <p className="">TotalPayable:</p>
+              </div>
+              <div className=" flex flex-row">
+                ₦<span> {finalPrice?.toLocaleString()}</span>
+              </div>
+            </div>
+          ) : (
+            <div className="flex justify-between font-extrabold">
+              <div>
+                <p className="">Money Get Back:</p>
+              </div>
+              <div className=" flex flex-row">
+                ₦<span> {Math.abs(finalPrice)?.toLocaleString()}</span>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {salesTerm === "Office Pick up" ? (
+          <div className="m-5 flex justify-center">
+            <button
+              className="bg-rh-blue text-[white] px-4 py-2 rounded-md text-center"
+              onClick={handleCheckout}
+            >
+              Complete Order
+            </button>
           </div>
         ) : (
-          <div className="flex justify-between font-bold mb-3">
-            <div>
-              <p className="">Total CashBack:</p>
-            </div>
-            <div className=" flex flex-row">
-              ₦<span> {Math.abs(totalPayable)?.toLocaleString()}</span>
-            </div>
+          <div className="m-5 flex justify-center">
+            <PaystackButton
+              className="paystack-button bg-rh-blue text-[white] px-8 py-2 rounded-md"
+              {...componentProps}
+            />
           </div>
         )}
 
-        {finalPrice > -1 ? (
-          <div className="flex justify-between font-extrabold">
-            <div>
-              <p className="">TotalPayable:</p>
-            </div>
-            <div className=" flex flex-row">
-              ₦<span> {finalPrice?.toLocaleString()}</span>
-            </div>
-          </div>
-        ) : (
-          <div className="flex justify-between font-extrabold">
-            <div>
-              <p className="">Money Get Back:</p>
-            </div>
-            <div className=" flex flex-row">
-              ₦<span> {Math.abs(finalPrice)?.toLocaleString()}</span>
-            </div>
-          </div>
-        )}
-      </div>
+        <div className="flex justify-center">
+          <Link href="/checkoutPage" passHref>
+            <button
+              className="text-rh-blue text-sm px-4 rounded-md"
+              disabled={cartItems.length === 0}
+            >
+              Return to Cart
+            </button>
+          </Link>
+        </div>
 
-      <div className="m-5 pl-10 font-bold">
-        <PaystackButton
-          className="paystack-button bg-rh-blue text-[white] px-8 py-2 rounded-full"
-          {...componentProps}
-        />
-      </div>
-      <div className="flex justify-center">
-        <Link href="/checkoutPage" passHref>
-          <button
-            className="text-rh-blue text-sm px-4 rounded-md"
-            disabled={cartItems.length === 0}
-          >
-            Return to Cart
-          </button>
-        </Link>
-      </div>
-
-      <div className="flex mt-10">
-        <p style={{ color: "#187EB4" }}>Terms and Conditions</p>
-        <p className="mx-1">Applied</p>
+        <div className="flex mt-10">
+          <p className="text-rh-blue">Terms and Conditions</p>
+          <p className="mx-1">Applied</p>
+        </div>
       </div>
     </div>
-    </div>
-    
   );
 };
 

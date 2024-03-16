@@ -19,7 +19,6 @@ export default function Buy() {
   const [selectedStorage, setSelectedStorage] = useState(null);
   const [showAddToCart, setShowAddToCart] = useState(false);
   const [addToCartButton, setAddToCartButton] = useState(false);
-  const [removeItem, setRemoveItem] = useState(true);
   const [modelIndex, setModelIndex] = useState(0);
   const [iphoneModel, setIphoneModel] = useState("");
   const [availableModels, setAvailableModels] = useState([]);
@@ -67,9 +66,25 @@ export default function Buy() {
   const handleNewOrUsedChange = (iphoneState) => {
     const filteredItems = filterItemsBySpec(pickItems, "grade", iphoneState);
     const carriers = getUniqueValues(filteredItems, "carrier");
+
+    if (priceRef.current) {
+      priceRef.current.focus();
+      setTimeout(() => {
+        const elementRect = priceRef.current.getBoundingClientRect();
+
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const targetY = elementRect.top + scrollTop;
+
+        window.scrollTo({
+          top: targetY,
+          behavior: "smooth",
+        });
+      }, 100)
+        
+    }
     setPhoneBasedOnCarrier(filteredItems);
     setAvailableCarrier(carriers);
-    setSelectedCondition(iphoneState);
+    setSelectedCondition(iphoneState => !iphoneState);
     setLockState(null);
     setSelectedColor(null);
     setSelectedStorage(null);
@@ -132,15 +147,6 @@ export default function Buy() {
     setSelectedColor(iphoneColor);
     setPrice(filteredItems[0].price);
     setIphoneModel(filteredItems[0]);
-
-    if (priceRef.current) {
-      priceRef.current.focus();
-      window.scrollTo({
-        top: priceRef.current.offsetTop,
-        behavior: "smooth",
-      });
-    }
-
     setCurrentPictureIndex(0);
     setAddToCartButton(true);
   };
@@ -209,10 +215,11 @@ export default function Buy() {
 
                     const grades = getUniqueValues(itemPicked, "grade");
 
+                    console.log({ itemPicked });
+
                     setPickItems(itemPicked);
                     setGrade(grades);
                     setModelIndex(index);
-                    setIphoneModel(itemPicked[0]);
                     setSelectedModel(index);
                     setCurrentPictureIndex(0);
                   }
@@ -226,9 +233,194 @@ export default function Buy() {
           })}
         </div>
       )}
+      {selectedModel !== null && (
+        <div className="my-3 text-xl">
+          <p className="font-bold py-3">Phone Condition:</p>
 
-      {selectedModel === modelIndex && (
-        <div ref={priceRef} className="lg:flex lg:flex-row gap-10">
+          <div className="border border-[#187EB4] px-8 rounded-xl">
+            <div className="grid grid-cols-1">
+              <div
+                className={`flex items-center ${
+                  isConditionAvailable("New")
+                    ? ""
+                    : "opacity-50 cursor-not-allowed"
+                }`}
+                onClick={() =>
+                  isConditionAvailable("New") && handleNewOrUsedChange("New")
+                }
+              >
+                <input
+                  type="radio"
+                  name="radio1"
+                  className="w-4 h-8 mt-1"
+                  disabled={!isConditionAvailable("New")}
+                />
+                <span className="p-2 ml-2 font-semibold">Brand New</span>
+              </div>
+              <div className="pl-4 ml-4">
+                <p className="pb-3 text-[16px]">
+                  Phone still in factory original packaging, Must come with box
+                  and all accessories sealed/untounched
+                </p>
+              </div>
+
+              <hr />
+
+              <div
+                className={`flex items-center ${
+                  isConditionAvailable("Flawless")
+                    ? ""
+                    : "opacity-50 cursor-not-allowed"
+                }`}
+                onClick={() =>
+                  isConditionAvailable("Flawless") &&
+                  handleNewOrUsedChange("Flawless")
+                }
+              >
+                <input
+                  type="radio"
+                  name="radio1"
+                  className="w-4 h-8 mt-1"
+                  disabled={!isConditionAvailable("Flawless")}
+                />
+                <span className="p-2  ml-2 font-semibold">Flawless</span>
+              </div>
+              <div className="pl-4 ml-4">
+                <p className="pb-3 text-[16px]">
+                  Has absolutely no scratches, scuffs or other marks looks brand
+                  new
+                </p>
+              </div>
+
+              <hr />
+
+              <div
+                className={`flex items-center ${
+                  isConditionAvailable("Used")
+                    ? ""
+                    : "opacity-50 cursor-not-allowed"
+                }`}
+                onClick={() =>
+                  isConditionAvailable("Used") && handleNewOrUsedChange("Used")
+                }
+              >
+                <input
+                  type="radio"
+                  name="radio1"
+                  className="w-4 h-8 mt-1"
+                  disabled={!isConditionAvailable("Used")}
+                />
+                <span className="p-2 ml-2 font-semibold">Good</span>
+              </div>
+              <div className="pl-4 ml-4">
+                <p className="pb-3 text-[16px]">
+                  Shows light to moderate sign of wear. Contatains few light
+                  scratches and/or dents.
+                </p>
+              </div>
+
+              <hr />
+
+              <div
+                className={`flex items-center ${
+                  isConditionAvailable("Flawless")
+                    ? ""
+                    : "opacity-50 cursor-not-allowed"
+                }`}
+                onClick={() =>
+                  isConditionAvailable("Flawless") &&
+                  handleNewOrUsedChange("Flawless")
+                }
+              >
+                <input
+                  type="radio"
+                  name="radio1"
+                  className="w-4 h-8 mt-1"
+                  disabled={!isConditionAvailable("Flawless")}
+                />
+                <span className="p-2 ml-2 font-semibold">Fair</span>
+              </div>
+              <div className="pl-4 ml-4">
+                <p className="pb-3 text-[16px]">
+                  Shows moderate to excessive signs of wear. Contains excessive
+                  scratching, major dents, and/or mild housing damage such as a
+                  slightly bent frame.
+                </p>
+              </div>
+
+              <hr />
+
+              <div
+                className={`flex items-center ${
+                  isConditionAvailable("Flawless")
+                    ? ""
+                    : "opacity-50 cursor-not-allowed"
+                }`}
+                onClick={() =>
+                  isConditionAvailable("Flawless") &&
+                  handleNewOrUsedChange("Flawless")
+                }
+              >
+                <input
+                  type="radio"
+                  name="radio1"
+                  className="w-4 h-8 mt-1"
+                  disabled={!isConditionAvailable("Flawless")}
+                />
+                <span className="p-2 ml-2 font-semibold">Broken </span>
+              </div>
+              <div className="pl-4 ml-4">
+                <p className="pb-3 text-[16px]">
+                  Cracks (regardless of size) or broken parts on either screen
+                  or body the item.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {selectedCondition != null && (
+        <div ref={priceRef}>
+          <RadioSelection
+            title={"Carrier/Lock Status"}
+            name={"lock"}
+            options={availableCarrier}
+            onChange={(selectedOption) =>
+              handleLockedOrUnlockedChange(selectedOption)
+            }
+          />
+        </div>
+      )}
+      {lockState != null && (
+        <RadioSelection
+          title={"Sim Type"}
+          name={"sim"}
+          options={simTypes}
+          onChange={(selectedOption) => handleSimType(selectedOption)}
+        />
+      )}
+
+      {selectedSimOption !== null && (
+        <RadioSelection
+          title={"Select from available storages"}
+          options={storageList}
+          name={"storage"}
+          onChange={(selectedOption) => handleStorageSelection(selectedOption)}
+        />
+      )}
+
+      {selectedStorage !== null && (
+        <RadioSelection
+          title={"Select from available colors"}
+          name={"color"}
+          options={colorList}
+          onChange={(selectedOption) => handleColorChange(selectedOption)}
+        />
+      )}
+
+      {addToCartButton && (
+        <div className="lg:flex lg:flex-row gap-10">
           <ImageSlider
             images={iphoneModel?.images}
             currentPictureIndex={currentPictureIndex}
@@ -236,214 +428,23 @@ export default function Buy() {
             showNextImage={showNextImage}
           />
           <div className="px-5">
-            {removeItem !== false && (
-              <div className="flex justify-between py-4">
-                <b>{iphoneModel?.name}</b>
-                <b className="flex">Price: ₦{price?.toLocaleString()}</b>
-              </div>
-            )}
-
-            {removeItem !== false && (
-              <div className="my-3 text-xl">
-                <p className="font-bold py-3">Phone Condition:</p>
-
-                <div className="border border-[#187EB4] px-8 rounded-xl">
-                  <div className="grid grid-cols-1">
-                    <div
-                      className={`flex items-center ${
-                        isConditionAvailable("New")
-                          ? ""
-                          : "opacity-50 cursor-not-allowed"
-                      }`}
-                      onClick={() =>
-                        isConditionAvailable("New") &&
-                        handleNewOrUsedChange("New")
-                      }
-                    >
-                      <input
-                        type="radio"
-                        name="radio1"
-                        className="w-4 h-8 mt-1"
-                        disabled={!isConditionAvailable("New")}
-                      />
-                      <span className="p-2 ml-2 font-semibold">Brand New</span>
-                    </div>
-                    <div className="pl-4 ml-4">
-                      <p className="pb-3 text-[16px]">
-                        Phone still in factory original packaging, Must come
-                        with box and all accessories sealed/untounched
-                      </p>
-                    </div>
-
-                    <hr />
-
-                    <div
-                      className={`flex items-center ${
-                        isConditionAvailable("Flawless")
-                          ? ""
-                          : "opacity-50 cursor-not-allowed"
-                      }`}
-                      onClick={() =>
-                        isConditionAvailable("Flawless") &&
-                        handleNewOrUsedChange("Flawless")
-                      }
-                    >
-                      <input
-                        type="radio"
-                        name="radio1"
-                        className="w-4 h-8 mt-1"
-                        disabled={!isConditionAvailable("Flawless")}
-                      />
-                      <span className="p-2  ml-2 font-semibold">Flawless</span>
-                    </div>
-                    <div className="pl-4 ml-4">
-                      <p className="pb-3 text-[16px]">
-                        Has absolutely no scratches, scuffs or other marks looks
-                        brand new
-                      </p>
-                    </div>
-
-                    <hr />
-
-                    <div
-                      className={`flex items-center ${
-                        isConditionAvailable("Used")
-                          ? ""
-                          : "opacity-50 cursor-not-allowed"
-                      }`}
-                      onClick={() =>
-                        isConditionAvailable("Used") &&
-                        handleNewOrUsedChange("Used")
-                      }
-                    >
-                      <input
-                        type="radio"
-                        name="radio1"
-                        className="w-4 h-8 mt-1"
-                        disabled={!isConditionAvailable("Used")}
-                      />
-                      <span className="p-2 ml-2 font-semibold">Good</span>
-                    </div>
-                    <div className="pl-4 ml-4">
-                      <p className="pb-3 text-[16px]">
-                        Shows light to moderate sign of wear. Contatains few
-                        light scratches and/or dents.
-                      </p>
-                    </div>
-
-                    <hr />
-
-                    <div
-                      className={`flex items-center ${
-                        isConditionAvailable("Flawless")
-                          ? ""
-                          : "opacity-50 cursor-not-allowed"
-                      }`}
-                      onClick={() =>
-                        isConditionAvailable("Flawless") &&
-                        handleNewOrUsedChange("Flawless")
-                      }
-                    >
-                      <input
-                        type="radio"
-                        name="radio1"
-                        className="w-4 h-8 mt-1"
-                        disabled={!isConditionAvailable("Flawless")}
-                      />
-                      <span className="p-2 ml-2 font-semibold">Fair</span>
-                    </div>
-                    <div className="pl-4 ml-4">
-                      <p className="pb-3 text-[16px]">
-                        Shows moderate to excessive signs of wear. Contains
-                        excessive scratching, major dents, and/or mild housing
-                        damage such as a slightly bent frame.
-                      </p>
-                    </div>
-
-                    <hr />
-
-                    <div
-                      className={`flex items-center ${
-                        isConditionAvailable("Flawless")
-                          ? ""
-                          : "opacity-50 cursor-not-allowed"
-                      }`}
-                      onClick={() =>
-                        isConditionAvailable("Flawless") &&
-                        handleNewOrUsedChange("Flawless")
-                      }
-                    >
-                      <input
-                        type="radio"
-                        name="radio1"
-                        className="w-4 h-8 mt-1"
-                        disabled={!isConditionAvailable("Flawless")}
-                      />
-                      <span className="p-2 ml-2 font-semibold">Broken </span>
-                    </div>
-                    <div className="pl-4 ml-4">
-                      <p className="pb-3 text-[16px]">
-                        Cracks (regardless of size) or broken parts on either
-                        screen or body the item.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {selectedCondition != null && (
-              <RadioSelection
-                title={"Carrier/Lock Status"}
-                name={"lock"}
-                options={availableCarrier}
-                onChange={(selectedOption) =>
-                  handleLockedOrUnlockedChange(selectedOption)
-                }
-              />
-            )}
-            {lockState != null && (
-              <RadioSelection
-                title={"Sim Type"}
-                name={"sim"}
-                options={simTypes}
-                onChange={(selectedOption) => handleSimType(selectedOption)}
-              />
-            )}
-
-            {selectedSimOption !== null && (
-              <RadioSelection
-                title={"Select from available storages"}
-                options={storageList}
-                name={"storage"}
-                onChange={(selectedOption) =>
-                  handleStorageSelection(selectedOption)
-                }
-              />
-            )}
-
-            {selectedStorage !== null && (
-              <RadioSelection
-                title={"Select from available colors"}
-                name={"color"}
-                options={colorList}
-                onChange={(selectedOption) => handleColorChange(selectedOption)}
-              />
-            )}
-
-            {addToCartButton && (
-              <div className="flex justify-center items-center">
-                <Link href="/checkoutPage">
-                  <button
-                    className="bg-[#187EB4] px-16 py-4 mt-5 rounded-full text-[#FFFFFF]"
-                    onClick={() => addToCart(iphoneModel)}
-                  >
-                    Add to Cart
-                  </button>
-                </Link>
-              </div>
-            )}
+            <div className="flex justify-between py-4">
+              <b>{iphoneModel?.name}</b>
+              <b className="flex">Price: ₦{price?.toLocaleString()}</b>
+            </div>
           </div>
+        </div>
+      )}
+      {addToCartButton && (
+        <div className="flex justify-center items-center">
+          <Link href="/checkoutPage">
+            <button
+              className="bg-[#187EB4] px-16 py-4 mt-5 rounded-full text-[#FFFFFF]"
+              onClick={() => addToCart(iphoneModel)}
+            >
+              Add to Cart
+            </button>
+          </Link>
         </div>
       )}
     </div>

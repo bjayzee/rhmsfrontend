@@ -29,7 +29,7 @@ const Cart = () => {
     }
   };
 
-  const swapValue = swapItem?.price;
+  const swapValue = swapItem?.reduce((sum,item) => sum + item.price, 0);
   
   const price = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,

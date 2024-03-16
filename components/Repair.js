@@ -7,12 +7,10 @@ import { IoIosArrowDropdownCircle } from "react-icons/io";
 import RadioSelection from "./RadioSelectionButton";
 import { InlineWidget, useCalendlyEventListener } from "react-calendly";
 import { useRouter } from "next/navigation";
-import 'react-toastify/dist/ReactToastify.css';
-
-
+import "react-toastify/dist/ReactToastify.css";
+import { PaystackButton } from "react-paystack";
 
 export default function Repair() {
-
   const router = useRouter();
 
   const [selectedOption, setSelectedOption] = useState(null);
@@ -34,10 +32,11 @@ export default function Repair() {
   const [faceId, setFaceId] = useState("");
   const [trueTone, setTrueTone] = useState("");
   const [phoneOpenedBefore, setPhoneOpenedBefore] = useState("");
-  const[name, setName] = useState("");
-  const[email, setEmail] = useState("");
-  const[foundUs, setFoundUs] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [foundUs, setFoundUs] = useState("");
   const [total, setTotal] = useState(0);
+  const [showPickup, setShowPickup] = useState(false);
 
   useEffect(() => {
     const fetchRepairCenters = async () => {
@@ -53,7 +52,6 @@ export default function Repair() {
         console.error("error fetching repair centers", error);
       }
     };
-
     const fetchRepairItems = async () => {
       try {
         const items = await axios
@@ -73,33 +71,12 @@ export default function Repair() {
   }, []);
 
   let [values, setValues] = useState([]);
-  console.log({ selectedOption });
-  console.log({ values });
 
   useCalendlyEventListener({
     onProfilePageViewed: () => console.log("onProfilePageViewed"),
     onDateAndTimeSelected: () => console.log("onDateAndTimeSelected"),
     onEventTypeViewed: () => console.log("onEventTypeViewed"),
     onEventScheduled: (e) => {
-      console.log(e.data.payload);
-      const requestData = {
-        repairItem: selectedOption.name,
-        repairType: values,
-        otherIssues: otherIssues || "Nil",
-        repairCenter: selectedRepairCenter._id,
-        status: selectedOption.status,
-        customerDetail: {
-          name: name,
-          email: email,
-          howDidYouFoundUs: foundUs,
-        },
-        faceId: faceId,
-        trueTone: trueTone,
-        phoneOpenedBefore: phoneOpenedBefore,
-        repairReport: " ",
-        repairClinicTagNum: " ",
-      };
-
       axios
         .post("/api/repair", requestData)
         .then((response) => {
@@ -132,13 +109,85 @@ export default function Repair() {
     setShowSelectedRepairCenter((prevState) => !prevState);
   };
 
-  const handleChange = () => {};
 
   const repairOptions = [
     { name: "Screen Replacement", value: " " },
     { name: "Back Glass Replacement", value: "" },
     { name: "Battery Replacement", value: "" },
   ];
+
+  const publicKey = "pk_test_e6a2faffaa725830254d3779b2aeb589c625f487";
+  const requestData = {
+    repairItem: selectedOption?.name,
+    repairType: values,
+    otherIssues: otherIssues || "Nil",
+    repairCenter: selectedRepairCenter?._id,
+    status: selectedOption?.status,
+    customerDetail: {
+      name: name,
+      email: email,
+      howDidYouFoundUs: foundUs,
+    },
+    faceId: faceId,
+    trueTone: trueTone,
+    phoneOpenedBefore: phoneOpenedBefore,
+    repairReport: " ",
+    repairClinicTagNum: " ",
+  };
+
+  const paymentMade = 8000;
+
+  const componentProps = {
+    email: email,
+    amount: paymentMade * 100,
+    metadata: {
+      phone: "",
+    },
+    publicKey,
+    text:
+      "Proceed to make pickup payment " + `₦ (${paymentMade.toLocaleString()})`,
+    onSuccess: () => {
+      axios
+        .post("/api/repair", requestData)
+        .then((response) => {
+          toast.success("Your repair request has been submitted successfully");
+          router.push("/");
+        })
+        .catch((error) => {
+          console.error("Error:", error.message);
+        });
+    },
+
+    onClose: () => {
+      alert("Wait! Don't leave :(");
+    },
+  };
+
+  let totalPrice = values?.reduce((sum, item) => {
+    console.log({ item });
+    console.log({selectedOption})
+    let itemName = "";
+    const name = item.name;
+    switch(name){
+      case "Screen Replacement": 
+        itemName = "screenReplacement";
+      break;
+      case "Back Glass Replacement":
+        itemName = "backGlassReplacement";
+      break;
+      case "Battery Replacement":
+        itemName = "batteryReplacement";
+        break;
+    }
+    const price =
+      item.value.toLowerCase() === "premium"
+        ? selectedOption[itemName]?.premiumCost
+        : selectedOption[itemName]?.economyCost;
+
+    console.log({ price });
+    return sum + price;
+  }, 0);
+
   return (
     <div className="m-5 px-3">
       <ToastContainer />
@@ -406,16 +455,7 @@ export default function Repair() {
 
             <p className="font-bold my-3">
               Total: ₦
-              {values?.reduce((sum, item) => {
-                console.log({item})
-                const price =
-                  item.value.toLowerCase() === "premium"
-                    ? selectedOption.premiumCost
-                    : selectedOption.economyCost;
-
-                    console.log({price})
-                return sum + price;
-              }, 0)}
+              {totalPrice.toLocaleString()}
             </p>
           </div>
 
@@ -457,7 +497,10 @@ export default function Repair() {
             </button>
             <button
               className="p-3 rounded-xl border-[#D9D9D9] border-2"
-              onClick={() => {}}
+              onClick={() => {
+                setShowPickup(true);
+                setShowCalendar(false);
+              }}
             >
               Pick Up
             </button>
@@ -465,6 +508,15 @@ export default function Repair() {
         </div>
       ) : (
         " "
+      )}
+
+      {showPickup && (
+        <div className="m-5 flex justify-center">
+          <PaystackButton
+            className="paystack-button bg-rh-blue text-[white] px-8 py-2 rounded-md"
+            {...componentProps}
+          />
+        </div>
       )}
 
       {showCalendar && (

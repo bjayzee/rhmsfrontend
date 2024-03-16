@@ -16,14 +16,18 @@ function AppContext({ children }) {
     if (ls) {
       try {
         const storedCartItems = JSON.parse(ls.getItem("cart"));
+        const storedSwapItems = JSON.parse(ls.getItem("swap"));
         if (storedCartItems) {
           setCartItems(storedCartItems);
+        }
+        if (storedSwapItems) {
+          setSwapItem(storedSwapItems);
         }
       } catch (error) {
         console.error("Error retrieving cart items from localStorage:", error);
       }
     }
-  }, [ls, setCartItems]);
+  }, [ls, setCartItems, setSwapItem]);
 
   const saveCartItemsToLocalStorage = (cartItems) => {
     if (ls) {
@@ -34,9 +38,24 @@ function AppContext({ children }) {
       }
     }
   };
+
+  const saveSwapItemsToLocalStorage = (swapItems) => {
+    if (ls) {
+      try {
+        ls.setItem("swap", JSON.stringify(swapItems));
+      } catch (error) {
+        console.error("Error saving swap items to localStorage:", error);
+      }
+    }
+  };
   const clearCartAndLocalStorage = () => {
     ls.clear();
     setCartItems([]);
+  };
+
+  const clearSwapAndLocalStorage = () => {
+    ls.clear();
+    setSwapItem([]);
   };
 
   const addToCart = async (phone) => {
@@ -46,6 +65,7 @@ function AppContext({ children }) {
       quantity,
       price: phone.price,
     };
+
     setCartItems((prev) => {
       const newProducts = [...prev, cartProduct];
       saveCartItemsToLocalStorage(newProducts);
@@ -63,6 +83,25 @@ function AppContext({ children }) {
 
   };
 
+
+  const addToSwapItem = async (item) => {
+  
+     setSwapItem((prev) => {
+      const newProducts = [...prev, item];
+      saveSwapItemsToLocalStorage(newProducts);
+      toast.success("New swap item added");
+      return newProducts;
+    });
+  }
+
+  const removeFromSwapItem = (index) => {
+    const updatedCart = [...swapItem];
+    updatedCart.splice(index, 1);
+    setSwapItem(updatedCart);
+    ls.setItem("swap", JSON.stringify(updatedCart));
+
+  };
+
   return (
     <div>
       <CartContent.Provider
@@ -73,7 +112,10 @@ function AppContext({ children }) {
           addToCart,
           clearCartAndLocalStorage,
           setSwapItem,
-          swapItem
+          swapItem,
+          removeFromSwapItem,
+          addToSwapItem,
+          clearSwapAndLocalStorage
         }}
       >
         {children}

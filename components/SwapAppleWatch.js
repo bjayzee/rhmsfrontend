@@ -28,7 +28,7 @@ const SwapAppleWatch = () => {
 
   const valueRef = useRef(null);
 
-  const { setSwapItem } = useContext(CartContent);
+  const { swapItem, addToSwapItem } = useContext(CartContent);
 
   useEffect(() => {
     getModelsAvailable();
@@ -118,8 +118,6 @@ const SwapAppleWatch = () => {
       (item) =>
         item.carrier.trim().toLowerCase() === condition.trim().toLowerCase()
     );
-    console.log({ itemByLockStatus });
-
     const availableStorage = itemByLockStatus[0].storageVariance;
 
     setItemSelected(itemByLockStatus[0]);
@@ -323,7 +321,12 @@ const SwapAppleWatch = () => {
             <Link href="/buy-iphone" passHref>
               <button
                 className="flex items-center"
-                onClick={() => setSwapItem(swapProduct)}
+                onClick={() => {
+                  if (!swapItem.includes(swapProduct)) {
+                    addToSwapItem(swapProduct);
+                  }
+                } 
+              }   
               >
                 <p className="text-lg">Now let's select your new gadgets</p>
                 <IoIosArrowDropdownCircle className="text-[20px] text-rh-blue " />
