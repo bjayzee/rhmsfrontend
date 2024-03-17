@@ -1,4 +1,3 @@
-
 const DealODayCard = ({ onClick, param }) => {
   return (
     <section
@@ -18,7 +17,7 @@ const DealODayCard = ({ onClick, param }) => {
       <div className="w-20 h-2 text-black text-l py-5">
         ₦ {param.price.toLocaleString()}
       </div>
-      <button className="w-[120px] h-[26px] bg-rh-blue rounded-[10px] shadow text-white-100 mt-2">
+      <button className="w-[120px] h-[26px] bg-rh-blue rounded-[10px] shadow text-[white] mt-2">
         BUY
       </button>
     </section>
