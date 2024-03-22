@@ -143,7 +143,6 @@ const OrderReviewPage = () => {
       axios
         .post("/api/order", requestData)
         .then((response) => {
-
           toast.success("Order submitted successfully");
           clearCartAndLocalStorage();
           clearSwapAndLocalStorage();
@@ -163,7 +162,6 @@ const OrderReviewPage = () => {
     axios
       .post("/api/order", requestData)
       .then((response) => {
-
         toast.success("Order submitted successfully");
         clearCartAndLocalStorage();
         clearSwapAndLocalStorage();
@@ -179,6 +177,11 @@ const OrderReviewPage = () => {
       <div className="font-bold m-5">
         <h1>Ready to place your order?</h1>
         <h1>Here are the details for your order</h1>
+      </div>
+
+      <div className="flex bg-[gray]">
+        <TiInfoLarge className="text-xs text-[white]" />{" "}
+        <p className="text-xs text-[white]">We offer 30 days guarantee</p>
       </div>
 
       <div className="font-bold m-5">
@@ -425,7 +428,7 @@ const OrderReviewPage = () => {
                   htmlFor="accountNumber"
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                 >
-                  Account Number
+                  Bank Account Details
                 </label>
                 <input
                   id="accountNumber"
@@ -503,8 +506,8 @@ const OrderReviewPage = () => {
 
         <div className="flex">
           <TiInfoLarge className="text-xs text-[gray]" />{" "}
-          <p className="text-xs text-[gray]">
-            Please note that delivery payment must be paid on checkout
+          <p className="text-xs text-[red]">
+            Please note that delivery fee must be paid on checkout
           </p>
         </div>
 
@@ -561,7 +564,13 @@ const OrderReviewPage = () => {
           ) : (
             <div className="flex justify-between font-extrabold">
               <div>
-                <p className="">Money Get Back:</p>
+                <p className="">Total Cash Back:</p>
+                <div className="flex">
+                  <TiInfoLarge className="text-xs text-[gray]" />{" "}
+                  <small className="text-xs text-[gray]">
+                    Cash Back is the sum of money that you get from the company
+                  </small>
+                </div>
               </div>
               <div className=" flex flex-row">
                 ₦<span> {Math.abs(finalPrice)?.toLocaleString()}</span>

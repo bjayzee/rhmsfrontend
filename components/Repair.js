@@ -35,7 +35,6 @@ export default function Repair() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [foundUs, setFoundUs] = useState("");
-  const [total, setTotal] = useState(0);
   const [showPickup, setShowPickup] = useState(false);
 
   useEffect(() => {
@@ -109,6 +108,11 @@ export default function Repair() {
     setShowSelectedRepairCenter((prevState) => !prevState);
   };
 
+  const handleHowDidYouHearChange = (event) => {
+    setFoundUs(event)
+    };
+  };
+
 
   const repairOptions = [
     { name: "Screen Replacement", value: " " },
@@ -168,6 +172,7 @@ export default function Repair() {
     console.log({selectedOption})
     let itemName = "";
     const name = item.name;
+    
     switch(name){
       case "Screen Replacement": 
         itemName = "screenReplacement";
@@ -368,6 +373,16 @@ export default function Repair() {
             }}
           />
 
+          <div className="w-full md:w-1/3 px-3 md:mb-0">
+            <RadioSelection
+              title={"How did you hear about us"}
+              name={"howDidYouHear"}
+              options={howDidYouHearData}
+              onChange={handleHowDidYouHearChange}
+              required
+            />
+          </div>
+
           <div className="flex flex-col justify-center">
             <h4 className="font-semibold text-xl">How do you know about us:</h4>
           </div>
@@ -454,8 +469,7 @@ export default function Repair() {
             </div>
 
             <p className="font-bold my-3">
-              Total: ₦
-              {totalPrice.toLocaleString()}
+              Total: ₦{totalPrice.toLocaleString()}
             </p>
           </div>
 
@@ -502,7 +516,7 @@ export default function Repair() {
                 setShowCalendar(false);
               }}
             >
-              Pick Up
+              Pick Up(Lagos only)
             </button>
           </div>
         </div>
