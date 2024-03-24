@@ -1,11 +1,9 @@
-import { PNav, NavBar, Footer } from '@/components'
-import './globals.css'
-import "antd/dist/antd.variable.min.css";
-import 'bootstrap/dist/css/bootstrap.min.css'
+import '../globals.css';
 import { Nunito_Sans } from "next/font/google";
-import AppContext from './context/AppContext';
-import SessionProvider from './context/AuthProvider'
+import AppContext from '../context/AppContext';
+import SessionProvider from '../context/AuthProvider'
 import { getServerSession } from 'next-auth';
+import { PNav, NavBar, Footer } from '@/components';
 
 
 
@@ -22,7 +20,6 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={nunito.className}>
-        
         <SessionProvider session={session}>
           <AppContext>
             <PNav />
@@ -31,10 +28,7 @@ export default async function RootLayout({ children }) {
             <Footer />
           </AppContext>
         </SessionProvider>
-
-
-
       </body>
     </html>
-  )
+  );
 }

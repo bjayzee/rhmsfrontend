@@ -17,11 +17,13 @@ export const metadata = {
 
 export default function Layout({ children }) {
   return (
+    <html lang="en">
       <body className={nunito.className}>
         <AdminNav/>
       <div>{children}</div>
 
       </body>
+    </html>
  
   );
 }

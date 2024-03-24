@@ -129,7 +129,7 @@ const AdminNav = () => {
     <nav className="text-center flex flex-col items-center md:flex-row md:justify-between px-4 py-4 md:px-8 bg-[#187EB4]">
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center">
-          <Link href="/">
+          <Link href="/admin">
             <Image src="/rhmstechlogo.png" alt="logo" width={41} height={40} />
           </Link>
         </div>
@@ -143,8 +143,8 @@ const AdminNav = () => {
           </button>
         </div>
         <div className="md:flex items-center gap-4 hidden">
-               <Link href="/admin/productmanagement"
-         className={`text-${isActive('/admin/productmanagement') ? '[#fff]' : '[#000]'} hover:text-[#fff] text-sm no-underline`}>
+               <Link href="/admin"
+         className={`text-${isActive('/admin') ? '[#fff]' : '[#000]'} hover:text-[#fff] text-sm no-underline`}>
             Product Management
 
         </Link>

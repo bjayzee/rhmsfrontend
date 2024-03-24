@@ -10,8 +10,9 @@ import moment from 'moment'
 import { BsArrowLeft } from 'react-icons/bs'
 
 
-export default function ProductDetails({ params: { _id } }) {
+export default function ProductDetails({params}) {
 
+  const { id } = params;
 
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(false);
@@ -19,7 +20,7 @@ export default function ProductDetails({ params: { _id } }) {
   useEffect(() => {
     setLoading(true);
     const fetchProduct = async () => {
-      const res = await fetch(`/api/products/${_id}`);
+      const res = await fetch(`/api/products/${id}`);
       const data = await res.json();
       setProduct(data);
       setLoading(false);
@@ -38,7 +39,7 @@ export default function ProductDetails({ params: { _id } }) {
           <div>
             <div className='userInfo__back  '>
              
-                <Link className='no-underline flex items-center gap-[5px]' href="/admin/productmanagement">
+                <Link className='no-underline flex items-center gap-[5px]' href="/admin">
                 <BsArrowLeft /> <div>Back</div>
                 </Link>
                

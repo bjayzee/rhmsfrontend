@@ -10,7 +10,7 @@ import { notification } from "antd";
 import axios from "axios";
 
 const { TabPane } = Tabs;
-const ProductManagement = (props) => {
+const ProductManagement = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -76,7 +76,7 @@ const ProductManagement = (props) => {
             </Button>,
           ]}
         />
-  <StyledDiv {...props}>
+  {/* <StyledDiv {...props}> */}
           <Tabs defaultActiveKey="1">
             <TabPane tab="IPhones" key="1">
               <ProductTable
@@ -114,7 +114,7 @@ const ProductManagement = (props) => {
               />
             </TabPane>
           </Tabs>
-        </StyledDiv>      
+        {/* </StyledDiv>       */}
      <ToastContainer/>
       </div>
     </div>
@@ -123,7 +123,7 @@ const ProductManagement = (props) => {
 
 export default ProductManagement;
 
-const StyledDiv = styled.div`
-  margin-products: 1rem;
-  padding: 0 0.5rem;
-`;
+// const StyledDiv = styled.div`
+//   margin-products: 1rem;
+//   padding: 0 0.5rem;
+// `;

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Hero, DealOfTheDay, RHMSNEWS } from "@/components";
 
 export default function Home() {
@@ -7,7 +6,6 @@ export default function Home() {
       <div className="lg:hidden">
         <Hero />
       </div>
-
       <DealOfTheDay />
       <RHMSNEWS />
     </main>
