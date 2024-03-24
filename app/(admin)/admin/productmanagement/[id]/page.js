@@ -10,6 +10,7 @@ import moment from 'moment'
 import { BsArrowLeft } from 'react-icons/bs'
 
 
+
 export default function ProductDetails({params}) {
 
   const { id } = params;
@@ -29,7 +30,6 @@ export default function ProductDetails({params}) {
     fetchProduct();
   }, []);
 
-  console.log(product.data)
 
   return (
     <div className='my-[100px] mx-[50px]'>

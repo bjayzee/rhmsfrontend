@@ -8,8 +8,13 @@ import EditArticle from "@/components/EditArticle";
 import { notification } from "antd";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const ManageArticles = () => {
+  const { data: session, status: sessionStatus } = useSession();
+  const router = useRouter();
+
   const [posts, setPosts] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [filteredPosts, setFilteredPosts] = useState([]);
