@@ -9,6 +9,7 @@ import { InlineWidget, useCalendlyEventListener } from "react-calendly";
 import { useRouter } from "next/navigation";
 import "react-toastify/dist/ReactToastify.css";
 import { PaystackButton } from "react-paystack";
+import { howDidYouHearData } from "@/server/utils/iPhonedata";
 
 export default function Repair() {
   const router = useRouter();
@@ -36,6 +37,8 @@ export default function Repair() {
   const [email, setEmail] = useState("");
   const [foundUs, setFoundUs] = useState("");
   const [showPickup, setShowPickup] = useState(false);
+
+  const publicKey = "pk_test_e6a2faffaa725830254d3779b2aeb589c625f487";
 
   useEffect(() => {
     const fetchRepairCenters = async () => {
@@ -71,56 +74,6 @@ export default function Repair() {
 
   let [values, setValues] = useState([]);
 
-  useCalendlyEventListener({
-    onProfilePageViewed: () => console.log("onProfilePageViewed"),
-    onDateAndTimeSelected: () => console.log("onDateAndTimeSelected"),
-    onEventTypeViewed: () => console.log("onEventTypeViewed"),
-    onEventScheduled: (e) => {
-      axios
-        .post("/api/repair", requestData)
-        .then((response) => {
-          toast.success("Your repair request has been scheduled successfully");
-          router.push("/");
-          console.log("Response data:", response.data);
-        })
-        .catch((error) => {
-          console.error("Error:", error.message);
-        });
-    },
-  });
-
-  const handleOptionSelect = (option) => {
-    setSelectedOption(option);
-    setShowDropdown(false);
-  };
-
-  const handleCenterOptionSelect = (option) => {
-    setSelectedRepairCenter(option);
-    setShowSelectedRepairCenter(false);
-    setShowSummary(true);
-  };
-
-  const handleSelectClick = () => {
-    setShowDropdown(true);
-  };
-
-  const handleSelectCenter = () => {
-    setShowSelectedRepairCenter((prevState) => !prevState);
-  };
-
-  const handleHowDidYouHearChange = (event) => {
-    setFoundUs(event)
-    };
-  };
-
-
-  const repairOptions = [
-    { name: "Screen Replacement", value: " " },
-    { name: "Back Glass Replacement", value: "" },
-    { name: "Battery Replacement", value: "" },
-  ];
-
-  const publicKey = "pk_test_e6a2faffaa725830254d3779b2aeb589c625f487";
   const requestData = {
     repairItem: selectedOption?.name,
     repairType: values,
@@ -138,6 +91,29 @@ export default function Repair() {
     repairReport: " ",
     repairClinicTagNum: " ",
   };
+
+  let totalPrice = values?.reduce((sum, item) => {
+    let itemName = "";
+    const name = item.name;
+
+    switch (name) {
+      case "Screen Replacement":
+        itemName = "screenReplacement";
+        break;
+      case "Back Glass Replacement":
+        itemName = "backGlassReplacement";
+        break;
+      case "Battery Replacement":
+        itemName = "batteryReplacement";
+        break;
+    }
+    const price =
+      item.value.toLowerCase() === "premium"
+        ? selectedOption[itemName]?.premiumCost
+        : selectedOption[itemName]?.economyCost;
+
+    return sum + price;
+  }, 0);
 
   const paymentMade = 8000;
 
@@ -167,31 +143,51 @@ export default function Repair() {
     },
   };
 
-  let totalPrice = values?.reduce((sum, item) => {
-    console.log({ item });
-    console.log({selectedOption})
-    let itemName = "";
-    const name = item.name;
-    
-    switch(name){
-      case "Screen Replacement": 
-        itemName = "screenReplacement";
-      break;
-      case "Back Glass Replacement":
-        itemName = "backGlassReplacement";
-      break;
-      case "Battery Replacement":
-        itemName = "batteryReplacement";
-        break;
-    }
-    const price =
-      item.value.toLowerCase() === "premium"
-        ? selectedOption[itemName]?.premiumCost
-        : selectedOption[itemName]?.economyCost;
+  useCalendlyEventListener({
+    onProfilePageViewed: () => console.log("onProfilePageViewed"),
+    onDateAndTimeSelected: () => console.log("onDateAndTimeSelected"),
+    onEventTypeViewed: () => console.log("onEventTypeViewed"),
+    onEventScheduled: (e) => {
+      axios
+        .post("/api/repair", requestData)
+        .then((response) => {
+          toast.success("Your repair request has been scheduled successfully");
+          router.push("/");
+        })
+        .catch((error) => {
+          console.error("Error:", error.message);
+        });
+    },
+  });
 
-    console.log({ price });
-    return sum + price;
-  }, 0);
+  const handleOptionSelect = (option) => {
+    setSelectedOption(option);
+    setShowDropdown(false);
+  };
+
+  const handleCenterOptionSelect = (option) => {
+    setSelectedRepairCenter(option);
+    setShowSelectedRepairCenter(false);
+    setShowSummary(true);
+  };
+
+  const handleSelectClick = () => {
+    setShowDropdown(true);
+  };
+
+  const handleSelectCenter = () => {
+    setShowSelectedRepairCenter((prevState) => !prevState);
+  };
+
+  const handleHowDidYouHearChange = (event) => {
+    setFoundUs(event);
+  };
+
+  const repairOptions = [
+    { name: "Screen Replacement", value: " " },
+    { name: "Back Glass Replacement", value: "" },
+    { name: "Battery Replacement", value: "" },
+  ];
 
   return (
     <div className="m-5 px-3">
@@ -373,7 +369,7 @@ export default function Repair() {
             }}
           />
 
-          <div className="w-full md:w-1/3 px-3 md:mb-0">
+          <div className=" md:w-1/3 md:mb-0 mb-3">
             <RadioSelection
               title={"How did you hear about us"}
               name={"howDidYouHear"}
@@ -382,16 +378,6 @@ export default function Repair() {
               required
             />
           </div>
-
-          <div className="flex flex-col justify-center">
-            <h4 className="font-semibold text-xl">How do you know about us:</h4>
-          </div>
-          <input
-            className="text-xs outline-none border border-rh-blue w-full h-[50px] px-3 my-3"
-            onChange={(e) => {
-              setFoundUs(e.target.value);
-            }}
-          />
 
           {showSelectCenterButton && (
             <button
@@ -504,8 +490,11 @@ export default function Repair() {
 
           <div className="flex justify-between">
             <button
-              className="p-3 rounded-xl border-[#D9D9D9] border-2"
-              onClick={() => setShowCalendar(true)}
+              className="py-3 px-6 rounded-xl border-[#D9D9D9] border-2"
+              onClick={() => {
+                setShowCalendar(true);
+                setShowPickup(false);
+              }}
             >
               Walk in
             </button>

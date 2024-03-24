@@ -334,16 +334,21 @@ const SwapiPhone = () => {
               </div>
             </div>
 
-            <Link href="/buy-iphone" passHref>
-              <button
-                className="flex items-center"
-                onClick={() => addToSwapItem(swapProduct)}
-              >
-                <p className="text-lg">Now let's select your new phone</p>
-                <IoIosArrowDropdownCircle className="text-[20px] text-rh-blue " />
-              </button>
-            </Link>
-            <p></p>
+            {swapValue < 1 ? (
+              <div className="text-[red] text-xs opacity-50">
+                <p>Please choose another grade or item to continue</p>
+              </div>
+            ) : (
+              <Link href="/buy-iphone" passHref>
+                <button
+                  className="flex items-center"
+                  onClick={() => addToSwapItem(swapProduct)}
+                >
+                  <p className="text-lg">Now let's select your new phone</p>
+                  <IoIosArrowDropdownCircle className="text-[20px] text-rh-blue " />
+                </button>
+              </Link>
+            )}
           </>
         ) : (
           ""

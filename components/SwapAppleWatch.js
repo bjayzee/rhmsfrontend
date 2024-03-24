@@ -44,8 +44,6 @@ const SwapAppleWatch = () => {
 
       const swapWatches = response.data;
 
-      console.log({ swapWatches });
-
       setAvailableModels(swapWatches);
       const modelData = Array.from(
         new Set(response.data.map((item) => item.name))
@@ -116,7 +114,7 @@ const SwapAppleWatch = () => {
 
     const itemByLockStatus = filteredItemsBySelection.filter(
       (item) =>
-        item.carrier.trim().toLowerCase() === condition.trim().toLowerCase()
+        item.carrier.trim().toLowerCase() === condition.trim().toLowerCase() || "lte"
     );
     const availableStorage = itemByLockStatus[0].storageVariance;
 
@@ -201,9 +199,9 @@ const SwapAppleWatch = () => {
         {selectedOption ? (
           <>
             <RadioSelection
-              title={"Select Carrier"}
+              title={"Select Connectivity"}
               name={"lock"}
-              options={["GPS", "LTE"]}
+              options={["GPS", "GPS + LTE"]}
               onChange={(selectedOption) =>
                 handleConditionSelect(selectedOption)
               }
@@ -318,20 +316,25 @@ const SwapAppleWatch = () => {
               </div>
             </div>
 
-            <Link href="/buy-iphone" passHref>
-              <button
-                className="flex items-center"
-                onClick={() => {
-                  if (!swapItem.includes(swapProduct)) {
-                    addToSwapItem(swapProduct);
-                  }
-                }}
-              >
-                <p className="text-lg">Now let's select your new gadgets</p>
-                <IoIosArrowDropdownCircle className="text-[20px] text-rh-blue " />
-              </button>
-            </Link>
-            <p></p>
+            {swapValue < 1 ? (
+              <div className="text-[red] text-xs opacity-50">
+                <p>Please choose another grade or item to continue</p>
+              </div>
+            ) : (
+              <Link href="/buy-iphone" passHref>
+                <button
+                  className="flex items-center"
+                  onClick={() => {
+                    if (!swapItem.includes(swapProduct)) {
+                      addToSwapItem(swapProduct);
+                    }
+                  }}
+                >
+                  <p className="text-lg">Now let's select your new gadgets</p>
+                  <IoIosArrowDropdownCircle className="text-[20px] text-rh-blue " />
+                </button>
+              </Link>
+            )}
           </>
         ) : (
           ""

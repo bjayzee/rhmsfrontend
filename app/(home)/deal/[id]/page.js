@@ -35,6 +35,8 @@ const DealDetailsPage = ({ params }) => {
     }
   }, [id]);
 
+  console.log({dealDetails})
+
   const showNextImage = () => {
     setCurrentPictureIndex((index) =>
       index === dealDetails?.images?.length - 1 ? 0 : index + 1
@@ -77,19 +79,37 @@ const DealDetailsPage = ({ params }) => {
                 <div className="flex justify-between">
                   <p>Condition:</p>
                   <div className="text-[gray]">
-                    {dealDetails.specification.grade}
+                    {dealDetails.specification.grade.toUpperCase()}
+                  </div>
+                </div>
+                <div className="flex justify-between">
+                  <p>Carrier:</p>
+                  <div className="text-[gray]">
+                    {dealDetails.specification.carrier.toUpperCase()}
+                  </div>
+                </div>
+                <div className="flex justify-between">
+                  <p>Storage:</p>
+                  <div className="text-[gray]">
+                    {dealDetails.specification.capacity.toUpperCase()}
+                  </div>
+                </div>
+                <div className="flex justify-between">
+                  <p>Sim Type:</p>
+                  <div className="text-[gray]">
+                    {dealDetails.specification.sim.toUpperCase()}
                   </div>
                 </div>
                 <div className="flex justify-between">
                   <p>Color:</p>
                   <div className="text-[gray]">
-                    {dealDetails.specification.color}
+                    {dealDetails.specification.color.toUpperCase()}
                   </div>
                 </div>
                 <div className="flex justify-between">
                   <p>Battery Health:</p>
                   <div className="text-[gray]">
-                    {dealDetails.specification.batteryHealth}
+                    {dealDetails.specification.batteryHealth}{"%"}
                   </div>
                 </div>
                 <div className="flex justify-center items-center">

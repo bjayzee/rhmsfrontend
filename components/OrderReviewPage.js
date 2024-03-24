@@ -5,6 +5,7 @@ import CheckoutCartCard from "./CheckoutCartCard";
 import { PaystackButton } from "react-paystack";
 import { useRouter } from "next/navigation";
 import RadioSelection from "./RadioSelectionButton";
+import RadioSelection2 from "./RadioSelectionButton2";
 import { TiInfoLarge } from "react-icons/ti";
 import {
   howDidYouHearData,
@@ -179,9 +180,9 @@ const OrderReviewPage = () => {
         <h1>Here are the details for your order</h1>
       </div>
 
-      <div className="flex bg-[gray]">
-        <TiInfoLarge className="text-xs text-[white]" />{" "}
-        <p className="text-xs text-[white]">We offer 30 days guarantee</p>
+      <div className="flex bg-[gray] bg-opacity-40 w-fit ml-4">
+        <TiInfoLarge className="text-xs text-rh-blue" />{" "}
+        <p className="text-xs text-rh-blue">Note: We offer 30 days guarantee</p>
       </div>
 
       <div className="font-bold m-5">
@@ -493,7 +494,7 @@ const OrderReviewPage = () => {
       </div>
 
       <div className="px-4">
-        <RadioSelection
+        <RadioSelection2
           title={"Sales Terms:"}
           name={"sales-term"}
           options={[
@@ -502,6 +503,7 @@ const OrderReviewPage = () => {
             "Office Pick up",
           ]}
           onChange={handleSalesTerm}
+          defaultValue="Payment before delivery"
         />
 
         <div className="flex">
@@ -562,18 +564,20 @@ const OrderReviewPage = () => {
               </div>
             </div>
           ) : (
-            <div className="flex justify-between font-extrabold">
-              <div>
-                <p className="">Total Cash Back:</p>
-                <div className="flex">
-                  <TiInfoLarge className="text-xs text-[gray]" />{" "}
-                  <small className="text-xs text-[gray]">
-                    Cash Back is the sum of money that you get from the company
-                  </small>
+            <div>
+              <div className="flex justify-between font-extrabold">
+                <div>
+                  <p className="">Total Cash Back:</p>
+                </div>
+                <div className=" flex flex-row">
+                  ₦<span> {Math.abs(finalPrice)?.toLocaleString()}</span>
                 </div>
               </div>
-              <div className=" flex flex-row">
-                ₦<span> {Math.abs(finalPrice)?.toLocaleString()}</span>
+              <div className="flex mt-1 -ml-2">
+                <TiInfoLarge className="text-xs text-[gray]" />{" "}
+                <p className="text-xs opacity-40 bg-[gray] bg-opacity-30">
+                  Cash Back is the sum of money that you get from the company
+                </p>
               </div>
             </div>
           )}

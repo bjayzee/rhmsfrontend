@@ -1,4 +1,4 @@
-const RadioSelection = ({ title, name, options, onChange}) => {
+const RadioSelection = ({ title, name, options, onChange, defaultValue }) => {
   return (
     <div className="flex flex-col text-lg my-2">
       <span className="font-bold">{title}</span>
@@ -11,6 +11,7 @@ const RadioSelection = ({ title, name, options, onChange}) => {
               value={option}
               onChange={() => onChange(option)}
               name={name}
+              checked={option || defaultValue}
             />
             <span>{option}</span>
           </label>
