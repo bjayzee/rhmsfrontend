@@ -17,7 +17,6 @@ const RHMSNEWS = () => {
     fetchArticles();
   }, []);
 
-  console.log(posts);
 
   return (
     <div className="p-[100px]">
