@@ -29,7 +29,6 @@ const ManageArticles = () => {
     fetchArticles();
   }, []);
 
-  console.log(posts);
 
   const handleDelete = async ({ _id }) => {
     try {
