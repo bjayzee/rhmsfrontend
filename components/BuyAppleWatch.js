@@ -5,12 +5,10 @@ import { FaPlay } from "react-icons/fa";
 import axios from "axios";
 import ImageSlider from "./ImageSlider";
 import RadioSelection from "./RadioSelectionButton";
-import { CartContent } from "@/app/context/AppContext";
+import { CartContent } from "@/app/(home)/context/AppContext";
 import Link from "next/link";
 
 const BuyAppleWatch = () => {
-
-
   const [showDropdown, setShowDropdown] = useState(false);
   const [showBox, setShowBox] = useState(false);
   const [fetchingModel, setFetchingModel] = useState(false);

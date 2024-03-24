@@ -5,7 +5,7 @@ import { IoIosArrowDropdownCircle, IoIosArrowRoundBack } from "react-icons/io";
 import { FaPlay } from "react-icons/fa";
 import axios from "axios";
 import RadioSelection from "./RadioSelectionButton";
-import { CartContent } from "@/app/context/AppContext";
+import { CartContent } from "@/app/(home)/context/AppContext";
 
 const SwapAppleWatch = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -325,8 +325,7 @@ const SwapAppleWatch = () => {
                   if (!swapItem.includes(swapProduct)) {
                     addToSwapItem(swapProduct);
                   }
-                } 
-              }   
+                }}
               >
                 <p className="text-lg">Now let's select your new gadgets</p>
                 <IoIosArrowDropdownCircle className="text-[20px] text-rh-blue " />

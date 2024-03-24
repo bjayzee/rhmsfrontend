@@ -6,7 +6,7 @@ import { useState, useEffect, useRef, useContext, CSSProperties } from "react";
 import RadioSelection from "./RadioSelectionButton";
 import { models } from "@/server/utils/iPhonedata";
 import ImageSlider from "./ImageSlider";
-import { CartContent } from "@/app/context/AppContext";
+import { CartContent } from "@/app/(home)/context/AppContext";
 import { TbCurrencyNaira } from "react-icons/tb";
 import ProductCard from "./ProductCard";
 
@@ -36,28 +36,27 @@ export default function Buy() {
 
   const { cartItems, setCartItems, addToCart } = useContext(CartContent);
 
+  useEffect(() => {
+    getModelsAvailable();
+  }, []);
 
-useEffect(() => {
-  getModelsAvailable();
-}, []);
+  const getModelsAvailable = async () => {
+    setFetchingModel(true);
+    try {
+      const response = await axios
+        .get("/api/products/search?category=MacBook", {
+          validateStatus: (status) => status < 400,
+        })
+        .then((res) => res.data);
 
-const getModelsAvailable = async () => {
-  setFetchingModel(true);
-  try {
-    const response = await axios
-      .get("/api/products/search?category=MacBook", {
-        validateStatus: (status) => status < 400,
-      })
-      .then((res) => res.data);
-
-    const iphoneModels = response.data;
-    setAvailableModels(iphoneModels);
-  } catch (error) {
-    console.error("Error fetching available models:", error);
-  } finally {
-    setFetchingModel(false);
-  }
-};
+      const iphoneModels = response.data;
+      setAvailableModels(iphoneModels);
+    } catch (error) {
+      console.error("Error fetching available models:", error);
+    } finally {
+      setFetchingModel(false);
+    }
+  };
 
   const handleNewOrUsedChange = (iphoneState) => {
     const filteredItems = filterItemsBySpec(pickItems, "grade", iphoneState);
@@ -136,7 +135,6 @@ const getModelsAvailable = async () => {
   };
 
   const [fetchingModel, setFetchingModel] = useState(true);
-  
 
   const filterItemsBySpec = (items, spec, value) =>
     items.filter(

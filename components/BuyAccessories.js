@@ -3,7 +3,7 @@ import axios from "axios";
 import { useContext, useEffect, useRef, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 import AccessoryCard from "./AccessoryCard";
-import { CartContent } from "@/app/context/AppContext";
+import { CartContent } from "@/app/(home)/context/AppContext";
 
 const BuyAccessories = () => {
   const [showIphone, setShowIphone] = useState(false);
@@ -16,7 +16,6 @@ const BuyAccessories = () => {
   const [searchData, setSearchData] = useState([]);
 
   const { addToCart } = useContext(CartContent);
-
 
   useEffect(() => {
     const fetchAccessories = async () => {

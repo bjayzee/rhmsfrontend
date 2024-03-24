@@ -1,5 +1,5 @@
 "use client";
-import { CartContent } from "@/app/context/AppContext";
+import { CartContent } from "@/app/(home)/context/AppContext";
 import { useContext, useState } from "react";
 import CheckoutCartCard from "./CheckoutCartCard";
 import { PaystackButton } from "react-paystack";
@@ -143,7 +143,6 @@ const OrderReviewPage = () => {
       axios
         .post("/api/order", requestData)
         .then((response) => {
-
           toast.success("Order submitted successfully");
           clearCartAndLocalStorage();
           clearSwapAndLocalStorage();
@@ -163,7 +162,6 @@ const OrderReviewPage = () => {
     axios
       .post("/api/order", requestData)
       .then((response) => {
-
         toast.success("Order submitted successfully");
         clearCartAndLocalStorage();
         clearSwapAndLocalStorage();

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CartContent } from "@/app/context/AppContext";
+import { CartContent } from "@/app/(home)/context/AppContext";
 import { useContext } from "react";
 import { TbCurrencyNaira } from "react-icons/tb";
 

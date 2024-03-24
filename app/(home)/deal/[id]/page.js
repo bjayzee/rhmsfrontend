@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { CartContent } from "@/app/context/AppContext";
+import { CartContent } from "@/app/(home)/context/AppContext";
 import ImageSlider from "@/components/ImageSlider";
 import Link from "next/link";
 

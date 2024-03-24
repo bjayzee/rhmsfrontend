@@ -5,7 +5,7 @@ import { IoIosArrowDropdownCircle, IoIosArrowRoundBack } from "react-icons/io";
 import { FaPlay } from "react-icons/fa";
 import axios from "axios";
 import RadioSelection from "./RadioSelectionButton";
-import { CartContent } from "@/app/context/AppContext";
+import { CartContent } from "@/app/(home)/context/AppContext";
 
 const SwapiPhone = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -337,7 +337,7 @@ const SwapiPhone = () => {
             <Link href="/buy-iphone" passHref>
               <button
                 className="flex items-center"
-                onClick={() => addToSwapItem(swapProduct)}                    
+                onClick={() => addToSwapItem(swapProduct)}
               >
                 <p className="text-lg">Now let's select your new phone</p>
                 <IoIosArrowDropdownCircle className="text-[20px] text-rh-blue " />

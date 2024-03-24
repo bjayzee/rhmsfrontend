@@ -1,30 +1,29 @@
-import '../globals.css';
+import "../globals.css";
 import { Nunito_Sans } from "next/font/google";
-import AppContext from '../context/AppContext';
-import SessionProvider from '../context/AuthProvider'
-import { getServerSession } from 'next-auth';
-import { PNav, NavBar, Footer } from '@/components';
+import AppContext from "./context/AppContext";
+import SessionProvider from "./context/AuthProvider";
+import { getServerSession } from "next-auth";
+import { PNav, NavBar, Footer } from "@/components";
 
-
-
-const nunito = Nunito_Sans({ subsets: ["latin"] })
+const nunito = Nunito_Sans({ subsets: ["latin"] });
 
 export const metadata = {
-  title: 'RHMS',
-  description: 'An Ecommerce project for RHMS',
-}
+  title: "RHMS",
+  description: "An Ecommerce project for RHMS",
+};
 
 export default async function RootLayout({ children }) {
-
-  const session = await getServerSession()
+  const session = await getServerSession();
   return (
     <html lang="en">
       <body className={nunito.className}>
         <SessionProvider session={session}>
           <AppContext>
-            <PNav />
-            <NavBar />
-            {children}
+            <div>
+              <PNav />
+              <NavBar />
+            </div>
+            <div>{children}</div>
             <Footer />
           </AppContext>
         </SessionProvider>

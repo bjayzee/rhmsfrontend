@@ -1,6 +1,6 @@
 "use client";
 import { useContext } from "react";
-import { CartContent } from "@/app/context/AppContext";
+import { CartContent } from "@/app/(home)/context/AppContext";
 import CartCard from "./CartCard";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -29,8 +29,8 @@ const Cart = () => {
     }
   };
 
-  const swapValue = swapItem?.reduce((sum,item) => sum + item.price, 0);
-  
+  const swapValue = swapItem?.reduce((sum, item) => sum + item.price, 0);
+
   const price = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0

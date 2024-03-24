@@ -6,7 +6,7 @@ import { useState, useEffect, useRef, useContext, CSSProperties } from "react";
 import RadioSelection from "./RadioSelectionButton";
 import { models } from "@/server/utils/iPhonedata";
 import ImageSlider from "./ImageSlider";
-import { CartContent } from "@/app/context/AppContext";
+import { CartContent } from "@/app/(home)/context/AppContext";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { TbCurrencyNaira } from "react-icons/tb";
 
@@ -79,12 +79,11 @@ export default function Buy() {
           top: targetY,
           behavior: "smooth",
         });
-      }, 100)
-        
+      }, 100);
     }
     setPhoneBasedOnCarrier(filteredItems);
     setAvailableCarrier(carriers);
-    setSelectedCondition(iphoneState => !iphoneState);
+    setSelectedCondition((iphoneState) => !iphoneState);
     setLockState(null);
     setSelectedColor(null);
     setSelectedStorage(null);
@@ -186,7 +185,7 @@ export default function Buy() {
         The iPhone connection - connecting you to the world
       </p>
 
-      {fetchingModel && <p>fetching phones</p>}
+      {fetchingModel && <p className="margin-auto">fetching phones</p>}
 
       {selectedModel !== modelIndex && !fetchingModel && (
         <div className="flex flex-wrap shadow-lg border-[#D9D9D9] border-t-4 border-l-4 rounded-[20px]">
@@ -203,7 +202,7 @@ export default function Buy() {
                 className={`w-1/2 p-4 font-semibold text-xl ${
                   !modelExists
                     ? "text-[gray] opacity-50 cursor-not-allowed"
-                    : ""
+                    : "cursor-pointer"
                 }`}
                 onClick={() => {
                   if (modelExists) {
@@ -214,8 +213,6 @@ export default function Buy() {
                     );
 
                     const grades = getUniqueValues(itemPicked, "grade");
-
-                    console.log({ itemPicked });
 
                     setPickItems(itemPicked);
                     setGrade(grades);
@@ -255,7 +252,7 @@ export default function Buy() {
                   className="w-4 h-8 mt-1"
                   disabled={!isConditionAvailable("New")}
                 />
-                <span className="p-2 ml-2 font-semibold">Brand New</span>
+                <span className={`p-2 ml-2 font-semibold ${isConditionAvailable? 'cursor-pointer' : 'cursor-not-available'}`}>Brand New</span>
               </div>
               <div className="pl-4 ml-4">
                 <p className="pb-3 text-[16px]">
