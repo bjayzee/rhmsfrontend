@@ -6,18 +6,18 @@ html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
 }
 
-.ant-page-header{
+.ant-page-header {
   padding: 0 0 1rem 0 !important;
 }
 
-.ant-layout-header{
-  background-color: #ffffffe0  !important;
+.ant-layout-header {
+  background-color: #ffffffe0 !important;
 }
 
-.ant-table-content{
+.ant-table-content {
   min-height: 55vh;
 }
 
@@ -30,14 +30,12 @@ html {
 
 .spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #187EB4;
+  border-left-color: #187eb4;
   border-radius: 50%;
   width: 40px;
   height: 40px;
   animation: spin 1s linear infinite;
 }
-
-
 
 .upload-box {
   position: relative;
@@ -62,5 +60,7 @@ html {
   color: grey;
 }
 
-
-
+.productInfo {
+  display: flex;
+  justify-content: space-between;
+}

@@ -19,6 +19,7 @@ const BuyAirPods = () => {
   const [grade, setGrade] = useState([null]);
   const [price, setPrice] = useState(0);
   const [pickItems, setPickItems] = useState([]);
+  const [showHeader, setShowHeader] = useState(true);
   const priceRef = useRef(null);
 
   const { addToCart } = useContext(CartContent);
@@ -82,10 +83,12 @@ const BuyAirPods = () => {
 
   return (
     <div className="overflow-x-hidden py-5 px-5">
-      <div className="flex-column mb-4">
-        <h2 className="font-bold">Behind the iPad</h2>
-        <p>More power More performance</p>
-      </div>
+      {showHeader && (
+        <div className="flex-column mb-4">
+          <h2 className="font-bold">Behind the iPad</h2>
+          <p>More power More performance</p>
+        </div>
+      )}
 
       {fetchingModel && <p>fetching available iPad</p>}
 
@@ -106,6 +109,7 @@ const BuyAirPods = () => {
                 }`}
                 onClick={() => {
                   if (modelExists) {
+                    setShowHeader(false);
                     const itemPicked = availableModels.filter(
                       (ipad) =>
                         ipad.name.trim().toLowerCase() ===
@@ -157,35 +161,41 @@ const BuyAirPods = () => {
             showPrevImage={showPrevImage}
             showNextImage={showNextImage}
           />
-          <div className="px-5">
+          <div className="px-3">
             {removeItem !== false && (
-              <>
-                <div className="flex justify-between py-4">
-                  <b>{iphoneModel?.name}</b>
-                  <b className="flex">Price: ₦{price.toLocaleString()}</b>
+              <div className="px-4">
+                <div className="productInfo py-4">
+                  <p className="font-bold">{iphoneModel?.name}</p>
+                  <p className="flex font-bold">
+                    Price: ₦{iphoneModel?.price.toLocaleString()}
+                  </p>
                 </div>
-                <div className="font-bold">
-                  <p>Specification:</p>
+                <div className="mb-3">
+                  <p className="font-bold">Product Description:</p>
+                  <p>{iphoneModel?.description}</p>
                 </div>
-                <div className="flex justify-between">
-                  <p>Condition:</p>
-                  <div className="text-[gray]">
-                    {iphoneModel.specification.grade}
+                <div className="">
+                  <p className="font-extrabold">Specification:</p>
+                </div>
+                <div className="productInfo">
+                  <p className="w-[70%] font-semibold">Condition:</p>
+                  <div className="text-[gray] w-[30%]">
+                    {iphoneModel.specification.grade.toUpperCase()}
                   </div>
                 </div>
-                <div className="flex justify-between">
-                  <p>Color:</p>
-                  <div className="text-[gray]">
-                    {iphoneModel.specification.color}
+                <div className="productInfo">
+                  <p className="w-[70%] font-semibold">Connectivity:</p>
+                  <div className="text-[gray] w-[30%]">
+                    {iphoneModel.specification.carrier.toUpperCase()}
                   </div>
                 </div>
-                <div className="flex justify-between">
-                  <p>Battery Health:</p>
-                  <div className="text-[gray]">
-                    {iphoneModel.specification.batteryHealth}
+                <div className="productInfo">
+                  <p className="w-[70%] font-semibold">Storage:</p>
+                  <div className="text-[gray] w-[30%]">
+                    {iphoneModel.specification.capacity.toUpperCase()}
                   </div>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>
