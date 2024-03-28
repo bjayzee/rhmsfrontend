@@ -1,5 +1,4 @@
 "use client";
-import Slider from "react-slick";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import moment from "moment";

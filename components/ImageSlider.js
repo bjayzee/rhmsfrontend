@@ -9,18 +9,18 @@ const ImageSlider = ({
   showNextImage,
 }) => {
   return (
-    <div className="relative flex items-center justify-center bg-white rounded-[10px] shadow-xl px-16 py-10 my-5 border-[#D9D9D9] border-r-8 border-b-8">
+    <div className="relative flex items-center justify-center bg-white rounded-[1.25rem] shadow-xl px-5 py-6 my-5 border-[#D9D9D9] border-r-8 border-b-8">
       <img
         src={images[currentPictureIndex]}
-        className="w-full h-64 object-cover cursor-pointer"
+        className="w-full h-74 object-cover cursor-pointer"
         alt={`Image ${currentPictureIndex + 1}`}
       />
       <BiLeftArrow
-        className="absolute left-5 text-2xl cursor-pointer"
+        className="absolute left-1 text-2xl cursor-pointer"
         onClick={showPrevImage}
       />
       <BiRightArrow
-        className="absolute right-5 text-2xl cursor-pointer"
+        className="absolute right-1 text-2xl cursor-pointer"
         onClick={showNextImage}
       />
       <div className="absolute bottom-2 flex space-x-1">

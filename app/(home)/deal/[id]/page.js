@@ -35,8 +35,6 @@ const DealDetailsPage = ({ params }) => {
     }
   }, [id]);
 
-  console.log({dealDetails})
-
   const showNextImage = () => {
     setCurrentPictureIndex((index) =>
       index === dealDetails?.images?.length - 1 ? 0 : index + 1
@@ -66,50 +64,51 @@ const DealDetailsPage = ({ params }) => {
           />
           <div className="px-5">
             {removeItem !== false && (
-              <>
-                <div className="flex justify-between py-4">
+              <div className="px-4">
+                <div className="productInfo py-4">
                   <b>{dealDetails?.name}</b>
                   <b className="flex">
                     Price: ₦{dealDetails?.price.toLocaleString()}
                   </b>
                 </div>
-                <div className="font-bold">
-                  <p>Specification:</p>
+                <div className="">
+                  <p className="font-extrabold">Specification:</p>
                 </div>
-                <div className="flex justify-between">
-                  <p>Condition:</p>
-                  <div className="text-[gray]">
+                <div className="productInfo">
+                  <p className="w-[70%] font-semibold">Condition:</p>
+                  <div className="text-[gray] w-[30%]">
                     {dealDetails.specification.grade.toUpperCase()}
                   </div>
                 </div>
-                <div className="flex justify-between">
-                  <p>Carrier:</p>
-                  <div className="text-[gray]">
+                <div className="productInfo">
+                  <p className="w-[70%] font-semibold">Carrier:</p>
+                  <div className="text-[gray] w-[30%]">
                     {dealDetails.specification.carrier.toUpperCase()}
                   </div>
                 </div>
-                <div className="flex justify-between">
-                  <p>Storage:</p>
-                  <div className="text-[gray]">
+                <div className="productInfo">
+                  <p className="w-[70%] font-semibold">Storage:</p>
+                  <div className="text-[gray] w-[30%]">
                     {dealDetails.specification.capacity.toUpperCase()}
                   </div>
                 </div>
-                <div className="flex justify-between">
-                  <p>Sim Type:</p>
-                  <div className="text-[gray]">
+                <div className="productInfo">
+                  <p className="w-[70%] font-semibold">Sim Type:</p>
+                  <div className="text-[gray] w-[30%]">
                     {dealDetails.specification.sim.toUpperCase()}
                   </div>
                 </div>
-                <div className="flex justify-between">
-                  <p>Color:</p>
-                  <div className="text-[gray]">
+                <div className="productInfo">
+                  <p className="w-[70%] font-semibold">Color:</p>
+                  <div className="text-[gray] w-[30%]">
                     {dealDetails.specification.color.toUpperCase()}
                   </div>
                 </div>
-                <div className="flex justify-between">
-                  <p>Battery Health:</p>
-                  <div className="text-[gray]">
-                    {dealDetails.specification.batteryHealth}{"%"}
+                <div className="productInfo">
+                  <p className="w-[70%] font-semibold">Battery Health:</p>
+                  <div className="text-[gray] w-[30%]">
+                    {dealDetails.specification.batteryHealth}
+                    {"%"}
                   </div>
                 </div>
                 <div className="flex justify-center items-center">
@@ -122,7 +121,7 @@ const DealDetailsPage = ({ params }) => {
                     </button>
                   </Link>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </>
